@@ -83,6 +83,11 @@ public class CameraLook : MonoBehaviour, InputSystem_Actions.IPlayerActions
         // throw new NotImplementedException();
     }
 
+    public void OnReload(InputAction.CallbackContext context)
+    {
+        // throw new NotImplementedException();
+    }
+
     private void SwitchCameraState(CameraState newState)
     {
         regularCam.SetActive(false);

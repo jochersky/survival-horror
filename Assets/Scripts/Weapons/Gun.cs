@@ -18,7 +18,7 @@ public class Gun : MonoBehaviour, InputSystem_Actions.IPlayerActions
     
     private bool _isZooming;
     private bool _isPressingFire;
-    private float _bulletsRemaining;
+    private int _bulletsRemaining;
     
     private Coroutine _reload;
     private bool _isReloading;
@@ -59,7 +59,7 @@ public class Gun : MonoBehaviour, InputSystem_Actions.IPlayerActions
             
             if (_isPressingFire)
             {
-                if (!_isFiring && _bulletsRemaining > 0)
+                if (!_isReloading && !_isFiring && _bulletsRemaining > 0)
                 {
                     Physics.Raycast(projectileSpawners[0].transform.position, firingDirection * 1000f, out RaycastHit hit, maxBulletDistance);
                 
@@ -69,7 +69,7 @@ public class Gun : MonoBehaviour, InputSystem_Actions.IPlayerActions
 
                     _fire = StartCoroutine(Fire());
                 }
-                else if (!_isReloading && _bulletsRemaining <= 0)
+                else if (_bulletsRemaining <= 0)
                 {
                     _reload = StartCoroutine(Reload());
                 }
@@ -102,8 +102,16 @@ public class Gun : MonoBehaviour, InputSystem_Actions.IPlayerActions
         _isPressingFire = context.ReadValueAsButton();
     }
 
+    public void OnReload(InputAction.CallbackContext context)
+    {
+        if (_isReloading || _bulletsRemaining == maxMagazineSize) return;
+        
+        _reload = StartCoroutine(Reload());
+    }
+
     private IEnumerator Reload()
     {
+        Debug.Log("Reloading");
         _isReloading = true;
         
         float timer = 0;
