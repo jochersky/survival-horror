@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,10 +7,22 @@ public class Gun : MonoBehaviour, InputSystem_Actions.IPlayerActions
     [SerializeField] private Transform[] projectileSpawners;
     [SerializeField] private GameObject projectileDecal;
     
+    [Header("Gun Stats")]
+    [SerializeField] private int maxMagazineSize = 8;
+    [SerializeField] private float reloadTime = 2f;
+    [SerializeField] private float fireRate = 0.25f;
+    [SerializeField] private float maxBulletDistance = 100f;
+    
     private InputSystem_Actions _actions;
     private InputSystem_Actions.PlayerActions _playerActions;
     
     private bool _isZooming;
+    private bool _isPressingFire;
+    private float _bulletsRemaining;
+    
+    private Coroutine _reload;
+    private bool _isReloading;
+    private Coroutine _fire;
     private bool _isFiring;
 
     private void Awake()
@@ -19,6 +32,8 @@ public class Gun : MonoBehaviour, InputSystem_Actions.IPlayerActions
         
         // Subscribe the player input callbacks
         _playerActions.AddCallbacks(this);
+        
+        _bulletsRemaining = maxMagazineSize;
     }
     
     private void OnEnable()
@@ -40,12 +55,24 @@ public class Gun : MonoBehaviour, InputSystem_Actions.IPlayerActions
             transform.LookAt(-Camera.main.transform.forward * 1000f);
                 
             Vector3 firingDirection = (Camera.main.transform.forward - projectileSpawners[0].transform.forward).normalized;
-            Debug.DrawRay(projectileSpawners[0].transform.position, firingDirection * 100, Color.red);
+            Debug.DrawRay(projectileSpawners[0].transform.position, firingDirection * 1000f, Color.red);
             
-            if (_isFiring)
+            if (_isPressingFire)
             {
-                Physics.Raycast(projectileSpawners[0].transform.position, firingDirection * 100, out RaycastHit hit, 100f);
-                GameObject decal = Instantiate(projectileDecal, hit.point - hit.normal * 0.1f, Quaternion.LookRotation(hit.normal));
+                if (!_isFiring && _bulletsRemaining > 0)
+                {
+                    Physics.Raycast(projectileSpawners[0].transform.position, firingDirection * 1000f, out RaycastHit hit, maxBulletDistance);
+                
+                    // place slightly inside of object so that decal doesn't flicker
+                    Vector3 pos = hit.point - hit.normal * 0.1f;
+                    GameObject decal = Instantiate(projectileDecal, pos, Quaternion.LookRotation(hit.normal));
+
+                    _fire = StartCoroutine(Fire());
+                }
+                else if (!_isReloading && _bulletsRemaining <= 0)
+                {
+                    _reload = StartCoroutine(Reload());
+                }
             }
         }
     }
@@ -72,6 +99,36 @@ public class Gun : MonoBehaviour, InputSystem_Actions.IPlayerActions
 
     public void OnAttack(InputAction.CallbackContext context)
     {
-        _isFiring = context.ReadValueAsButton();
+        _isPressingFire = context.ReadValueAsButton();
+    }
+
+    private IEnumerator Reload()
+    {
+        _isReloading = true;
+        
+        float timer = 0;
+        while (timer < reloadTime)
+        {
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        _bulletsRemaining = maxMagazineSize;
+        _isReloading = false;
+    }
+
+    private IEnumerator Fire()
+    {
+        _isFiring = true;
+        
+        float timer = 0;
+        while (timer < fireRate)
+        {
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        
+        _bulletsRemaining--;
+        _isFiring = false;
     }
 }
