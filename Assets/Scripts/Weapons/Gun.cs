@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 public class Gun : MonoBehaviour, InputSystem_Actions.IPlayerActions
 {
     [SerializeField] private Transform[] projectileSpawners;
+    [SerializeField] private GameObject projectileDecal;
     
     private InputSystem_Actions _actions;
     private InputSystem_Actions.PlayerActions _playerActions;
@@ -43,7 +44,8 @@ public class Gun : MonoBehaviour, InputSystem_Actions.IPlayerActions
             
             if (_isFiring)
             {
-                // Physics.Raycast(projectileSpawners[0].transform.position, projectileSpawners[0].transform.forward, 100f);
+                Physics.Raycast(projectileSpawners[0].transform.position, firingDirection * 100, out RaycastHit hit, 100f);
+                GameObject decal = Instantiate(projectileDecal, hit.point - hit.normal * 0.1f, Quaternion.LookRotation(hit.normal));
             }
         }
     }
