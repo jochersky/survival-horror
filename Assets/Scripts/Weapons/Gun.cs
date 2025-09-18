@@ -109,6 +109,11 @@ public class Gun : MonoBehaviour, InputSystem_Actions.IPlayerActions
         _reload = StartCoroutine(Reload());
     }
 
+    public void OnInteract(InputAction.CallbackContext context)
+    {
+        // throw new System.NotImplementedException();
+    }
+
     private IEnumerator Reload()
     {
         Debug.Log("Reloading");
