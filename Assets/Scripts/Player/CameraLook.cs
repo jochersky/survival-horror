@@ -16,7 +16,7 @@ public class CameraLook : MonoBehaviour, InputSystem_Actions.IPlayerActions
     private Camera _cam;
     
 
-    [SerializeField] private float rotationSpeed = 5f;
+    // [SerializeField] private float rotationSpeed = 5f;
     
     private Vector2 _mouseInput;
 
@@ -76,6 +76,16 @@ public class CameraLook : MonoBehaviour, InputSystem_Actions.IPlayerActions
     {
         bool isZooming = context.ReadValueAsButton();
         SwitchCameraState(isZooming ? CameraState.Zoom : CameraState.Regular);
+    }
+
+    public void OnAttack(InputAction.CallbackContext context)
+    {
+        // throw new NotImplementedException();
+    }
+
+    public void OnReload(InputAction.CallbackContext context)
+    {
+        // throw new NotImplementedException();
     }
 
     private void SwitchCameraState(CameraState newState)

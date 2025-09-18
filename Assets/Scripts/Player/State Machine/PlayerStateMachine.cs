@@ -108,4 +108,14 @@ public class PlayerStateMachine : MonoBehaviour, InputSystem_Actions.IPlayerActi
     {
         // throw new System.NotImplementedException();
     }
+
+    public void OnAttack(InputAction.CallbackContext context)
+    {
+        // throw new System.NotImplementedException();
+    }
+
+    public void OnReload(InputAction.CallbackContext context)
+    {
+        // throw new System.NotImplementedException();
+    }
 }
