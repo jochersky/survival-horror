@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Container : MonoBehaviour
+public class Container : MonoBehaviour, IInteractable
 {
     [SerializeField] private int maxItems = 4;
     [SerializeField] private List<Item> items;
@@ -20,5 +20,10 @@ public class Container : MonoBehaviour
     {
         items.Remove(removedItem);
         _numItems--;
+    }
+
+    public void Interact()
+    {
+        Debug.Log("Opening container");
     }
 }

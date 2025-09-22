@@ -8,6 +8,8 @@ public class Interactor : MonoBehaviour, InputSystem_Actions.IPlayerActions
     private InputSystem_Actions _actions;
     private InputSystem_Actions.PlayerActions _playerActions;
     
+    private bool _isInteracting;
+    
     void Awake()
     {
         _actions = new InputSystem_Actions(); // Asset object
@@ -33,8 +35,8 @@ public class Interactor : MonoBehaviour, InputSystem_Actions.IPlayerActions
     {   
         Debug.DrawRay(transform.position, transform.forward * 5f, Color.green);
         Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 5f, interactionLayer);
-        if (hit.collider)
-            Debug.Log(hit.collider.name);
+        if (hit.transform && _isInteracting && hit.transform.TryGetComponent(out IInteractable interactable))
+            interactable.Interact();
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -69,6 +71,6 @@ public class Interactor : MonoBehaviour, InputSystem_Actions.IPlayerActions
 
     public void OnInteract(InputAction.CallbackContext context)
     {
-        // throw new System.NotImplementedException();
+        _isInteracting = context.ReadValueAsButton();
     }
 }
