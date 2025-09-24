@@ -3,11 +3,14 @@ using UnityEngine;
 
 public class Container : MonoBehaviour, IInteractable
 {
+    [SerializeField] private GameObject containerUI;
     [SerializeField] private int maxItems = 4;
     [SerializeField] private List<Item> items;
     
     private int _numItems = 0;
 
+    public GameObject ContainerUI => containerUI;
+    
     public void AddItem(Item newItem)
     {
         // TODO: allow for swapping between containers if not working
@@ -24,6 +27,6 @@ public class Container : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        Debug.Log("Opening container");
+        ContainerUI.SetActive(true);
     }
 }

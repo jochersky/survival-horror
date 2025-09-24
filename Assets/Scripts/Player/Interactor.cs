@@ -1,22 +1,28 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Interactor : MonoBehaviour, InputSystem_Actions.IPlayerActions
+public class Interactor : MonoBehaviour
 {
+    // references
+    [SerializeField] private InputActionAsset actions;
     [SerializeField] private LayerMask interactionLayer;
+    private InputActionMap _playerActions;
+    private Camera _camera;
     
-    private InputSystem_Actions _actions;
-    private InputSystem_Actions.PlayerActions _playerActions;
+    // input actions
+    private InputAction m_InteractAction;
     
     private bool _isInteracting;
     
     void Awake()
     {
-        _actions = new InputSystem_Actions(); // Asset object
-        _playerActions = _actions.Player;     // Extract action map object
+        _camera = Camera.main;
         
-        // Subscribe the player input callbacks
-        _playerActions.AddCallbacks(this);
+        _playerActions = actions.FindActionMap("Player");
+        
+        // assign input action callbacks
+        m_InteractAction = actions.FindAction("Interact");
+        m_InteractAction.started += OnInteract;
     }
     
     private void OnEnable()
@@ -32,41 +38,14 @@ public class Interactor : MonoBehaviour, InputSystem_Actions.IPlayerActions
     }
     
     void Update()
-    {   
-        Debug.DrawRay(transform.position, transform.forward * 5f, Color.green);
-        Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 5f, interactionLayer);
-        if (hit.transform && _isInteracting && hit.transform.TryGetComponent(out IInteractable interactable))
-            interactable.Interact();
-    }
-
-    public void OnMove(InputAction.CallbackContext context)
     {
-        // throw new System.NotImplementedException();
-    }
-
-    public void OnSprint(InputAction.CallbackContext context)
-    {
-        // throw new System.NotImplementedException();
-    }
-
-    public void OnLook(InputAction.CallbackContext context)
-    {
-        // throw new System.NotImplementedException();
-    }
-
-    public void OnZoom(InputAction.CallbackContext context)
-    {
-        // throw new System.NotImplementedException();
-    }
-
-    public void OnAttack(InputAction.CallbackContext context)
-    {
-        // throw new System.NotImplementedException();
-    }
-
-    public void OnReload(InputAction.CallbackContext context)
-    {
-        // throw new System.NotImplementedException();
+        if (_camera)
+        {
+            Debug.DrawRay(Camera.main.transform.position, transform.forward * 5f, Color.green);
+            Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 5f, interactionLayer);
+            if (hit.transform && _isInteracting && hit.transform.TryGetComponent(out IInteractable interactable))
+                interactable.Interact();
+        }
     }
 
     public void OnInteract(InputAction.CallbackContext context)

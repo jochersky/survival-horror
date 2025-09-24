@@ -28,6 +28,9 @@ public class InventorySlot : MonoBehaviour, IDropHandler
 
     private bool CombineItemStacks(DraggableItem droppedItem, DraggableItem currentItem, GameObject dropped)
     {
+        // don't stack items witnout names
+        if (currentItem.ItemName == "") return false;
+        
         // don't attempt to stack items with different names
         if (currentItem.ItemName != droppedItem.ItemName) return false;
         
