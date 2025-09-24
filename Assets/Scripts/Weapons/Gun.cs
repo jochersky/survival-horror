@@ -40,6 +40,7 @@ public class Gun : MonoBehaviour
         m_ZoomAction.canceled += OnZoom;
         m_AttackAction = actions.FindAction("Attack");
         m_AttackAction.started += OnAttack;
+        m_AttackAction.canceled += OnAttack;
         m_ReloadAction = actions.FindAction("Reload");
         m_ReloadAction.started += OnReload;
         
@@ -122,6 +123,7 @@ public class Gun : MonoBehaviour
 
     private IEnumerator Fire()
     {
+        Debug.Log("Firing");
         _isFiring = true;
         
         float timer = 0;
