@@ -7,7 +7,6 @@ public class Interactor : MonoBehaviour
     [SerializeField] private InputActionAsset actions;
     [SerializeField] private LayerMask interactionLayer;
     private InputActionMap _playerActions;
-    private Camera _camera;
     
     // input actions
     private InputAction m_InteractAction;
@@ -16,8 +15,6 @@ public class Interactor : MonoBehaviour
     
     void Awake()
     {
-        _camera = Camera.main;
-        
         _playerActions = actions.FindActionMap("Player");
         
         // assign input action callbacks
@@ -39,12 +36,15 @@ public class Interactor : MonoBehaviour
     
     void Update()
     {
-        if (_camera)
+        if (_isInteracting)
         {
-            Debug.DrawRay(Camera.main.transform.position, transform.forward * 5f, Color.green);
+            Debug.DrawRay(transform.position, transform.forward * 5f, Color.green);
             Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 5f, interactionLayer);
             if (hit.transform && _isInteracting && hit.transform.TryGetComponent(out IInteractable interactable))
+            {
                 interactable.Interact();
+                _isInteracting = false;
+            }
         }
     }
 
