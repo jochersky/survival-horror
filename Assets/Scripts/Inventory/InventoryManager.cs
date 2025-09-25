@@ -12,7 +12,7 @@ public class InventoryManager : MonoBehaviour
     // parent of inventory and container UIs in Canvas
     [SerializeField] private GameObject inventoryUI;
     [SerializeField] private Container playerInventoryContainer;
-    
+
     // container that is being looked at
     public Container container;
     
@@ -23,6 +23,9 @@ public class InventoryManager : MonoBehaviour
     public static InventoryManager instance { get; private set; }
     
     private bool _inventoryVisible;
+    
+    // getters and setters
+    public Container PlayerInventoryContainer => playerInventoryContainer;
 
     private void Awake()
     {
@@ -54,9 +57,10 @@ public class InventoryManager : MonoBehaviour
         container = newContainer;
         container.ContainerUI.transform.SetParent(inventoryUI.transform);
         ToggleInventory();
+        container.transform.localScale = Vector3.one;
     }
 
-    public void RemoveContainer()
+    private void RemoveContainer()
     {
         if (container)
         {

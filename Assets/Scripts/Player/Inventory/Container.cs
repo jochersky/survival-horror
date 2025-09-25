@@ -21,6 +21,8 @@ public class Container : MonoBehaviour, IInteractable
         if (_numItems >= maxItems) return;
         items.Add(newItem);
         _numItems++;
+        ContainerUI cUI = containerUI.GetComponent<ContainerUI>();
+        cUI.AddItem(newItem);
     }
 
     public void RemoveItem(Item removedItem)

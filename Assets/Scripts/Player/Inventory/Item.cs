@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Item : MonoBehaviour
+public class Item : MonoBehaviour, IInteractable
 {
     [SerializeField] private ItemData itemData;
     private Container _container;
@@ -16,5 +16,11 @@ public class Item : MonoBehaviour
     {
         _container.RemoveItem(this);
         // TODO: spawn the prefab into the game
+    }
+
+    public void Interact()
+    {
+        InventoryManager.instance.PlayerInventoryContainer.AddItem(this);
+        Destroy(gameObject);
     }
 }
