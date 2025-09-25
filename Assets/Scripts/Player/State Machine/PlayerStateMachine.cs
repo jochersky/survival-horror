@@ -1,13 +1,13 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerStateMachine : MonoBehaviour, InputSystem_Actions.IPlayerActions
+public class PlayerStateMachine : MonoBehaviour
 {
     [Header("References")]
+    [SerializeField] private InputActionAsset actions;
     [SerializeField] private GameObject orientation;
     private CharacterController _characterController;
-    private InputSystem_Actions _actions;
-    private InputSystem_Actions.PlayerActions _playerActions;
+    private InputActionMap _playerActions;
 
     [Header("Movement Properties")]
     [SerializeField] private float maxMoveSpeed = 1f;
@@ -25,6 +25,9 @@ public class PlayerStateMachine : MonoBehaviour, InputSystem_Actions.IPlayerActi
     // State Variables
     private PlayerBaseState _currentState;
     private PlayerStateDictionary _states;
+    
+    // input actions
+    private InputAction m_MoveAction;
 
     // Getters and Setters
     public CharacterController CharacterController { get { return _characterController; } } 
@@ -57,11 +60,13 @@ public class PlayerStateMachine : MonoBehaviour, InputSystem_Actions.IPlayerActi
         // Initialize references
         _characterController = GetComponent<CharacterController>();
 
-        _actions = new InputSystem_Actions(); // Asset object
-        _playerActions = _actions.Player;     // Extract action map object
+        _playerActions = actions.FindActionMap("Player");
         
-        // Subscribe the player input callbacks
-        _playerActions.AddCallbacks(this);
+        // assign input action callbacks
+        m_MoveAction = _playerActions.FindAction("Move");
+        m_MoveAction.started += OnMove;
+        m_MoveAction.performed += OnMove;
+        m_MoveAction.canceled += OnMove;
         
         // State machine + initial state setup
         _states = new PlayerStateDictionary(this);
@@ -92,30 +97,5 @@ public class PlayerStateMachine : MonoBehaviour, InputSystem_Actions.IPlayerActi
     {
         _moveInput = context.ReadValue<Vector2>();
         MovePressed = _moveInput != Vector2.zero;
-    }
-
-    public void OnSprint(InputAction.CallbackContext context)
-    {
-        // throw new System.NotImplementedException();
-    }
-
-    public void OnLook(InputAction.CallbackContext context)
-    {
-        // throw new System.NotImplementedException();
-    }
-
-    public void OnZoom(InputAction.CallbackContext context)
-    {
-        // throw new System.NotImplementedException();
-    }
-
-    public void OnAttack(InputAction.CallbackContext context)
-    {
-        // throw new System.NotImplementedException();
-    }
-
-    public void OnReload(InputAction.CallbackContext context)
-    {
-        // throw new System.NotImplementedException();
     }
 }

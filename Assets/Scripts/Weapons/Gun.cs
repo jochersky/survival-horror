@@ -2,10 +2,13 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Gun : MonoBehaviour, InputSystem_Actions.IPlayerActions
+public class Gun : MonoBehaviour
 {
+    // references
+    [SerializeField] private InputActionAsset actions;
     [SerializeField] private Transform[] projectileSpawners;
     [SerializeField] private GameObject projectileDecal;
+    private InputActionMap _playerActions;
     
     [Header("Gun Stats")]
     [SerializeField] private int maxMagazineSize = 8;
@@ -13,8 +16,10 @@ public class Gun : MonoBehaviour, InputSystem_Actions.IPlayerActions
     [SerializeField] private float fireRate = 0.25f;
     [SerializeField] private float maxBulletDistance = 100f;
     
-    private InputSystem_Actions _actions;
-    private InputSystem_Actions.PlayerActions _playerActions;
+    // input actions
+    private InputAction m_ZoomAction;
+    private InputAction m_AttackAction;
+    private InputAction m_ReloadAction;
     
     private bool _isZooming;
     private bool _isPressingFire;
@@ -27,11 +32,17 @@ public class Gun : MonoBehaviour, InputSystem_Actions.IPlayerActions
 
     private void Awake()
     {
-        _actions = new InputSystem_Actions(); // Asset object
-        _playerActions = _actions.Player;     // Extract action map object
+        _playerActions = actions.FindActionMap("Player");
         
-        // Subscribe the player input callbacks
-        _playerActions.AddCallbacks(this);
+        // assign input action callbacks
+        m_ZoomAction = actions.FindAction("Zoom");
+        m_ZoomAction.started += OnZoom;
+        m_ZoomAction.canceled += OnZoom;
+        m_AttackAction = actions.FindAction("Attack");
+        m_AttackAction.started += OnAttack;
+        m_AttackAction.canceled += OnAttack;
+        m_ReloadAction = actions.FindAction("Reload");
+        m_ReloadAction.started += OnReload;
         
         _bulletsRemaining = maxMagazineSize;
     }
@@ -76,21 +87,6 @@ public class Gun : MonoBehaviour, InputSystem_Actions.IPlayerActions
             }
         }
     }
-    
-    public void OnMove(InputAction.CallbackContext context)
-    {
-        // throw new System.NotImplementedException();
-    }
-
-    public void OnSprint(InputAction.CallbackContext context)
-    {
-        // throw new System.NotImplementedException();
-    }
-
-    public void OnLook(InputAction.CallbackContext context)
-    {
-        // throw new System.NotImplementedException();
-    }
 
     public void OnZoom(InputAction.CallbackContext context)
     {
@@ -127,6 +123,7 @@ public class Gun : MonoBehaviour, InputSystem_Actions.IPlayerActions
 
     private IEnumerator Fire()
     {
+        Debug.Log("Firing");
         _isFiring = true;
         
         float timer = 0;

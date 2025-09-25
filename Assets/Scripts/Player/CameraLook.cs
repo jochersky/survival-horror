@@ -2,8 +2,10 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class CameraLook : MonoBehaviour, InputSystem_Actions.IPlayerActions
+public class CameraLook : MonoBehaviour
 {
+    // references
+    [SerializeField] private InputActionAsset actions;
     [SerializeField] private GameObject cameraTarget;
     [SerializeField] private GameObject player;
     [SerializeField] private GameObject playerMoveOrientation;
@@ -11,15 +13,16 @@ public class CameraLook : MonoBehaviour, InputSystem_Actions.IPlayerActions
     [SerializeField] private GameObject regularCam;
     [SerializeField] private GameObject zoomCam;
     
-    private InputSystem_Actions _actions;
-    private InputSystem_Actions.PlayerActions _playerActions;
+    private InputActionMap _playerActions;
     private Camera _cam;
     
-
-    // [SerializeField] private float rotationSpeed = 5f;
+    // input actions
+    private InputAction m_ZoomAction;
+    private InputAction m_LookAction;
     
     private Vector2 _mouseInput;
 
+    // camera cine machine states
     public CameraState currentState;
     public enum CameraState
     {
@@ -30,12 +33,18 @@ public class CameraLook : MonoBehaviour, InputSystem_Actions.IPlayerActions
     private void Awake()
     {
         _cam = GetComponent<Camera>();
+
+        _playerActions = actions.FindActionMap("Player");
         
-        _actions = new InputSystem_Actions(); // Asset object
-        _playerActions = _actions.Player;     // Extract action map object
-        
-        // Subscribe the player input callbacks
-        _playerActions.AddCallbacks(this);
+        // assign input action callbacks
+        m_ZoomAction = actions.FindAction("Zoom");
+        m_ZoomAction.started += OnZoom;
+        m_ZoomAction.performed += OnZoom;
+        m_ZoomAction.canceled += OnZoom;
+        m_LookAction = actions.FindAction("Look");
+        m_LookAction.started += OnLook;
+        m_LookAction.performed += OnLook;
+        m_LookAction.canceled += OnLook;
     }
 
     private void Update()
@@ -63,10 +72,6 @@ public class CameraLook : MonoBehaviour, InputSystem_Actions.IPlayerActions
         _playerActions.Disable();
     }
 
-    public void OnMove(InputAction.CallbackContext context) { }
-
-    public void OnSprint(InputAction.CallbackContext context) { }
-
     public void OnLook(InputAction.CallbackContext context)
     {
         _mouseInput = context.ReadValue<Vector2>();
@@ -76,16 +81,6 @@ public class CameraLook : MonoBehaviour, InputSystem_Actions.IPlayerActions
     {
         bool isZooming = context.ReadValueAsButton();
         SwitchCameraState(isZooming ? CameraState.Zoom : CameraState.Regular);
-    }
-
-    public void OnAttack(InputAction.CallbackContext context)
-    {
-        // throw new NotImplementedException();
-    }
-
-    public void OnReload(InputAction.CallbackContext context)
-    {
-        // throw new NotImplementedException();
     }
 
     private void SwitchCameraState(CameraState newState)
