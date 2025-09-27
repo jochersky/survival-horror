@@ -12,6 +12,8 @@ public class CameraLook : MonoBehaviour
 
     [SerializeField] private GameObject regularCam;
     [SerializeField] private GameObject zoomCam;
+
+    [SerializeField] private GameObject crosshair;
     
     private InputActionMap _playerActions;
     private Camera _cam;
@@ -45,6 +47,8 @@ public class CameraLook : MonoBehaviour
         m_LookAction.started += OnLook;
         m_LookAction.performed += OnLook;
         m_LookAction.canceled += OnLook;
+        
+        crosshair.SetActive(false);
     }
 
     private void Update()
@@ -90,6 +94,8 @@ public class CameraLook : MonoBehaviour
 
         if (newState == CameraState.Regular) regularCam.SetActive(true);
         if (newState == CameraState.Zoom) zoomCam.SetActive(true);
+        
+        crosshair.SetActive(newState == CameraState.Zoom);
         
         currentState = newState;
     }
