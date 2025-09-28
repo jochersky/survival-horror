@@ -5,6 +5,7 @@ public class PlayerStateMachine : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private InputActionAsset actions;
+    [SerializeField] private Animator animator;
     [SerializeField] private GameObject orientation;
     private CharacterController _characterController;
     private InputActionMap _playerActions;
@@ -28,8 +29,13 @@ public class PlayerStateMachine : MonoBehaviour
     
     // input actions
     private InputAction m_MoveAction;
+    
+    // variables to store optimized setter/getter parameter IDs
+    private int _isWalkingHash;
+    private int _isSprintingHash;
 
     // Getters and Setters
+    public Animator Animator => animator;
     public CharacterController CharacterController { get { return _characterController; } } 
     
     public PlayerBaseState CurrentState { get { return _currentState; } set { _currentState = value; } }
@@ -52,6 +58,10 @@ public class PlayerStateMachine : MonoBehaviour
     public Vector3 VerticalVelocity { get { return _verticalVelocity; } set { _verticalVelocity = value; } }
 
     public float CurrentHorizontalSpeed { get { return _currentHorizontalSpeed; } set { _currentHorizontalSpeed = value; } }
+    
+    public int IsWalkingHash => _isWalkingHash;
+    public int IsSprintingHash => _isSprintingHash;
+    
     public Vector3 ForwardDir => orientation.transform.forward;
     public Vector3 RightDir => orientation.transform.right;
 
@@ -67,6 +77,10 @@ public class PlayerStateMachine : MonoBehaviour
         m_MoveAction.started += OnMove;
         m_MoveAction.performed += OnMove;
         m_MoveAction.canceled += OnMove;
+        
+        // set the parameter hash references
+        _isWalkingHash = Animator.StringToHash("isWalking");
+        _isSprintingHash = Animator.StringToHash("isSprinting");
         
         // State machine + initial state setup
         _states = new PlayerStateDictionary(this);

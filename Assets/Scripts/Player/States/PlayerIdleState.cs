@@ -8,6 +8,8 @@ public class PlayerIdleState : PlayerBaseState
 
   public override void EnterState()
   {
+    Context.Animator.SetBool(Context.IsWalkingHash, false);
+    Context.Animator.SetBool(Context.IsSprintingHash, false);
     Context.CurrentHorizontalSpeed = 0;
   }
 
