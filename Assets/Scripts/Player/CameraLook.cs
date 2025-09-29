@@ -56,12 +56,6 @@ public class CameraLook : MonoBehaviour
         // rotate camera pivot
         Vector3 viewDir = cameraTarget.transform.position - new Vector3(transform.position.x, cameraTarget.transform.position.y, transform.position.z);
         playerMoveOrientation.transform.forward = viewDir.normalized;
-        
-        // rotate player object
-        if (currentState == CameraState.Zoom)
-        {
-            player.transform.forward = playerMoveOrientation.transform.forward;
-        } 
     }
     
     private void OnEnable()
