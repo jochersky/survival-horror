@@ -8,6 +8,8 @@ public class PlayerIdleState : PlayerBaseState
 
   public override void EnterState()
   {
+    Context.Animator.SetBool(Context.IsWalkingHash, false);
+    Context.Animator.SetBool(Context.IsZoomingHash, false);
     Context.CurrentHorizontalSpeed = 0;
   }
 
@@ -23,10 +25,8 @@ public class PlayerIdleState : PlayerBaseState
   {
     ApplyStopDrag();
 
-    if (Context.MovePressed)
-    {
-      SwitchState(Dictionary.Walk());
-    }
+    if (Context.ZoomPressed) SwitchState(Dictionary.Zoom());
+    else if (Context.MovePressed) SwitchState(Dictionary.Walk());
   }
 
   private void ApplyStopDrag()

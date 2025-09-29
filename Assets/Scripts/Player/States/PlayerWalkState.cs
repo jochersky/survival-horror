@@ -8,6 +8,8 @@ public class PlayerWalkState : PlayerBaseState
 
   public override void EnterState()
   {
+    Context.Animator.SetBool(Context.IsWalkingHash, true);
+    Context.Animator.SetBool(Context.IsZoomingHash, false);
   }
 
   public override void ExitState()
@@ -21,11 +23,10 @@ public class PlayerWalkState : PlayerBaseState
   public override void UpdateState()
   {
     ApplyMoveVelocity();
+    ApplyRotation();
 
-    if (!Context.MovePressed)
-    {
-      SwitchState(Dictionary.Idle());
-    }
+    if (Context.ZoomPressed) SwitchState(Dictionary.Zoom());
+    else if (!Context.MovePressed) SwitchState(Dictionary.Idle());
   }
 
   private void ApplyMoveVelocity()
@@ -34,5 +35,14 @@ public class PlayerWalkState : PlayerBaseState
     Context.CurrentHorizontalSpeed += Context.MoveAccel * Time.deltaTime;
     Context.CurrentHorizontalSpeed = Mathf.Min(Context.CurrentHorizontalSpeed, Context.MaxMoveSpeed);
     Context.MoveVelocity = moveDir * Context.CurrentHorizontalSpeed;
+  }
+
+  private void ApplyRotation()
+  {
+    Context.transform.rotation = 
+      Quaternion.RotateTowards(
+        Context.transform.rotation, 
+        Context.Orientation.transform.rotation,
+        Context.WalkRotationSpeed);
   }
 }

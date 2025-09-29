@@ -12,6 +12,8 @@ public class CameraLook : MonoBehaviour
 
     [SerializeField] private GameObject regularCam;
     [SerializeField] private GameObject zoomCam;
+
+    [SerializeField] private GameObject crosshair;
     
     private InputActionMap _playerActions;
     private Camera _cam;
@@ -45,6 +47,8 @@ public class CameraLook : MonoBehaviour
         m_LookAction.started += OnLook;
         m_LookAction.performed += OnLook;
         m_LookAction.canceled += OnLook;
+        
+        crosshair.SetActive(false);
     }
 
     private void Update()
@@ -53,11 +57,7 @@ public class CameraLook : MonoBehaviour
         Vector3 viewDir = cameraTarget.transform.position - new Vector3(transform.position.x, cameraTarget.transform.position.y, transform.position.z);
         playerMoveOrientation.transform.forward = viewDir.normalized;
         
-        // rotate player object
-        if (currentState == CameraState.Zoom)
-        {
-            player.transform.forward = playerMoveOrientation.transform.forward;
-        } 
+        Debug.DrawRay(playerMoveOrientation.transform.position, viewDir, Color.purple);
     }
     
     private void OnEnable()
@@ -90,6 +90,8 @@ public class CameraLook : MonoBehaviour
 
         if (newState == CameraState.Regular) regularCam.SetActive(true);
         if (newState == CameraState.Zoom) zoomCam.SetActive(true);
+        
+        crosshair.SetActive(newState == CameraState.Zoom);
         
         currentState = newState;
     }
