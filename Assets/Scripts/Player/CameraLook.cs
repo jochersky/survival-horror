@@ -56,6 +56,8 @@ public class CameraLook : MonoBehaviour
         // rotate camera pivot
         Vector3 viewDir = cameraTarget.transform.position - new Vector3(transform.position.x, cameraTarget.transform.position.y, transform.position.z);
         playerMoveOrientation.transform.forward = viewDir.normalized;
+        
+        Debug.DrawRay(playerMoveOrientation.transform.position, viewDir, Color.purple);
     }
     
     private void OnEnable()

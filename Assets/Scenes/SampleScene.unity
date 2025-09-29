@@ -11651,7 +11651,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  cameraTarget: {fileID: 251485464}
+  cameraTarget: {fileID: 1375928790}
   player: {fileID: 1993958683}
   playerMoveOrientation: {fileID: 1521349118}
   regularCam: {fileID: 250032917}
