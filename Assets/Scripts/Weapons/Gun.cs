@@ -6,9 +6,11 @@ public class Gun : MonoBehaviour
 {
     // references
     [SerializeField] private InputActionAsset actions;
+    [SerializeField] private Animator animator;
     [SerializeField] private Transform[] projectileSpawners;
     [SerializeField] private GameObject projectileDecal;
     private InputActionMap _playerActions;
+    private Camera _cam;
     
     [Header("Gun Stats")]
     [SerializeField] private int maxMagazineSize = 8;
@@ -21,6 +23,10 @@ public class Gun : MonoBehaviour
     private InputAction m_AttackAction;
     private InputAction m_ReloadAction;
     
+    // variables to store optimized setter/getter parameter IDs
+    private int _isZoomingHash;
+    private int _isShootingHash;
+    
     private bool _isZooming;
     private bool _isPressingFire;
     private int _bulletsRemaining;
@@ -32,6 +38,7 @@ public class Gun : MonoBehaviour
 
     private void Awake()
     {
+        _cam = Camera.main;
         _playerActions = actions.FindActionMap("Player");
         
         // assign input action callbacks
@@ -43,6 +50,10 @@ public class Gun : MonoBehaviour
         m_AttackAction.canceled += OnAttack;
         m_ReloadAction = actions.FindAction("Reload");
         m_ReloadAction.started += OnReload;
+        
+        // set the parameter hash references
+        _isZoomingHash = Animator.StringToHash("isZooming");
+        _isShootingHash = Animator.StringToHash("isShooting");
         
         _bulletsRemaining = maxMagazineSize;
     }
@@ -63,28 +74,7 @@ public class Gun : MonoBehaviour
     {
         if (_isZooming)
         {
-            transform.LookAt(-Camera.main.transform.forward * 1000f);
-                
-            Vector3 firingDirection = (Camera.main.transform.forward - projectileSpawners[0].transform.forward).normalized;
-            Debug.DrawRay(projectileSpawners[0].transform.position, firingDirection * 1000f, Color.red);
-            
-            if (_isPressingFire)
-            {
-                if (!_isReloading && !_isFiring && _bulletsRemaining > 0)
-                {
-                    Physics.Raycast(projectileSpawners[0].transform.position, firingDirection * 1000f, out RaycastHit hit, maxBulletDistance);
-                
-                    // place slightly inside of object so that decal doesn't flicker
-                    Vector3 pos = hit.point - hit.normal * 0.1f;
-                    GameObject decal = Instantiate(projectileDecal, pos, Quaternion.LookRotation(hit.normal));
-
-                    _fire = StartCoroutine(Fire());
-                }
-                else if (_bulletsRemaining <= 0)
-                {
-                    _reload = StartCoroutine(Reload());
-                }
-            }
+            CalculateShot();
         }
     }
 
@@ -107,7 +97,6 @@ public class Gun : MonoBehaviour
 
     private IEnumerator Reload()
     {
-        Debug.Log("Reloading");
         _isReloading = true;
         
         float timer = 0;
@@ -123,8 +112,9 @@ public class Gun : MonoBehaviour
 
     private IEnumerator Fire()
     {
-        Debug.Log("Firing");
         _isFiring = true;
+        animator.SetBool(_isShootingHash, true);
+        animator.SetBool(_isZoomingHash, false);
         
         float timer = 0;
         while (timer < fireRate)
@@ -135,5 +125,47 @@ public class Gun : MonoBehaviour
         
         _bulletsRemaining--;
         _isFiring = false;
+        animator.SetBool(_isShootingHash, false);
+        animator.SetBool(_isZoomingHash, true);
+    }
+
+    private void CalculateShot()
+    {
+        transform.LookAt(-_cam.transform.forward * 1000f);
+                
+        Vector3 firingDirection = (_cam.transform.forward - projectileSpawners[0].transform.forward).normalized;
+            
+        Debug.DrawRay(projectileSpawners[0].transform.position, firingDirection * maxBulletDistance, Color.red);
+        Debug.DrawRay(_cam.transform.position, _cam.transform.forward * maxBulletDistance, Color.green);
+            
+        Physics.Raycast(_cam.transform.position, _cam.transform.forward, out RaycastHit camHit, maxBulletDistance);
+
+        // adjust where the bullet will hit if something collides with a ray going out of the camera
+        firingDirection = (camHit.transform ? 
+            camHit.point - projectileSpawners[0].transform.position : 
+            (_cam.transform.forward - projectileSpawners[0].transform.forward).normalized);
+            
+        if (_isPressingFire)
+        {
+            ShootBullet(firingDirection);
+        }
+    }
+
+    private void ShootBullet(Vector3 firingDirection)
+    {
+        if (!_isReloading && !_isFiring && _bulletsRemaining > 0)
+        {
+            Physics.Raycast(projectileSpawners[0].transform.position, firingDirection, out RaycastHit hit, maxBulletDistance);
+                
+            // place slightly inside of object so that decal doesn't flicker
+            Vector3 pos = hit.point - hit.normal * 0.1f;
+            GameObject decal = Instantiate(projectileDecal, pos, Quaternion.LookRotation(hit.normal));
+
+            _fire = StartCoroutine(Fire());
+        }
+        else if (_bulletsRemaining <= 0)
+        {
+            _reload = StartCoroutine(Reload());
+        }
     }
 }

@@ -13147,6 +13147,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  animator: {fileID: 25923239}
   projectileSpawners:
   - {fileID: 750900704}
   projectileDecal: {fileID: 143067728}
