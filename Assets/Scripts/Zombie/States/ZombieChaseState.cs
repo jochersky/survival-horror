@@ -7,7 +7,11 @@ public class ZombieChaseState : ZombieBaseState
 
     public override void EnterState()
     {
-        Context.Agent.SetDestination(Context.PlayerTransform.position);
+        Context.Animator.SetBool(Context.IsChasingHash, true);
+        Context.Animator.SetBool(Context.IsReturningHash, false);
+        
+        if (Context.PlayerTransform) 
+            Context.Agent.SetDestination(Context.PlayerTransform.position);
     }
 
     public override void ExitState()
@@ -20,9 +24,13 @@ public class ZombieChaseState : ZombieBaseState
 
     public override void UpdateState()
     {
-        if (Context.PlayerTransform) 
+        // Stay in the chase state as long as there is a player transform
+        if (Context.PlayerTransform)
             Context.Agent.SetDestination(Context.PlayerTransform.position);
         else
-            SwitchState(Dictionary.Idle());
+            SwitchState(Dictionary.Return());
+        
+        if (Context.Dead)
+            SwitchState(Dictionary.Dead());
     }
 }

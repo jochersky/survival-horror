@@ -6187,12 +6187,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af89087f5876aca42b028d7519cb8557, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ZombieStateMachine
-  _playerSightedSensor: {fileID: 1887483446}
-  maxMoveSpeed: 1
-  moveAccel: 0.5
-  walkRotationSpeed: 2
-  stopDrag: 0.6
-  gravity: -9.8
+  animator: {fileID: 1070530931}
+  playerSightedSensor: {fileID: 1887483446}
+  health: {fileID: 1639077909}
 --- !u!143 &649030598
 CharacterController:
   m_ObjectHideFlags: 0
@@ -9881,6 +9878,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: character-zombie
       objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 7f7105138c7d95e42ade56481029aee2, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 82cbdb75e14618044ac12fc26bf596b4, type: 2}
+    - target: {fileID: 5866666021909216657, guid: 7f7105138c7d95e42ade56481029aee2, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -9889,6 +9894,11 @@ PrefabInstance:
 --- !u!4 &1070530930 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7f7105138c7d95e42ade56481029aee2, type: 3}
+  m_PrefabInstance: {fileID: 1070530929}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1070530931 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 7f7105138c7d95e42ade56481029aee2, type: 3}
   m_PrefabInstance: {fileID: 1070530929}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1073734735
@@ -13964,6 +13974,7 @@ MonoBehaviour:
   projectileSpawners:
   - {fileID: 750900704}
   projectileDecal: {fileID: 143067728}
+  damage: 35
   maxMagazineSize: 8
   reloadTime: 2
   fireRate: 0.25

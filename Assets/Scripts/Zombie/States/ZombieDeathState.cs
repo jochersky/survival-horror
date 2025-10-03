@@ -1,14 +1,17 @@
 using UnityEngine;
 
-public class ZombieIdleState : ZombieBaseState
-{
-    public ZombieIdleState(ZombieStateMachine currentContext, ZombieStateDictionary zombieStateDictionary)
+public class ZombieDeathState : ZombieBaseState {
+    public ZombieDeathState(ZombieStateMachine currentContext, ZombieStateDictionary zombieStateDictionary)
         : base(currentContext, zombieStateDictionary) { }
 
     public override void EnterState()
     {
+        Context.Animator.SetBool(Context.IsDeadHash, true);
         Context.Animator.SetBool(Context.IsChasingHash, false);
         Context.Animator.SetBool(Context.IsReturningHash, false);
+        
+        // Stop the zombie from chasing player when playing death animation
+        Context.Agent.isStopped = true;
     }
 
     public override void ExitState()
@@ -21,10 +24,5 @@ public class ZombieIdleState : ZombieBaseState
 
     public override void UpdateState()
     {
-        if (Context.PlayerTransform)
-            SwitchState(Dictionary.Chase());
-        
-        if (Context.Dead)
-            SwitchState(Dictionary.Dead());
     }
 }
