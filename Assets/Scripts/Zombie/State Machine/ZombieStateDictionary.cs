@@ -11,7 +11,7 @@ enum ZombieStates
     Chase
 }
 
-public class ZombieStateDictionary : MonoBehaviour
+public class ZombieStateDictionary
 {
     private ZombieStateMachine _context;
 

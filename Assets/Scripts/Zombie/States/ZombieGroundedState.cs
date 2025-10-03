@@ -11,17 +11,26 @@ public class ZombieGroundedState : ZombieBaseState
 
     public override void EnterState()
     {
+        InitializeSubState();
+    }
+    
+    public override void ExitState()
+    {
     }
 
     public override void UpdateState()
     {
     }
-
-    public override void ExitState()
-    {
-    }
-
+    
     public override void InitializeSubState()
     {
+        if (Context.PlayerTransform)
+        {
+            SetSubState(Dictionary.Chase());
+        }
+        else
+        {
+            SetSubState(Dictionary.Idle());
+        }
     }
 }

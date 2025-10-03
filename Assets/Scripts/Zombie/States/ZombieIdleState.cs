@@ -7,6 +7,7 @@ public class ZombieIdleState : ZombieBaseState
 
     public override void EnterState()
     {
+        Context.Agent.SetDestination(Context.StartingPosition);
     }
 
     public override void ExitState()
@@ -19,5 +20,7 @@ public class ZombieIdleState : ZombieBaseState
 
     public override void UpdateState()
     {
+        if (Context.PlayerTransform)
+            SwitchState(Dictionary.Chase());
     }
 }

@@ -4,8 +4,9 @@ using UnityEngine.AI;
 public class ZombieStateMachine : MonoBehaviour
 {
     private CharacterController _characterController;
-    private NavMeshAgent _navMeshAgent;
+    private NavMeshAgent _agent;
     private Animator _animator;
+    [SerializeField] private PlayerSensor _playerSightedSensor;
     
     [Header("Movement Properties")]
     [SerializeField] private float maxMoveSpeed = 1f;
@@ -18,15 +19,32 @@ public class ZombieStateMachine : MonoBehaviour
     private ZombieBaseState _currentState;
     private ZombieStateDictionary _states;
 
+    private Vector3 _startingPosition;
+    private Transform _playerTransform;
+    private Vector3 _lastSeenPlayerPosition;
+
     // Getters and Setters
     public ZombieBaseState CurrentState { get { return _currentState; } set { _currentState = value; } }
     public ZombieStateDictionary States { get { return _states; } set { _states = value; } }
+    public NavMeshAgent Agent { get { return _agent; } set { _agent = value; } }
+    public Animator Animator { get { return _animator; } set { _animator = value; } }
+    public PlayerSensor PlayerSightedSensor => _playerSightedSensor;
+    public Vector3 StartingPosition { get { return _startingPosition; } set { _startingPosition = value; } }
+    public Transform PlayerTransform { get { return _playerTransform; } set { _playerTransform = value; } }
+    public Vector3 LastSeenPlayerPosition { get { return _lastSeenPlayerPosition; } set { _lastSeenPlayerPosition = value; } }
+
     
     private void Awake()
     {
         _characterController = GetComponent<CharacterController>();
-        _navMeshAgent = GetComponent<NavMeshAgent>();
+        _agent = GetComponent<NavMeshAgent>();
         _animator = GetComponent<Animator>();
+
+        StartingPosition = transform.position;
+
+        // Subscribe events
+        _playerSightedSensor.OnPlayerEnter += PlayerSpotted;
+        _playerSightedSensor.OnPlayerExit += PlayerLost;
         
         // State machine + initial state setup
         _states = new ZombieStateDictionary(this);
@@ -37,5 +55,16 @@ public class ZombieStateMachine : MonoBehaviour
     private void Update()
     {
         _currentState.UpdateStates();
+    }
+
+    private void PlayerSpotted(Transform player)
+    {
+        PlayerTransform = player;
+    }
+
+    private void PlayerLost(Vector3 position)
+    {
+        PlayerTransform = null;
+        LastSeenPlayerPosition = position;
     }
 }
