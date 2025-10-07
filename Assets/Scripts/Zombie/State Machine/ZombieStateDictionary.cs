@@ -51,19 +51,16 @@ public class ZombieStateDictionary
 
     public ZombieBaseState Chase()
     {
-        Debug.Log("Chasing");
         return _states[ZombieStates.Chase];
     }
 
     public ZombieBaseState Search()
     {
-        Debug.Log("Searching");
         return _states[ZombieStates.Search];
     }
 
     public ZombieBaseState Return()
     {
-        Debug.Log("Returning");
         return _states[ZombieStates.Return];
     }
 

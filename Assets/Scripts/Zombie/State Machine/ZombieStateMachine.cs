@@ -9,11 +9,13 @@ public class ZombieStateMachine : MonoBehaviour
     [SerializeField] private PlayerSensor playerSightedSensor;
     [SerializeField] private Transform headTransform;
     [SerializeField] private Health health;
+    [SerializeField] GameObject player;
     private CharacterController _characterController;
     private NavMeshAgent _agent;
 
     [Header("Zombie Properties")] 
     [SerializeField] private float zombieSearchTime;
+    [SerializeField] private float zombieLineOfSightDistance;
     
     // State Variables
     private ZombieBaseState _currentState;
@@ -31,6 +33,8 @@ public class ZombieStateMachine : MonoBehaviour
     private Vector3 _lastSeenPlayerPosition;
     private bool _isLookingAround;
     private bool _lookedAround;
+    private bool _justDamaged;
+    private bool _damagedAndPlayerInLineOfSight;
     private bool _dead;
 
     // Getters and Setters
@@ -41,12 +45,15 @@ public class ZombieStateMachine : MonoBehaviour
     public PlayerSensor PlayerSightedSensor => playerSightedSensor;
     
     public float ZombieSearchTime => zombieSearchTime;
+    public float ZombieLineOfSightDistance => zombieLineOfSightDistance;
     
     public Vector3 StartingPosition { get { return _startingPosition; } set { _startingPosition = value; } }
     public Transform PlayerTransform { get { return _playerTransform; } set { _playerTransform = value; } }
     public Vector3 LastSeenPlayerPosition { get { return _lastSeenPlayerPosition; } set { _lastSeenPlayerPosition = value; } }
     public bool IsLookingAround { get { return _isLookingAround; } set { _isLookingAround = value; } }
     public bool LookedAround { get { return _lookedAround; } set { _lookedAround = value; } }
+    public bool JustDamaged { get { return _justDamaged; } set { _justDamaged = value; } }
+    public bool DamagedAndPlayerInLineOfSight { get { return _damagedAndPlayerInLineOfSight; } set { _damagedAndPlayerInLineOfSight = value; } }
     public bool Dead { get { return _dead; } set { _dead = value; } }
     
     public int IsChasingHash => _isChasingHash;
@@ -65,7 +72,8 @@ public class ZombieStateMachine : MonoBehaviour
         // Subscribe events
         playerSightedSensor.OnPlayerEnter += PlayerSpotted;
         playerSightedSensor.OnPlayerExit += PlayerLost;
-        health.OnDeath += PlayerDied;
+        health.OnHealthChanged += SetJustDamaged;
+        health.OnDeath += SetDead;
         
         // Set the parameter hash references
         _isChasingHash = Animator.StringToHash("isChasing");
@@ -84,9 +92,9 @@ public class ZombieStateMachine : MonoBehaviour
         _currentState.UpdateStates();
     }
 
-    private void PlayerSpotted(Transform player)
+    private void PlayerSpotted(Transform enteredPlayerTransform)
     {
-        PlayerTransform = player;
+        PlayerTransform = enteredPlayerTransform;
     }
 
     private void PlayerLost(Vector3 position)
@@ -95,17 +103,33 @@ public class ZombieStateMachine : MonoBehaviour
         LastSeenPlayerPosition = position;
     }
 
-    private void PlayerDied()
+    private void SetJustDamaged(float oldHealth, float newHealth)
     {
-        Dead = true;
+        JustDamaged = true;
+        DamagedAndPlayerInLineOfSight = JustDamaged && IsPlayerInLineOfSight();
+        if (DamagedAndPlayerInLineOfSight)
+        {
+            PlayerTransform = player.transform;
+            LastSeenPlayerPosition = player.transform.position;
+        }
+    }
+    
+    private bool IsPlayerInLineOfSight()
+    { 
+        // Debug.DrawRay(headTransform.position, (player.transform.position + Vector3.up * 0.5f - headTransform.position) * ZombieLineOfSightDistance, Color.pink, 100f);
+        Physics.Raycast(headTransform.position, 
+            player.transform.position + Vector3.up * 0.5f - headTransform.position, 
+            out RaycastHit hit, ZombieLineOfSightDistance);
+
+        if (hit.collider)
+            return hit.collider.gameObject == player;
+            
+        return false;
     }
 
-    private void IsPlayerInLineOfSight()
+    private void SetDead()
     {
-        if (_playerTransform)
-        {
-            // Physics.Raycast(headTransform.position, );
-        }
+        Dead = true;
     }
 
     internal IEnumerator LookingAround()

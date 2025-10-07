@@ -21,7 +21,12 @@ public class ZombieIdleState : ZombieBaseState
 
     public override void UpdateState()
     {
-        // TODO: add check to see if damaged to go into chase state
+        if (Context.DamagedAndPlayerInLineOfSight)
+        {
+            Context.JustDamaged = false;
+            Context.DamagedAndPlayerInLineOfSight = false;
+            SwitchState(Dictionary.Chase());
+        }
         
         if (Context.PlayerTransform)
             SwitchState(Dictionary.Chase());

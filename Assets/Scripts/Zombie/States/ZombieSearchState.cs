@@ -34,8 +34,13 @@ public class ZombieSearchState : ZombieBaseState
                 Context.Animator.SetBool(Context.IsChasingHash, false);
                 Context.StartCoroutine(Context.LookingAround());
             }
-        
-        // TODO: add check to see if damaged to go into chase state
+
+        if (Context.DamagedAndPlayerInLineOfSight)
+        {
+            Context.JustDamaged = false;
+            Context.DamagedAndPlayerInLineOfSight = false;
+            SwitchState(Dictionary.Chase());
+        }
         if (Context.PlayerTransform)
             SwitchState(Dictionary.Chase());
         if (Context.LookedAround)
