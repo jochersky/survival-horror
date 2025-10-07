@@ -8,6 +8,7 @@ public class ZombieReturnState : ZombieBaseState
     public override void EnterState()
     {
         Context.Animator.SetBool(Context.IsReturningHash, true);
+        Context.Animator.SetBool(Context.IsSearchingHash, false);
         Context.Animator.SetBool(Context.IsChasingHash, false);
         
         Context.Agent.SetDestination(Context.StartingPosition);
@@ -23,6 +24,8 @@ public class ZombieReturnState : ZombieBaseState
 
     public override void UpdateState()
     {
+        // TODO: add check to see if damaged to go into chase state
+        
         // Stay in the return state as long as there is no player transform
         if (Context.PlayerTransform) 
             SwitchState(Dictionary.Chase());

@@ -6143,8 +6143,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 649030594}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: -0.765, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6152,7 +6152,7 @@ Transform:
   - {fileID: 1296431743}
   - {fileID: 1639077907}
   m_Father: {fileID: 372243379}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!195 &649030596
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -6189,7 +6189,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ZombieStateMachine
   animator: {fileID: 1070530931}
   playerSightedSensor: {fileID: 1887483446}
+  headTransform: {fileID: 1861230230}
   health: {fileID: 1639077909}
+  zombieSearchTime: 8
 --- !u!143 &649030598
 CharacterController:
   m_ObjectHideFlags: 0
@@ -9882,6 +9884,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 82cbdb75e14618044ac12fc26bf596b4, type: 2}
+    - target: {fileID: 5866666021909216657, guid: 7f7105138c7d95e42ade56481029aee2, type: 3}
+      propertyPath: m_UpdateMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 7f7105138c7d95e42ade56481029aee2, type: 3}
       propertyPath: m_ApplyRootMotion
       value: 0
@@ -14522,6 +14528,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1485665871}
   - component: {fileID: 1485665873}
+  - component: {fileID: 1485665874}
   m_Layer: 0
   m_Name: Player Stats
   m_TagString: Untagged
@@ -14559,6 +14566,20 @@ MonoBehaviour:
   containerUI: {fileID: 2099236939}
   maxItems: 4
   items: []
+--- !u!114 &1485665874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1485665870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72cc0a97772a23e4581286ae6d9e32c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Health
+  colliders: []
+  maxHealth: 100
 --- !u!1001 &1501206252
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17488,6 +17509,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b94338c1ff950e94aadff1fcb49960ac, type: 3}
   m_PrefabInstance: {fileID: 836380224}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1861230230 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1812433027226884373, guid: 7f7105138c7d95e42ade56481029aee2, type: 3}
+  m_PrefabInstance: {fileID: 1070530929}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1863526934
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17753,7 +17779,7 @@ Transform:
   m_GameObject: {fileID: 1887483444}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

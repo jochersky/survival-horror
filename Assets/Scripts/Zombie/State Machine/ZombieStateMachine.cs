@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -6,9 +7,13 @@ public class ZombieStateMachine : MonoBehaviour
     [Header("References")]
     [SerializeField] private Animator animator;
     [SerializeField] private PlayerSensor playerSightedSensor;
+    [SerializeField] private Transform headTransform;
     [SerializeField] private Health health;
     private CharacterController _characterController;
     private NavMeshAgent _agent;
+
+    [Header("Zombie Properties")] 
+    [SerializeField] private float zombieSearchTime;
     
     // State Variables
     private ZombieBaseState _currentState;
@@ -16,12 +21,16 @@ public class ZombieStateMachine : MonoBehaviour
     
     // variables to store optimized setter/getter parameter IDs
     private int _isChasingHash;
+    private int _isSearchingHash;
     private int _isReturningHash;
     private int _isDeadHash;
 
+    private bool _playerLineOfSight;
     private Vector3 _startingPosition;
     private Transform _playerTransform;
     private Vector3 _lastSeenPlayerPosition;
+    private bool _isLookingAround;
+    private bool _lookedAround;
     private bool _dead;
 
     // Getters and Setters
@@ -30,12 +39,18 @@ public class ZombieStateMachine : MonoBehaviour
     public NavMeshAgent Agent { get { return _agent; } set { _agent = value; } }
     public Animator Animator { get { return animator; } set { animator = value; } }
     public PlayerSensor PlayerSightedSensor => playerSightedSensor;
+    
+    public float ZombieSearchTime => zombieSearchTime;
+    
     public Vector3 StartingPosition { get { return _startingPosition; } set { _startingPosition = value; } }
     public Transform PlayerTransform { get { return _playerTransform; } set { _playerTransform = value; } }
     public Vector3 LastSeenPlayerPosition { get { return _lastSeenPlayerPosition; } set { _lastSeenPlayerPosition = value; } }
+    public bool IsLookingAround { get { return _isLookingAround; } set { _isLookingAround = value; } }
+    public bool LookedAround { get { return _lookedAround; } set { _lookedAround = value; } }
     public bool Dead { get { return _dead; } set { _dead = value; } }
     
     public int IsChasingHash => _isChasingHash;
+    public int IsSearchingHash => _isSearchingHash;
     public int IsReturningHash => _isReturningHash;
     public int IsDeadHash => _isDeadHash;
     
@@ -54,6 +69,7 @@ public class ZombieStateMachine : MonoBehaviour
         
         // Set the parameter hash references
         _isChasingHash = Animator.StringToHash("isChasing");
+        _isSearchingHash = Animator.StringToHash("isSearching");
         _isReturningHash = Animator.StringToHash("isReturning");
         _isDeadHash = Animator.StringToHash("isDead");
         
@@ -82,5 +98,28 @@ public class ZombieStateMachine : MonoBehaviour
     private void PlayerDied()
     {
         Dead = true;
+    }
+
+    private void IsPlayerInLineOfSight()
+    {
+        if (_playerTransform)
+        {
+            // Physics.Raycast(headTransform.position, );
+        }
+    }
+
+    internal IEnumerator LookingAround()
+    {
+        _isLookingAround = true;
+
+        float timer = 0;
+        while (timer < ZombieSearchTime)
+        {
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        _isLookingAround = false;
+        _lookedAround = true;
     }
 }
