@@ -11,8 +11,9 @@ public class Gun : MonoBehaviour
     [SerializeField] private GameObject projectileDecal;
     private InputActionMap _playerActions;
     private Camera _cam;
-    
-    [Header("Gun Stats")]
+
+    [Header("Gun Stats")] 
+    [SerializeField] private float damage = 35f;
     [SerializeField] private int maxMagazineSize = 8;
     [SerializeField] private float reloadTime = 2f;
     [SerializeField] private float fireRate = 0.25f;
@@ -36,6 +37,8 @@ public class Gun : MonoBehaviour
     private Coroutine _fire;
     private bool _isFiring;
 
+    private LayerMask _mask;
+
     private void Awake()
     {
         _cam = Camera.main;
@@ -50,6 +53,9 @@ public class Gun : MonoBehaviour
         m_AttackAction.canceled += OnAttack;
         m_ReloadAction = actions.FindAction("Reload");
         m_ReloadAction.started += OnReload;
+
+        // Assign layers that the gun can interact with
+        _mask = LayerMask.GetMask("EnemyHurtbox", "Environment");
         
         // set the parameter hash references
         _isZoomingHash = Animator.StringToHash("isZooming");
@@ -138,7 +144,7 @@ public class Gun : MonoBehaviour
         Debug.DrawRay(projectileSpawners[0].transform.position, firingDirection * maxBulletDistance, Color.red);
         Debug.DrawRay(_cam.transform.position, _cam.transform.forward * maxBulletDistance, Color.green);
             
-        Physics.Raycast(_cam.transform.position, _cam.transform.forward, out RaycastHit camHit, maxBulletDistance);
+        Physics.Raycast(_cam.transform.position, _cam.transform.forward, out RaycastHit camHit, maxBulletDistance, _mask);
 
         // adjust where the bullet will hit if something collides with a ray going out of the camera
         firingDirection = (camHit.transform ? 
@@ -155,7 +161,10 @@ public class Gun : MonoBehaviour
     {
         if (!_isReloading && !_isFiring && _bulletsRemaining > 0)
         {
-            Physics.Raycast(projectileSpawners[0].transform.position, firingDirection, out RaycastHit hit, maxBulletDistance);
+            Physics.Raycast(projectileSpawners[0].transform.position, firingDirection, out RaycastHit hit, maxBulletDistance, _mask);
+            
+            if (hit.transform && hit.transform.TryGetComponent(out Health health))
+                health.TakeDamage(damage);
                 
             // place slightly inside of object so that decal doesn't flicker
             Vector3 pos = hit.point - hit.normal * 0.1f;
