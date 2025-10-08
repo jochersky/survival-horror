@@ -2,9 +2,8 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
-    [SerializeField] private Collider[] colliders;
-    
     [SerializeField] private float maxHealth = 100f;
+    // [SerializeField] private Collider[] colliders;
     
     private float _currentHealth;
     
@@ -34,6 +33,8 @@ public class Health : MonoBehaviour
         
         OnHealthChanged?.Invoke(_currentHealth, _currentHealth - damage);
         _currentHealth -= damage;
+        Debug.Log(_currentHealth);
+        if (_currentHealth <= 0f) Debug.Log("died");
         if (_currentHealth <= 0f) OnDeath?.Invoke();
     }
 }
