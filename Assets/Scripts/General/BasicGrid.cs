@@ -1,53 +1,32 @@
-using System;
 using UnityEngine;
 
-public class Grid<TGridObject>
+public class BasicGrid
 {
-    // Event that is fired whenever grid object is changed
-    public event EventHandler<OnGridObjectChangedEventArgs> OnGridObjectChanged;
-    public class OnGridObjectChangedEventArgs : EventArgs
-    {
-        public int x;
-        public int y;
-    }
-    
     private int _width;
     private int _height;
     private float _cellSize;
     private Vector3 _origin;
 
-    private TGridObject[,] _gridArray;
+    private int[,] _gridArray;
     private TextMesh[,] _debugTextArray;
 
-    public Grid(int height, int width, float cellSize, Vector3 origin, Func<Grid<TGridObject>, int, int, TGridObject> createTGridObject)
+    public BasicGrid(int height, int width, float cellSize, Vector3 origin)
     {
         this._width = width;
         this._height = height;
         this._cellSize = cellSize;
         this._origin = origin;
-        _gridArray = new TGridObject[width, height];
+        _gridArray = new int[width, height];
         _debugTextArray = new TextMesh[width, height];
 
-        // initialize each object in the grid with TGridObject creation function.
-        // Func<> is a delegate which returns the TGridObject when passed "(Grid<ObjectName> grid, int x, int y) => new ObjectName()".
+        int c = 0;
         for (int x = 0; x < _gridArray.GetLength(0); x++)
         {
             for (int y = 0; y < _gridArray.GetLength(1); y++)
             {
-                _gridArray[x, y] = createTGridObject(this, x, y);
-            }
-        }
-
-        // Debug line drawing and string representation
-        bool debug = true;
-        if (!debug) return;
-        
-        for (int x = 0; x < _gridArray.GetLength(0); x++)
-        {
-            for (int y = 0; y < _gridArray.GetLength(1); y++)
-            {
-            
-                _debugTextArray[x, y] = CreateWorldText(_gridArray[x, y]?.ToString(), null, GetWorldPosition(x, y) + new Vector3(_cellSize, _cellSize) * 0.5f, 30, Color.white, TextAnchor.MiddleCenter);
+                _gridArray[x, y] = c;
+                c++;
+                _debugTextArray[x, y] = CreateWorldText(_gridArray[x, y].ToString(), null, GetWorldPosition(x, y) + new Vector3(_cellSize, _cellSize) * 0.5f, 30, Color.white, TextAnchor.MiddleCenter);
                 Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x, y + 1), Color.white, 100f);
                 Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x + 1, y), Color.white, 100f);
             }
@@ -56,36 +35,35 @@ public class Grid<TGridObject>
         Debug.DrawLine(GetWorldPosition(0, _height), GetWorldPosition(_width, _height), Color.white, 100f);
     }
 
-    public TGridObject GetGridObject(int x, int y)
+    public int GetValue(int x, int y)
     {
         // ignore invalid indices
-        if (x < 0 || y < 0 || x >= _width || y >= _height) return default(TGridObject);
+        if (x < 0 || y < 0 || x >= _width || y >= _height) return -1;
         
         return _gridArray[x, y];
     }
 
-    public TGridObject GetGridObject(Vector3 worldPosition)
+    public int GetValue(Vector3 worldPosition)
     {
         int x, y;
         GetXY(worldPosition, out x, out y);
-        return GetGridObject(x, y);
+        return GetValue(x, y);
     }
 
-    public void SetGridObject(int x, int y, TGridObject gridObject)
+    public void SetValue(int x, int y, int value)
     {
         // ignore invalid indices
         if (x < 0 || y < 0 || x >= _width || y >= _height) return;
         
-        _gridArray[x, y] = gridObject;
-        _debugTextArray[x, y].text = _gridArray[x, y]?.ToString();
-        TriggerGridObjectChanged(x, y);
+        _gridArray[x, y] = value;
+        _debugTextArray[x, y].text = _gridArray[x, y].ToString();
     }
 
-    public void SetGridObject(Vector3 worldPosition, TGridObject gridObject)
+    public void SetValue(Vector3 worldPosition, int value)
     {
         int x, y;
         GetXY(worldPosition, out x, out y);
-        SetGridObject(x, y, gridObject);
+        SetValue(x, y, value);
     }
 
     // returns position of grid in world space from grid space
@@ -99,12 +77,6 @@ public class Grid<TGridObject>
     {
         x = Mathf.FloorToInt((worldPosition - _origin).x / _cellSize);
         y = Mathf.FloorToInt((worldPosition - _origin).y / _cellSize);
-    }
-    
-    // - grid object must have a line which calls this function when changing its values -
-    public void TriggerGridObjectChanged(int x, int y)
-    {
-        if (OnGridObjectChanged != null) OnGridObjectChanged(this, new OnGridObjectChangedEventArgs { x = x, y = y });
     }
 
     public static TextMesh CreateWorldText(string text, Transform parent = null,

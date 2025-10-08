@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class GridTesting : MonoBehaviour
 {
-    private Grid _grid;
+    private BasicGrid _grid;
     private void Start()
     {
-        _grid = new Grid(4, 3, 16, new Vector2(16, 16));
+        _grid = new BasicGrid(4, 3, 16, new Vector2(16, 16));
     }
 
     private void Update()
