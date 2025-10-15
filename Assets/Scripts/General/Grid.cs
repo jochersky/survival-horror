@@ -15,11 +15,14 @@ public class Grid<TGridObject>
     private int _height;
     private float _cellSize;
     private Vector3 _origin;
+    
+    public int Width => _width;
+    public int Height => _height;
 
     private TGridObject[,] _gridArray;
     private TextMesh[,] _debugTextArray;
-
-    public Grid(int height, int width, float cellSize, Vector3 origin, Func<Grid<TGridObject>, int, int, TGridObject> createTGridObject)
+    
+    public Grid(int height, int width, float cellSize, Vector3 origin, Func<Grid<TGridObject>, Vector2, int, int, Vector2, string, TGridObject> createTGridObject)
     {
         this._width = width;
         this._height = height;
@@ -29,12 +32,13 @@ public class Grid<TGridObject>
         _debugTextArray = new TextMesh[width, height];
 
         // initialize each object in the grid with TGridObject creation function.
-        // Func<> is a delegate which returns the TGridObject when passed "(Grid<ObjectName> grid, int x, int y) => new ObjectName()".
+        // Func<> is a delegate which returns the TGridObject when passed
+        // "(Grid<ObjectName> grid, Vector2 origin, int x, int y, Vector2 dimensions, string name) => new ObjectName(...)".
         for (int x = 0; x < _gridArray.GetLength(0); x++)
         {
             for (int y = 0; y < _gridArray.GetLength(1); y++)
             {
-                _gridArray[x, y] = createTGridObject(this, x, y);
+                _gridArray[x, y] = createTGridObject(this, new Vector2(x,y), x, y, new Vector2(1,1), "empty");
             }
         }
 
@@ -46,7 +50,6 @@ public class Grid<TGridObject>
         {
             for (int y = 0; y < _gridArray.GetLength(1); y++)
             {
-            
                 _debugTextArray[x, y] = CreateWorldText(_gridArray[x, y]?.ToString(), null, GetWorldPosition(x, y) + new Vector3(_cellSize, _cellSize) * 0.5f, 30, Color.white, TextAnchor.MiddleCenter);
                 Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x, y + 1), Color.white, 100f);
                 Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x + 1, y), Color.white, 100f);
@@ -75,7 +78,7 @@ public class Grid<TGridObject>
     {
         // ignore invalid indices
         if (x < 0 || y < 0 || x >= _width || y >= _height) return;
-        
+
         _gridArray[x, y] = gridObject;
         _debugTextArray[x, y].text = _gridArray[x, y]?.ToString();
         TriggerGridObjectChanged(x, y);
