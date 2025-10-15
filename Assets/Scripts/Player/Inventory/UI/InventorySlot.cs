@@ -7,13 +7,16 @@ public class InventorySlot : MonoBehaviour, IDropHandler
 {
     [SerializeField] private Image image;
 
+    private ContainerManager _containerManager;
     private Grid<GridItem> _grid;
     private int _x;
     private int _y;
     
+    public ContainerManager ContainerManager { get => _containerManager; set => _containerManager = value; }
     public Grid<GridItem> Grid { get => _grid; set => _grid = value; }
     public int X { get => _x; set => _x = value; }
     public int Y { get => _y; set => _y = value; }
+    public Image Image => image;
     
     public void OnDrop(PointerEventData eventData)
     {
@@ -22,7 +25,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
 
         if (dropped.TryGetComponent(out DraggableItem item))
         {
-            image.enabled = false;
+            // image.enabled = false;
             GridItem gi = new GridItem(_grid, new Vector2(_x, _y), _x, _y, new Vector2(2, 2), item.Name);
 
             // check the item can be placed here (not out of bounds of grid)
@@ -41,6 +44,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
                 for (int j = 0; j < gi.Dimensions.y; j++)
                 {
                     _grid.SetGridObject(_x + i, _y + j, gi);
+                    _containerManager.SetInventorySlotItem(_x + i, _y + j, gi);
                 }
             }
         }

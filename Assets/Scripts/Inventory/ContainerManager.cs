@@ -7,7 +7,7 @@ public class ContainerManager : MonoBehaviour
     private GridLayoutGroup _gridLayoutGroup;
     private Grid<GridItem> _grid;
     private int _cellSize;
-    private InventorySlot[] _slots;
+    private InventorySlot[,] _slots;
     
     private void Start() {
         _gridLayoutGroup = GetComponent<GridLayoutGroup>();
@@ -28,24 +28,34 @@ public class ContainerManager : MonoBehaviour
                 _grid.SetGridObject(1 + i, 1 + j, gun);
             }
         }
-
-        _slots = GetComponentsInChildren<InventorySlot>();
+        
+        _slots = new InventorySlot[gridWidth, gridHeight];
+        InventorySlot[] s = GetComponentsInChildren<InventorySlot>();
         for (int y = 0; y < gridHeight; y++)
         {
             for (int x = 0; x < gridWidth; x++)
             {
                 int slotIndex = y * gridWidth + x;
-                _slots[slotIndex].Grid = _grid;
-                _slots[slotIndex].X = x;
-                _slots[slotIndex].Y = y;
+                _slots[x,y] = s[slotIndex];
+                _slots[x,y].ContainerManager = this;
+                _slots[x,y].Grid = _grid;
+                _slots[x,y].X = x;
+                _slots[x,y].Y = y;
+                // _slots[slotIndex].Grid = _grid;
+                // _slots[slotIndex].X = x;
+                // _slots[slotIndex].Y = y;
             }
         }
-
-        
     }
 
     private GridItem CreateTGridObject(Grid<GridItem> g, Vector2 origin, int x, int y, Vector2 dim, string n)
     {
         return new GridItem(g, origin, x, y, dim, n);
+    }
+
+    public void SetInventorySlotItem(int x, int y, GridItem item)
+    {
+        // TODO: 
+        _slots[x, y].Image.enabled = false;
     }
 }
