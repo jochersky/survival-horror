@@ -7,25 +7,22 @@ using UnityEngine.EventSystems;
 [RequireComponent(typeof(RectTransform)), RequireComponent(typeof(Image))]
 public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
+    [SerializeField] private ItemData _itemData;
+    
     private Transform _prevParent;
     [HideInInspector] public Transform parentAfterDrag;
-    [HideInInspector] public ContainerManager containerManager;
     private InventorySlot _prevSlot;
     [HideInInspector] public InventorySlot inventorySlot;
-    
-    // TODO: These eventually should just be held within a single item scriptable object
-    [SerializeField] private string itemName;
-    [SerializeField] private Vector2 dimensions;
+    [HideInInspector] public ContainerManager containerManager;
     
     private RectTransform _rectTransform;
     private Image _image;
-    
-    public string Name { get => itemName; set => itemName = value; }
     
     private void Start()
     {
         _rectTransform = GetComponent<RectTransform>();
         _image = GetComponent<Image>();
+        _image.sprite = _itemData.itemImage;
     }
     
     public void OnBeginDrag(PointerEventData eventData)
@@ -37,7 +34,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             GridItem empty = new GridItem(
                 inventorySlot.Grid,
                 new Vector2(inventorySlot.X, inventorySlot.Y),
-                dimensions,
+                _itemData.gridItemDimensions,
                 "empty");
             containerManager.SetItem(inventorySlot.X, inventorySlot.Y, empty);
         }
@@ -65,8 +62,8 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         GridItem item = new GridItem(
             inventorySlot.Grid,
             new Vector2(inventorySlot.X, inventorySlot.Y),
-            dimensions,
-            itemName);
+            _itemData.gridItemDimensions,
+            _itemData.itemName);
         if (!containerManager.SetItem(inventorySlot.X, inventorySlot.Y, item))
         {
             parentAfterDrag = _prevParent;
