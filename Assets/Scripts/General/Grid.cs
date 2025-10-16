@@ -22,7 +22,7 @@ public class Grid<TGridObject>
     private TGridObject[,] _gridArray;
     private TextMesh[,] _debugTextArray;
     
-    public Grid(int height, int width, float cellSize, Vector3 origin, Func<Grid<TGridObject>, Vector2, int, int, Vector2, string, TGridObject> createTGridObject)
+    public Grid(int height, int width, float cellSize, Vector3 origin, Func<Grid<TGridObject>, Vector2, Vector2, string, TGridObject> createTGridObject)
     {
         this._width = width;
         this._height = height;
@@ -38,7 +38,7 @@ public class Grid<TGridObject>
         {
             for (int y = 0; y < _gridArray.GetLength(1); y++)
             {
-                _gridArray[x, y] = createTGridObject(this, new Vector2(x,y), x, y, new Vector2(1,1), "empty");
+                _gridArray[x, y] = createTGridObject(this, new Vector2(x,y), new Vector2(1,1), "empty");
             }
         }
 

@@ -11,60 +11,43 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     private Grid<GridItem> _grid;
     private int _x;
     private int _y;
+
+    private GridItem _emptyItem;
     
     public ContainerManager ContainerManager { get => _containerManager; set => _containerManager = value; }
     public Grid<GridItem> Grid { get => _grid; set => _grid = value; }
     public int X { get => _x; set => _x = value; }
     public int Y { get => _y; set => _y = value; }
-    public Image Image => image;
-    
+
+    private void Start()
+    {
+        _emptyItem = new GridItem(_grid, new Vector2(_x, _y), new Vector2(2, 2), "empty");
+    }
+
     public void OnDrop(PointerEventData eventData)
     {
         // item dropped on the inventory slot
         GameObject dropped = eventData.pointerDrag;
+        _containerManager.count = 1;
 
-        if (dropped.TryGetComponent(out DraggableItem item))
-        {
-            // image.enabled = false;
-            GridItem gi = new GridItem(_grid, new Vector2(_x, _y), _x, _y, new Vector2(2, 2), item.Name);
+        MoveToEmptySlot(dropped);
 
-            // check the item can be placed here (not out of bounds of grid)
-            for (int i = 0; i < gi.Dimensions.x; i++)
-            {
-                for (int j = 0; j < gi.Dimensions.y; j++)
-                {
-                    int dx = _x + i;
-                    int dy = _y + j;
-                    if (dx >= _grid.Width || dx < 0 || dy >= _grid.Height || dy < 0) return;
-                }
-            }
-            
-            for (int i = 0; i < gi.Dimensions.x; i++)
-            {
-                for (int j = 0; j < gi.Dimensions.y; j++)
-                {
-                    _grid.SetGridObject(_x + i, _y + j, gi);
-                    _containerManager.SetInventorySlotItem(_x + i, _y + j, gi);
-                }
-            }
-        }
-        
         // there is already an item in this slot
-        if (transform.childCount > 0)
-        {
-            DraggableItem droppedItem = dropped.GetComponent<DraggableItem>();
-            DraggableItem currentItem = transform.GetChild(0).GetComponent<DraggableItem>();
-            SwapItems(droppedItem, currentItem);
-            // if (!CombineItemStacks(droppedItem, currentItem, dropped))
-            // {
-            //     SwapItems(droppedItem, currentItem);
-            // }
-        }
-        // empty inventory slot
-        else
-        {
-            MoveToEmptySlot(dropped);
-        }
+        // if (transform.childCount > 0)
+        // {
+        //     DraggableItem droppedItem = dropped.GetComponent<DraggableItem>();
+        //     DraggableItem currentItem = transform.GetChild(0).GetComponent<DraggableItem>();
+        //     SwapItems(droppedItem, currentItem);
+        //     // if (!CombineItemStacks(droppedItem, currentItem, dropped))
+        //     // {
+        //     //     SwapItems(droppedItem, currentItem);
+        //     // }
+        // }
+        // // empty inventory slot
+        // else
+        // {
+        //     MoveToEmptySlot(dropped);
+        // }
     }
 
     private bool CombineItemStacks(DraggableItem droppedItem, DraggableItem currentItem, GameObject dropped)
@@ -97,6 +80,13 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     {
         DraggableItem draggableItem = dropped.GetComponent<DraggableItem>();
         draggableItem.parentAfterDrag = transform;
+        draggableItem.containerManager = ContainerManager;
+        draggableItem.inventorySlot = this;
+    }
+
+    public void ToggleImage(bool visible)
+    {
+        image.enabled = visible;
     }
 }
 

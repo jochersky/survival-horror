@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class ContainerManager : MonoBehaviour
@@ -8,6 +9,8 @@ public class ContainerManager : MonoBehaviour
     private Grid<GridItem> _grid;
     private int _cellSize;
     private InventorySlot[,] _slots;
+
+    public int count = 0;
     
     private void Start() {
         _gridLayoutGroup = GetComponent<GridLayoutGroup>();
@@ -19,15 +22,6 @@ public class ContainerManager : MonoBehaviour
 
         _grid = new Grid<GridItem>(gridHeight, gridWidth, _cellSize, Vector3.zero, 
             CreateTGridObject);
-        
-        GridItem gun = new GridItem(_grid, new Vector2(1,1), 0, 0, new Vector2(2,2), "gun");
-        for (int i = 0; i < 2; i++)
-        {
-            for (int j = 0; j < 2; j++)
-            {
-                _grid.SetGridObject(1 + i, 1 + j, gun);
-            }
-        }
         
         _slots = new InventorySlot[gridWidth, gridHeight];
         InventorySlot[] s = GetComponentsInChildren<InventorySlot>();
@@ -41,21 +35,49 @@ public class ContainerManager : MonoBehaviour
                 _slots[x,y].Grid = _grid;
                 _slots[x,y].X = x;
                 _slots[x,y].Y = y;
-                // _slots[slotIndex].Grid = _grid;
-                // _slots[slotIndex].X = x;
-                // _slots[slotIndex].Y = y;
             }
         }
     }
 
-    private GridItem CreateTGridObject(Grid<GridItem> g, Vector2 origin, int x, int y, Vector2 dim, string n)
+    private GridItem CreateTGridObject(Grid<GridItem> g, Vector2 origin, Vector2 dim, string n)
     {
-        return new GridItem(g, origin, x, y, dim, n);
+        return new GridItem(g, origin, dim, n);
     }
 
-    public void SetInventorySlotItem(int x, int y, GridItem item)
+    public bool SetItem(int x, int y, GridItem item)
     {
-        // TODO: 
-        _slots[x, y].Image.enabled = false;
+        // validate that the item can be placed here
+        if (!ValidateItemPlacement(x, y, item)) return false;
+        
+        // set item to the grid cells within the item dimensions
+        for (int i = 0; i < item.Dimensions.x; i++)
+        {
+            for (int j = 0; j < item.Dimensions.y; j++)
+            {
+                _grid.SetGridObject(x + i, y + j, item);
+                _slots[x + i, y + j].ToggleImage(item.Name == "empty");
+            }
+        }
+        return true;
+    }
+
+    private bool ValidateItemPlacement(int x, int y, GridItem item)
+    {
+        // check the item can be placed here 
+        for (int i = 0; i < item.Dimensions.x; i++)
+        {
+            for (int j = 0; j < item.Dimensions.y; j++)
+            {
+                int dx = x + i;
+                int dy = y + j;
+                // out of bounds check
+                if (dx >= _grid.Width || dx < 0 || dy >= _grid.Height || dy < 0) return false;
+                // occupied space check
+                if (item.Name == "empty") continue;
+                GridItem temp = _grid.GetGridObject(dx, dy);
+                if (temp.Name != "empty") return false;
+            }
+        }
+        return true;
     }
 }

@@ -7,16 +7,20 @@ using UnityEngine.EventSystems;
 [RequireComponent(typeof(RectTransform)), RequireComponent(typeof(Image))]
 public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    private Grid<DraggableItem> _grid;
+    private Transform _prevParent;
+    [HideInInspector] public Transform parentAfterDrag;
+    [HideInInspector] public ContainerManager containerManager;
+    private InventorySlot _prevSlot;
+    [HideInInspector] public InventorySlot inventorySlot;
+    
+    // TODO: These eventually should just be held within a single item scriptable object
+    [SerializeField] private string itemName;
+    [SerializeField] private Vector2 dimensions;
+    
     private RectTransform _rectTransform;
     private Image _image;
     
-    private Vector2 _dimensions;
-    private string _name = "item";
-    
-    [HideInInspector] public Transform parentAfterDrag;
-    
-    public string Name { get => _name; set => _name = value; }
+    public string Name { get => itemName; set => itemName = value; }
     
     private void Start()
     {
@@ -26,6 +30,20 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (inventorySlot)
+        {
+            // remove the item as it's being held from the grid
+            // (set grid values back to default GridItem + enable surrounding InventorySlots)
+            GridItem empty = new GridItem(
+                inventorySlot.Grid,
+                new Vector2(inventorySlot.X, inventorySlot.Y),
+                dimensions,
+                "empty");
+            containerManager.SetItem(inventorySlot.X, inventorySlot.Y, empty);
+        }
+
+        _prevSlot = inventorySlot;
+        _prevParent = transform.parent;
         parentAfterDrag = transform.parent;
         transform.SetParent(transform.root);
         transform.SetAsLastSibling();
@@ -34,25 +52,30 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnDrag(PointerEventData eventData)
     {
+        // TODO: get the item's origin and use that to pick up the item
         transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition) - new Vector3(-1,1,0) * 16f;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        // InventorySlot.OnDrop runs first
+        // - inventorySlot is set by the InventorySlot this is dropped on -
+        // - containerManager is set by the InventorySlot this is dropped on -
+        
+        GridItem item = new GridItem(
+            inventorySlot.Grid,
+            new Vector2(inventorySlot.X, inventorySlot.Y),
+            dimensions,
+            itemName);
+        if (!containerManager.SetItem(inventorySlot.X, inventorySlot.Y, item))
+        {
+            parentAfterDrag = _prevParent;
+            inventorySlot = _prevSlot;
+            containerManager.SetItem(inventorySlot.X, inventorySlot.Y, item);
+        }
+
         transform.SetParent(parentAfterDrag);
         _image.raycastTarget = true;
         _rectTransform.anchoredPosition = Vector3.zero;
-        // if (inventorySlot.TryGetComponent(out RectTransform rt) && inventorySlot.TryGetComponent(out Image img))
-        // {
-        //     if (IsOverlapping(_rectTransform, rt))
-        //         img.enabled = false;
-        // }
-    }
-
-    bool IsOverlapping(RectTransform rt1, RectTransform rt2)
-    {
-        Rect r1 = new Rect(rt1.position.x, rt1.position.y, rt1.rect.width, rt1.rect.height);
-        Rect r2 = new Rect(rt2.position.x, rt2.position.y, rt2.rect.width, rt2.rect.height);
-        return r1.Overlaps(r2);
     }
 }
