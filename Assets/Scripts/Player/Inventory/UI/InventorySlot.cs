@@ -28,7 +28,6 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     {
         // item dropped on the inventory slot
         GameObject dropped = eventData.pointerDrag;
-        _containerManager.count = 1;
 
         MoveToEmptySlot(dropped);
 

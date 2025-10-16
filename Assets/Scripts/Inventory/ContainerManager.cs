@@ -10,7 +10,7 @@ public class ContainerManager : MonoBehaviour
     private int _cellSize;
     private InventorySlot[,] _slots;
 
-    public int count = 0;
+    public int CellSize => _cellSize;
     
     private void Start() {
         _gridLayoutGroup = GetComponent<GridLayoutGroup>();

@@ -17,12 +17,15 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     
     private RectTransform _rectTransform;
     private Image _image;
+
+    private Vector3 _rectPosition;
     
     private void Start()
     {
         _rectTransform = GetComponent<RectTransform>();
         _image = GetComponent<Image>();
         _image.sprite = _itemData.itemImage;
+        _rectPosition = _rectTransform.anchoredPosition;
     }
     
     public void OnBeginDrag(PointerEventData eventData)
@@ -49,8 +52,11 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnDrag(PointerEventData eventData)
     {
-        // TODO: get the item's origin and use that to pick up the item
-        transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition) - new Vector3(-1,1,0) * 16f;
+        int xOffset = _itemData.gridItemDimensions.x > 1 ? (int) -_rectTransform.sizeDelta.x / 4 : 0;
+        int yOffset = _itemData.gridItemDimensions.y > 1 ? (int) _rectTransform.sizeDelta.y / 4 : 0;
+        Vector3 offset = new Vector3(xOffset, yOffset, 0);
+            
+        transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition) - offset;
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -73,6 +79,6 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
         transform.SetParent(parentAfterDrag);
         _image.raycastTarget = true;
-        _rectTransform.anchoredPosition = Vector3.zero;
+        _rectTransform.anchoredPosition = _rectPosition;
     }
 }
