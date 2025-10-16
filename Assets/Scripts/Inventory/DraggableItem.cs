@@ -32,7 +32,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         if (inventorySlot)
         {
-            // remove the item as it's being held from the grid
+            // remove the item from the grid as it's being dragged.
             // (set grid values back to default GridItem + enable surrounding InventorySlots)
             GridItem empty = new GridItem(
                 inventorySlot.Grid,
@@ -80,5 +80,10 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         transform.SetParent(parentAfterDrag);
         _image.raycastTarget = true;
         _rectTransform.anchoredPosition = _rectPosition;
+    }
+
+    public GridItem CreateGridItem()
+    {
+        return new GridItem(null, _itemData.gridItemOrigin, _itemData.gridItemDimensions, _itemData.itemName);
     }
 }

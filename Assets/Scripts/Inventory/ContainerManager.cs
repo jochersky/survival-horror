@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
@@ -25,17 +27,36 @@ public class ContainerManager : MonoBehaviour
         
         _slots = new InventorySlot[gridWidth, gridHeight];
         InventorySlot[] s = GetComponentsInChildren<InventorySlot>();
+        List<Tuple<DraggableItem, Vector2>> draggableLocations = new List<Tuple<DraggableItem, Vector2>>();
         for (int y = 0; y < gridHeight; y++)
         {
             for (int x = 0; x < gridWidth; x++)
             {
                 int slotIndex = y * gridWidth + x;
                 _slots[x,y] = s[slotIndex];
+                if (s[slotIndex].item)
+                {
+                    Tuple<DraggableItem, Vector2> i =
+                        new Tuple<DraggableItem, Vector2>(s[slotIndex].item, new Vector2(x, y));
+                    draggableLocations.Add(i);
+                }
                 _slots[x,y].ContainerManager = this;
                 _slots[x,y].Grid = _grid;
                 _slots[x,y].X = x;
                 _slots[x,y].Y = y;
             }
+        }
+
+        // Add all parented game objects with DraggableItem on them to their InventorySlots.
+        // (mimics the way DraggableItems and InventorySlots interact)
+        foreach (Tuple<DraggableItem, Vector2> t in draggableLocations)
+        {
+            DraggableItem di = t.Item1;
+            GridItem item = t.Item1.CreateGridItem();
+            SetItem((int)t.Item2.x, (int)t.Item2.y, item);
+            di.parentAfterDrag = _slots[(int)t.Item2.x, (int)t.Item2.y].transform;
+            di.inventorySlot = _slots[(int)t.Item2.x, (int)t.Item2.y];
+            di.containerManager = this;
         }
     }
 

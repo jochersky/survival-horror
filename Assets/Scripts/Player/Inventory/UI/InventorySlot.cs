@@ -6,13 +6,13 @@ using UnityEngine.EventSystems;
 public class InventorySlot : MonoBehaviour, IDropHandler
 {
     [SerializeField] private Image image;
+    
+    [HideInInspector] public DraggableItem item;
 
     private ContainerManager _containerManager;
     private Grid<GridItem> _grid;
     private int _x;
     private int _y;
-
-    private GridItem _emptyItem;
     
     public ContainerManager ContainerManager { get => _containerManager; set => _containerManager = value; }
     public Grid<GridItem> Grid { get => _grid; set => _grid = value; }
@@ -21,7 +21,11 @@ public class InventorySlot : MonoBehaviour, IDropHandler
 
     private void Start()
     {
-        _emptyItem = new GridItem(_grid, new Vector2(_x, _y), new Vector2(2, 2), "empty");
+        DraggableItem[] d = GetComponentsInChildren<DraggableItem>();
+        if (d.Length > 0)
+        {
+            item = d[0];
+        }
     }
 
     public void OnDrop(PointerEventData eventData)
