@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42896e6a72730b44187252d9442434d6, type: 3}
-  m_Name: SmallGunAmmo
-  m_EditorClassIdentifier: Assembly-CSharp::AmmoData
+  m_Script: {fileID: 11500000, guid: 79a6d680662529147a18e82fff6024cd, type: 3}
+  m_Name: LongItemTest
+  m_EditorClassIdentifier: Assembly-CSharp::ItemData
   itemName: 
   itemImage: {fileID: 0}
-  ammoCount: 0
-  maxCount: 0
-  gunType: 
+  itemPrefab: {fileID: 0}
+  gridItemDimensions: {x: 1, y: 4}
+  gridItemOrigin: {x: 0, y: 0}

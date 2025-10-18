@@ -5,6 +5,8 @@ using UnityEngine.UI;
 public class ItemData : ScriptableObject
 {
     public string itemName;
-    public Image itemImage;
+    public Sprite itemImage;
     public GameObject itemPrefab;
+    public Vector2 gridItemDimensions;
+    public Vector2 gridItemOrigin;
 }
