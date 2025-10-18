@@ -15,5 +15,5 @@ MonoBehaviour:
   itemName: 
   itemImage: {fileID: 0}
   itemPrefab: {fileID: 0}
-  gridItemDimensions: {x: 0, y: 0}
+  gridItemDimensions: {x: 1, y: 4}
   gridItemOrigin: {x: 0, y: 0}

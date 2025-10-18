@@ -15,6 +15,8 @@ public class Grid<TGridObject>
     private int _height;
     private float _cellSize;
     private Vector3 _origin;
+
+    private bool debug = false;
     
     public int Width => _width;
     public int Height => _height;
@@ -43,7 +45,6 @@ public class Grid<TGridObject>
         }
 
         // Debug line drawing and string representation
-        bool debug = true;
         if (!debug) return;
         
         for (int x = 0; x < _gridArray.GetLength(0); x++)
@@ -80,7 +81,7 @@ public class Grid<TGridObject>
         if (x < 0 || y < 0 || x >= _width || y >= _height) return;
 
         _gridArray[x, y] = gridObject;
-        _debugTextArray[x, y].text = _gridArray[x, y]?.ToString();
+         if (debug) _debugTextArray[x, y].text = _gridArray[x, y]?.ToString();
         TriggerGridObjectChanged(x, y);
     }
 
