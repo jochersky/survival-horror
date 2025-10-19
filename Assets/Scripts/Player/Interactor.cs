@@ -20,6 +20,7 @@ public class Interactor : MonoBehaviour
         // assign input action callbacks
         m_InteractAction = actions.FindAction("Interact");
         m_InteractAction.started += OnInteract;
+        m_InteractAction.canceled += OnInteract;
     }
     
     private void OnEnable()
