@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 public class Health : MonoBehaviour
@@ -19,12 +20,11 @@ public class Health : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.TryGetComponent(out Damage damage)) return;
-        if (!(_currentHealth >= 0f)) return;
-        
-        OnHealthChanged?.Invoke(_currentHealth, _currentHealth - damage.DamageAmt);
-        _currentHealth -= damage.DamageAmt;
-        if (_currentHealth <= 0f) OnDeath?.Invoke();
+        if (other.TryGetComponent(out Damage damage))
+        {
+            Debug.Log(other.name + " damaging " + name);
+            TakeDamage(damage.DamageAmt);
+        }
     }
 
     public void TakeDamage(float damage)
@@ -33,8 +33,7 @@ public class Health : MonoBehaviour
         
         OnHealthChanged?.Invoke(_currentHealth, _currentHealth - damage);
         _currentHealth -= damage;
-        Debug.Log(_currentHealth);
-        if (_currentHealth <= 0f) Debug.Log("died");
+        Debug.Log(name + " health now at " + _currentHealth);
         if (_currentHealth <= 0f) OnDeath?.Invoke();
     }
 }

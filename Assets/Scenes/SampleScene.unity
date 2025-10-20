@@ -5197,7 +5197,7 @@ Transform:
   m_GameObject: {fileID: 539207861}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.408, z: 0.221}
+  m_LocalPosition: {x: 0, y: 0.408, z: 0.259}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5222,7 +5222,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.35
+  m_Radius: 0.2
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &539207864
 MonoBehaviour:
@@ -6264,7 +6264,7 @@ NavMeshAgent:
   m_Speed: 0.69
   m_Acceleration: 8
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 420
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
@@ -11155,8 +11155,9 @@ GameObject:
   - component: {fileID: 1202319077}
   - component: {fileID: 1202319079}
   - component: {fileID: 1202319078}
+  - component: {fileID: 1202319080}
   m_Layer: 8
-  m_Name: Damage
+  m_Name: ZombieDamage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11213,6 +11214,33 @@ MonoBehaviour:
   damageData: {fileID: 11400000, guid: 431237d8fe9dcd847ba4af0782c4e93f, type: 2}
   hitbox: {fileID: 1202319078}
   followTransform: {fileID: 219811457}
+--- !u!54 &1202319080
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1202319076}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1001 &1205955803
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14709,10 +14737,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1485665871}
   - component: {fileID: 1485665873}
-  - component: {fileID: 1485665874}
+  - component: {fileID: 1485665876}
   - component: {fileID: 1485665875}
-  m_Layer: 8
-  m_Name: Player Stats
+  m_Layer: 9
+  m_Name: PlayerStats
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14726,12 +14754,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1485665870}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.554, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.306, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2001995608}
+  m_Father: {fileID: 1993958684}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1485665873
 MonoBehaviour:
@@ -14748,21 +14776,6 @@ MonoBehaviour:
   containerUI: {fileID: 2099236939}
   maxItems: 4
   items: []
---- !u!114 &1485665874
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1485665870}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72cc0a97772a23e4581286ae6d9e32c7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Health
-  colliders:
-  - {fileID: 1485665875}
-  maxHealth: 100
 --- !u!136 &1485665875
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -14782,10 +14795,23 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.11
+  m_Radius: 0.33
   m_Height: 0.63
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1485665876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1485665870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72cc0a97772a23e4581286ae6d9e32c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Health
+  maxHealth: 100
 --- !u!1001 &1501206252
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16157,7 +16183,7 @@ GameObject:
   - component: {fileID: 1639077909}
   - component: {fileID: 1639077908}
   m_Layer: 7
-  m_Name: Stats
+  m_Name: ZombieStats
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16211,8 +16237,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72cc0a97772a23e4581286ae6d9e32c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
-  colliders:
-  - {fileID: 1639077908}
   maxHealth: 100
 --- !u!1 &1643550757
 GameObject:
@@ -18829,6 +18853,7 @@ Transform:
   m_Children:
   - {fileID: 25923238}
   - {fileID: 1521349119}
+  - {fileID: 1485665871}
   m_Father: {fileID: 2001995608}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!143 &1993958685
@@ -19000,7 +19025,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1993958684}
-  - {fileID: 1485665871}
   - {fileID: 263876767}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

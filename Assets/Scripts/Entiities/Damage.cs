@@ -10,7 +10,7 @@ public class Damage : MonoBehaviour
 
     public void Start()
     {
-        hitbox.gameObject.SetActive(false);
+        // hitbox.gameObject.SetActive(false);
     }
     
     private void Update()
