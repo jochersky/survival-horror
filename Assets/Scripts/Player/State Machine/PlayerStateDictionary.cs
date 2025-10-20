@@ -9,7 +9,8 @@ enum PlayerStates
   // - Sub States -
   Idle,
   Walk,
-  Zoom
+  Zoom,
+  Dead
 }
 
 public class PlayerStateDictionary
@@ -27,6 +28,7 @@ public class PlayerStateDictionary
     _states[PlayerStates.Idle] = new PlayerIdleState(_context, this);
     _states[PlayerStates.Walk] = new PlayerWalkState(_context, this);
     _states[PlayerStates.Zoom] = new PlayerZoomState(_context, this);
+    _states[PlayerStates.Dead] = new PlayerDeadState(_context, this);
   }
 
   // - Root States -
@@ -54,5 +56,10 @@ public class PlayerStateDictionary
   public PlayerBaseState Zoom()
   {
     return _states[PlayerStates.Zoom];
+  }
+
+  public PlayerBaseState Dead()
+  {
+    return _states[PlayerStates.Dead];
   }
 }

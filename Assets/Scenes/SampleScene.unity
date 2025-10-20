@@ -12636,6 +12636,7 @@ MonoBehaviour:
   cameraTarget: {fileID: 1375928790}
   player: {fileID: 1993958683}
   playerMoveOrientation: {fileID: 1521349118}
+  health: {fileID: 1485665876}
   regularCam: {fileID: 250032917}
   zoomCam: {fileID: 1371779887}
   crosshair: {fileID: 952771269}
@@ -18896,6 +18897,7 @@ MonoBehaviour:
   actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   animator: {fileID: 25923239}
   orientation: {fileID: 1521349118}
+  health: {fileID: 1485665876}
   maxMoveSpeed: 2
   moveAccel: 3
   walkRotationSpeed: 2

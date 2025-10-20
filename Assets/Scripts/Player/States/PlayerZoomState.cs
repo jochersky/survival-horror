@@ -22,6 +22,8 @@ public class PlayerZoomState : PlayerBaseState
 
     public override void UpdateState()
     {
+        if (Context.Dead) SwitchState(Dictionary.Dead());
+        
         ApplyMoveVelocity();
         ApplyRotation();
         

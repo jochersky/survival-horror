@@ -23,15 +23,11 @@ public class PlayerIdleState : PlayerBaseState
 
   public override void UpdateState()
   {
-    ApplyStopDrag();
+    if (Context.Dead) SwitchState(Dictionary.Dead());
+    
+    Context.ApplyStopDrag();
 
     if (Context.ZoomPressed) SwitchState(Dictionary.Zoom());
     else if (Context.MovePressed) SwitchState(Dictionary.Walk());
-  }
-
-  private void ApplyStopDrag()
-  {
-    Context.MoveVelocityX *= Context.StopDrag;
-    Context.MoveVelocityZ *= Context.StopDrag;
   }
 }
