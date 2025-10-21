@@ -26,9 +26,9 @@ public class PlayerZoomState : PlayerBaseState
         
         ApplyMoveVelocity();
         ApplyRotation();
-        
-        if (!Context.ZoomPressed) 
-            SwitchState(Context.MovePressed ? Dictionary.Walk() : Dictionary.Idle());
+
+        if (Context.AttackPressed) SwitchState(Dictionary.Swing());
+        else if (!Context.ZoomPressed) SwitchState(Context.MovePressed ? Dictionary.Walk() : Dictionary.Idle());
     }
 
     private void ApplyMoveVelocity()

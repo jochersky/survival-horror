@@ -6,6 +6,7 @@ public class PlayerStateMachine : MonoBehaviour
     [Header("References")]
     [SerializeField] private InputActionAsset actions;
     [SerializeField] private Animator animator;
+    [SerializeField] private PlayerAnimationEvents playerAnimEvents;
     [SerializeField] private GameObject orientation;
     [SerializeField] private Health health;
     private CharacterController _characterController;
@@ -22,6 +23,7 @@ public class PlayerStateMachine : MonoBehaviour
     private Vector2 _moveInput;
     private bool _movePressed;
     private bool _zoomPressed;
+    private bool _attackPressed;
     private Vector3 _moveVelocity;
     private Vector3 _verticalVelocity;
     private float _currentHorizontalSpeed;
@@ -34,14 +36,18 @@ public class PlayerStateMachine : MonoBehaviour
     // input actions
     private InputAction m_MoveAction;
     private InputAction m_ZoomAction;
+    private InputAction m_AttackAction;
     
     // variables to store optimized setter/getter parameter IDs
     private int _isWalkingHash;
     private int _isZoomingHash;
+    private int _startSwingHash;
+    private int _endSwingHash;
     private int _isDeadHash;
 
     // Getters and Setters
     public Animator Animator => animator;
+    public PlayerAnimationEvents PlayerAnimationEvents => playerAnimEvents;
     public CharacterController CharacterController { get { return _characterController; } } 
     public PlayerBaseState CurrentState { get { return _currentState; } set { _currentState = value; } }
     public PlayerStateDictionary States { get { return _states; } set { _states = value; } }
@@ -52,6 +58,7 @@ public class PlayerStateMachine : MonoBehaviour
     public float Gravity => gravity;
     public bool MovePressed { get { return _movePressed; } set { _movePressed = value; } }
     public bool ZoomPressed { get { return _zoomPressed; } set { _zoomPressed = value; } }
+    public bool AttackPressed { get { return _attackPressed; } set { _attackPressed = value; } }
     public Vector2 MoveInput { get { return _moveInput; } }
     public float MoveVelocityX { get => _moveVelocity.x; set => _moveVelocity.x = value; }
     public float MoveVelocityY { get => _moveVelocity.y; set => _moveVelocity.y = value; }
@@ -63,6 +70,8 @@ public class PlayerStateMachine : MonoBehaviour
     public bool Dead => _dead;
     public int IsWalkingHash => _isWalkingHash;
     public int IsZoomingHash => _isZoomingHash;
+    public int StartSwingHash => _startSwingHash;
+    public int EndSwingHash => _endSwingHash;
     public int IsDeadHash => _isDeadHash;
     public GameObject Orientation => orientation;
     public Vector3 ForwardDir => orientation.transform.forward;
@@ -78,12 +87,16 @@ public class PlayerStateMachine : MonoBehaviour
         // assign input action callbacks
         m_MoveAction = _playerActions.FindAction("Move");
         m_ZoomAction = _playerActions.FindAction("Zoom");
+        m_AttackAction = _playerActions.FindAction("Attack");
         m_MoveAction.started += OnMove;
         m_MoveAction.performed += OnMove;
         m_MoveAction.canceled += OnMove;
         m_ZoomAction.started += OnZoom;
         m_ZoomAction.performed += OnZoom;
         m_ZoomAction.canceled += OnZoom;
+        m_AttackAction.started += OnAttack;
+        m_AttackAction.performed += OnAttack;
+        m_AttackAction.canceled += OnAttack;
         
         // connect health events
         health.OnDeath += KillPlayer;
@@ -91,6 +104,8 @@ public class PlayerStateMachine : MonoBehaviour
         // set the parameter hash references
         _isWalkingHash = Animator.StringToHash("isWalking");
         _isZoomingHash = Animator.StringToHash("isZooming");
+        _startSwingHash = Animator.StringToHash("StartSwing");
+        _endSwingHash = Animator.StringToHash("EndSwing");
         _isDeadHash = Animator.StringToHash("isDead");
         
         // State machine + initial state setup
@@ -129,6 +144,11 @@ public class PlayerStateMachine : MonoBehaviour
         ZoomPressed = context.ReadValueAsButton();
     }
 
+    public void OnAttack(InputAction.CallbackContext context)
+    {
+        AttackPressed = context.ReadValueAsButton();
+    }
+
     public void ApplyStopDrag()
     {
         MoveVelocityX *= StopDrag;
@@ -138,5 +158,10 @@ public class PlayerStateMachine : MonoBehaviour
     public void KillPlayer()
     {
         _dead = true;
+    }
+
+    public void SwingEnded()
+    {
+        
     }
 }
