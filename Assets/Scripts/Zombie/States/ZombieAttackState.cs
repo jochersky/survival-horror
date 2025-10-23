@@ -10,24 +10,14 @@ public class ZombieAttackState : ZombieBaseState
 
     public override void EnterState()
     {
-        // Context.Agent.isStopped = true;
-        // Context.CanAttack = true;
-        Context.Animator.SetTrigger(Context.AttackStartHash);
-        // Context.Animator.SetBool(Context.IsAttackingHash, true);
-        // Context.Animator.SetBool(Context.IsChasingHash, false);
-        // PerformAttack();
+        Context.Agent.isStopped = true;
+        PerformAttack();
     }
 
     public override void UpdateState()
     {
-        // if (Context.CanAttack && Context.PlayerInAttackRange)
-        //     PerformAttack();
-        //
-        // if (!Context.PlayerInAttackRange)
-        //     SwitchState(Dictionary.Chase());
-        //
-        // if (Context.Dead)
-        //     SwitchState(Dictionary.Dead());
+        if (Context.Dead)
+            SwitchState(Dictionary.Dead());
     }
 
     public override void ExitState()
@@ -41,18 +31,8 @@ public class ZombieAttackState : ZombieBaseState
 
     private void PerformAttack()
     {
-        // if (Context.Animator.GetBool(Context.PerformedRightSwingHash))
-        // {
-        //     Context.Animator.SetBool(Context.PerformedRightSwingHash, false);
-        //     Context.Animator.SetBool(Context.PerformedLeftSwingHash, true);
-        // }
-        // else
-        // {
-        //     Context.Animator.SetBool(Context.PerformedLeftSwingHash, false);
-        //     Context.Animator.SetBool(Context.PerformedRightSwingHash, true);
-        // }
-        
-        // Context.StartCoroutine(Context.AttackCooldown());
+        Context.Animator.SetTrigger(Context.AttackStartHash);
+        Context.StartCoroutine(Context.AttackCooldown());
     }
     
     private void SwingEnded()

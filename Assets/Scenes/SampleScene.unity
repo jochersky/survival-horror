@@ -6294,7 +6294,7 @@ MonoBehaviour:
   player: {fileID: 1993958683}
   zombieSearchTime: 8
   zombieLineOfSightDistance: 100
-  attackCooldownTime: 1
+  attackCooldownTime: 1.5
 --- !u!143 &649030598
 CharacterController:
   m_ObjectHideFlags: 0
