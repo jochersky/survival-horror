@@ -22,6 +22,8 @@ public class PlayerWalkState : PlayerBaseState
 
   public override void UpdateState()
   {
+    if (Context.Dead) SwitchState(Dictionary.Dead());
+    
     ApplyMoveVelocity();
     ApplyRotation();
 

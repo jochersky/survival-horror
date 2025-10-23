@@ -8,7 +8,7 @@ public class ZombieChaseState : ZombieBaseState
 
     public override void EnterState()
     {
-        Context.StopAllCoroutines();
+        // Context.StopAllCoroutines();
         Context.IsLookingAround = false;
         
         Context.Animator.SetBool(Context.IsChasingHash, true);
@@ -32,6 +32,10 @@ public class ZombieChaseState : ZombieBaseState
     {
         if (!Context.Animator.GetBool(Context.IsChasingHash))
             Context.Animator.SetBool(Context.IsChasingHash, true);
+        
+        if (Context.CanAttack && Context.PlayerInAttackRange) 
+            SwitchState(Dictionary.Attack());
+        
         // Stay in the chase state as long as there is a player transform
         if (Context.PlayerTransform)
             Context.Agent.SetDestination(Context.PlayerTransform.position);

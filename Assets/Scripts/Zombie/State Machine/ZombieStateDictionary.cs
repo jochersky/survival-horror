@@ -9,6 +9,7 @@ enum ZombieStates
     // - Sub States -
     Idle,
     Chase,
+    Attack,
     Search,
     Return,
     Dead
@@ -29,6 +30,7 @@ public class ZombieStateDictionary
 
         _states[ZombieStates.Idle] = new ZombieIdleState(_context, this);
         _states[ZombieStates.Chase] = new ZombieChaseState(_context, this);
+        _states[ZombieStates.Attack] = new ZombieAttackState(_context, this);
         _states[ZombieStates.Search] = new ZombieSearchState(_context, this);
         _states[ZombieStates.Return] = new ZombieReturnState(_context, this);
         _states[ZombieStates.Dead] = new ZombieDeathState(_context, this);
@@ -52,6 +54,11 @@ public class ZombieStateDictionary
     public ZombieBaseState Chase()
     {
         return _states[ZombieStates.Chase];
+    }
+
+    public ZombieBaseState Attack()
+    {
+        return _states[ZombieStates.Attack];
     }
 
     public ZombieBaseState Search()

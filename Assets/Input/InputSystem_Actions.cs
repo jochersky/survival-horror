@@ -168,7 +168,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""name"": ""Sprint"",
                     ""type"": ""Button"",
                     ""id"": ""641cd816-40e6-41b4-8c3d-04687c349290"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -1153,6 +1153,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SwitchWeapon"",
+                    ""type"": ""Button"",
+                    ""id"": ""f5621017-3537-48ef-87a7-8a7cb795c958"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -1364,6 +1373,17 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""action"": ""Inventory"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e97da7e1-d71a-427b-a296-972498f1b43b"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -1464,6 +1484,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_Reload = m_Player.FindAction("Reload", throwIfNotFound: true);
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
         m_Player_Inventory = m_Player.FindAction("Inventory", throwIfNotFound: true);
+        m_Player_SwitchWeapon = m_Player.FindAction("SwitchWeapon", throwIfNotFound: true);
     }
 
     ~@InputSystem_Actions()
@@ -1933,6 +1954,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Reload;
     private readonly InputAction m_Player_Interact;
     private readonly InputAction m_Player_Inventory;
+    private readonly InputAction m_Player_SwitchWeapon;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1976,6 +1998,10 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Inventory".
         /// </summary>
         public InputAction @Inventory => m_Wrapper.m_Player_Inventory;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/SwitchWeapon".
+        /// </summary>
+        public InputAction @SwitchWeapon => m_Wrapper.m_Player_SwitchWeapon;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -2026,6 +2052,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Inventory.started += instance.OnInventory;
             @Inventory.performed += instance.OnInventory;
             @Inventory.canceled += instance.OnInventory;
+            @SwitchWeapon.started += instance.OnSwitchWeapon;
+            @SwitchWeapon.performed += instance.OnSwitchWeapon;
+            @SwitchWeapon.canceled += instance.OnSwitchWeapon;
         }
 
         /// <summary>
@@ -2061,6 +2090,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Inventory.started -= instance.OnInventory;
             @Inventory.performed -= instance.OnInventory;
             @Inventory.canceled -= instance.OnInventory;
+            @SwitchWeapon.started -= instance.OnSwitchWeapon;
+            @SwitchWeapon.performed -= instance.OnSwitchWeapon;
+            @SwitchWeapon.canceled -= instance.OnSwitchWeapon;
         }
 
         /// <summary>
@@ -2371,5 +2403,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnInventory(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "SwitchWeapon" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSwitchWeapon(InputAction.CallbackContext context);
     }
 }

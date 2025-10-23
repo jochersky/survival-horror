@@ -1,12 +1,15 @@
+using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 public class Health : MonoBehaviour
 {
-    [SerializeField] private Collider[] colliders;
-    
     [SerializeField] private float maxHealth = 100f;
+    [SerializeField] private float invulnerabilityTime = 0.5f;
+    // [SerializeField] private Collider[] colliders;
     
     private float _currentHealth;
+    private bool _isInvulnerable;
     
     public delegate void HealthChanged(float oldHealth, float newHealth);
     public delegate void Died();
@@ -20,20 +23,31 @@ public class Health : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.TryGetComponent(out Damage damage)) return;
-        if (!(_currentHealth >= 0f)) return;
-        
-        OnHealthChanged?.Invoke(_currentHealth, _currentHealth - damage.DamageAmt);
-        _currentHealth -= damage.DamageAmt;
-        if (_currentHealth <= 0f) OnDeath?.Invoke();
+        if (other.TryGetComponent(out Damage damage))
+        {
+            TakeDamage(damage.DamageAmt);
+        }
     }
 
     public void TakeDamage(float damage)
     {
-        if (_currentHealth <= 0f) return;
+        if (_isInvulnerable || _currentHealth <= 0f) return;
         
         OnHealthChanged?.Invoke(_currentHealth, _currentHealth - damage);
+        StartCoroutine(Invulnerable());
         _currentHealth -= damage;
         if (_currentHealth <= 0f) OnDeath?.Invoke();
+    }
+
+    IEnumerator Invulnerable()
+    {
+        _isInvulnerable = true;
+        float timer = 0;
+        while (timer < invulnerabilityTime)
+        {
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        _isInvulnerable = false;
     }
 }

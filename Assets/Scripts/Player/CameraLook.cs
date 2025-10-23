@@ -9,6 +9,7 @@ public class CameraLook : MonoBehaviour
     [SerializeField] private GameObject cameraTarget;
     [SerializeField] private GameObject player;
     [SerializeField] private GameObject playerMoveOrientation;
+    [SerializeField] private Health health;
 
     [SerializeField] private GameObject regularCam;
     [SerializeField] private GameObject zoomCam;
@@ -23,6 +24,7 @@ public class CameraLook : MonoBehaviour
     private InputAction m_LookAction;
     
     private Vector2 _mouseInput;
+    private bool _playerDead;
 
     // camera cine machine states
     public CameraState currentState;
@@ -47,17 +49,21 @@ public class CameraLook : MonoBehaviour
         m_LookAction.started += OnLook;
         m_LookAction.performed += OnLook;
         m_LookAction.canceled += OnLook;
+
+        // connect health events
+        health.OnDeath += KillPlayer;
         
         crosshair.SetActive(false);
     }
 
     private void Update()
     {
+        // don't update when dead
+        if (_playerDead) return;
+        
         // rotate camera pivot
         Vector3 viewDir = cameraTarget.transform.position - new Vector3(transform.position.x, cameraTarget.transform.position.y, transform.position.z);
         playerMoveOrientation.transform.forward = viewDir.normalized;
-        
-        Debug.DrawRay(playerMoveOrientation.transform.position, viewDir, Color.purple);
     }
     
     private void OnEnable()
@@ -94,5 +100,10 @@ public class CameraLook : MonoBehaviour
         crosshair.SetActive(newState == CameraState.Zoom);
         
         currentState = newState;
+    }
+
+    private void KillPlayer()
+    {
+        _playerDead = true;
     }
 }

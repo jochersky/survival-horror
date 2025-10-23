@@ -22,11 +22,13 @@ public class PlayerZoomState : PlayerBaseState
 
     public override void UpdateState()
     {
+        if (Context.Dead) SwitchState(Dictionary.Dead());
+        
         ApplyMoveVelocity();
         ApplyRotation();
-        
-        if (!Context.ZoomPressed) 
-            SwitchState(Context.MovePressed ? Dictionary.Walk() : Dictionary.Idle());
+
+        if (Context.MeleeWeaponEquipped && Context.AttackPressed) SwitchState(Dictionary.Swing());
+        else if (!Context.ZoomPressed) SwitchState(Context.MovePressed ? Dictionary.Walk() : Dictionary.Idle());
     }
 
     private void ApplyMoveVelocity()
