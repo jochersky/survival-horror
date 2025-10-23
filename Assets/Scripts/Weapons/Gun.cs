@@ -26,7 +26,8 @@ public class Gun : MonoBehaviour
     
     // variables to store optimized setter/getter parameter IDs
     private int _isZoomingHash;
-    private int _isShootingHash;
+    private int _startedShootingHash;
+    private int _endedShootingHash;
     
     private bool _isZooming;
     private bool _isPressingFire;
@@ -59,7 +60,8 @@ public class Gun : MonoBehaviour
         
         // set the parameter hash references
         _isZoomingHash = Animator.StringToHash("isZooming");
-        _isShootingHash = Animator.StringToHash("isShooting");
+        _startedShootingHash = Animator.StringToHash("StartedShooting");
+        _endedShootingHash = Animator.StringToHash("EndedShooting");
         
         _bulletsRemaining = maxMagazineSize;
     }
@@ -67,13 +69,13 @@ public class Gun : MonoBehaviour
     private void OnEnable()
     {
         // enable the character controls action map
-        _playerActions.Enable();
+        // _playerActions.Enable();
     }
 
     private void OnDisable()
     {
         // disable the character controls action map
-        _playerActions.Disable();
+        // _playerActions.Disable();
     }
 
     private void Update()
@@ -119,8 +121,7 @@ public class Gun : MonoBehaviour
     private IEnumerator Fire()
     {
         _isFiring = true;
-        animator.SetBool(_isShootingHash, true);
-        animator.SetBool(_isZoomingHash, false);
+        animator.SetTrigger(_startedShootingHash);
         
         float timer = 0;
         while (timer < fireRate)
@@ -131,8 +132,7 @@ public class Gun : MonoBehaviour
         
         _bulletsRemaining--;
         _isFiring = false;
-        animator.SetBool(_isShootingHash, false);
-        animator.SetBool(_isZoomingHash, true);
+        animator.SetTrigger(_endedShootingHash);
     }
 
     private void CalculateShot()

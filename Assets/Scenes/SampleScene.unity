@@ -6294,7 +6294,7 @@ MonoBehaviour:
   player: {fileID: 1993958683}
   zombieSearchTime: 8
   zombieLineOfSightDistance: 100
-  attackCooldownTime: 1.5
+  attackCooldownTime: 2
 --- !u!143 &649030598
 CharacterController:
   m_ObjectHideFlags: 0
@@ -15037,7 +15037,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 7355bd6871b93474490886695724fc9b, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -15306,6 +15306,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 4fad62927ba553c43af42ddd34d78521, type: 3}
       propertyPath: m_Layer
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 4fad62927ba553c43af42ddd34d78521, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -19087,6 +19091,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStateMachine
   actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  player: {fileID: 1993958687}
   animator: {fileID: 25923239}
   playerAnimEvents: {fileID: 2108498602}
   orientation: {fileID: 1521349118}
@@ -19108,6 +19113,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84c8ffb5635572247b9cae3e1fdd061e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  gun: {fileID: 1421276177}
+  melee: {fileID: 1713445820}
 --- !u!4 &1994896804 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b94338c1ff950e94aadff1fcb49960ac, type: 3}

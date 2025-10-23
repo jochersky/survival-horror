@@ -27,7 +27,7 @@ public class PlayerZoomState : PlayerBaseState
         ApplyMoveVelocity();
         ApplyRotation();
 
-        if (Context.AttackPressed) SwitchState(Dictionary.Swing());
+        if (Context.MeleeWeaponEquipped && Context.AttackPressed) SwitchState(Dictionary.Swing());
         else if (!Context.ZoomPressed) SwitchState(Context.MovePressed ? Dictionary.Walk() : Dictionary.Idle());
     }
 

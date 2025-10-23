@@ -1,3 +1,4 @@
+using System.Threading;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -5,6 +6,7 @@ public class PlayerStateMachine : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private InputActionAsset actions;
+    [SerializeField] private Player player;
     [SerializeField] private Animator animator;
     [SerializeField] private PlayerAnimationEvents playerAnimEvents;
     [SerializeField] private GameObject orientation;
@@ -28,6 +30,8 @@ public class PlayerStateMachine : MonoBehaviour
     private Vector3 _verticalVelocity;
     private float _currentHorizontalSpeed;
     private bool _dead;
+    private bool _meleeWeaponEquipped;
+    private bool _gunWeaponEquipped;
 
     // State Variables
     private PlayerBaseState _currentState;
@@ -46,6 +50,7 @@ public class PlayerStateMachine : MonoBehaviour
     private int _isDeadHash;
 
     // Getters and Setters
+    public Player Player => player;
     public Animator Animator => animator;
     public PlayerAnimationEvents PlayerAnimationEvents => playerAnimEvents;
     public CharacterController CharacterController { get { return _characterController; } } 
@@ -68,6 +73,8 @@ public class PlayerStateMachine : MonoBehaviour
     public Vector3 VerticalVelocity { get { return _verticalVelocity; } set { _verticalVelocity = value; } }
     public float CurrentHorizontalSpeed { get { return _currentHorizontalSpeed; } set { _currentHorizontalSpeed = value; } }
     public bool Dead => _dead;
+    public bool MeleeWeaponEquipped => _meleeWeaponEquipped;
+    public bool GunWeaponEquipped => _gunWeaponEquipped;
     public int IsWalkingHash => _isWalkingHash;
     public int IsZoomingHash => _isZoomingHash;
     public int StartSwingHash => _startSwingHash;
@@ -99,7 +106,11 @@ public class PlayerStateMachine : MonoBehaviour
         m_AttackAction.canceled += OnAttack;
         
         // connect health events
-        health.OnDeath += KillPlayer;
+        health.OnDeath += () => _dead = true;
+        
+        // connect player events
+        Player.OnMeleeWeaponEquipped += () => { _meleeWeaponEquipped = true; _gunWeaponEquipped = false; };
+        Player.OnGunWeaponEquipped += () => { _meleeWeaponEquipped = false; _gunWeaponEquipped = true; };
         
         // set the parameter hash references
         _isWalkingHash = Animator.StringToHash("isWalking");
@@ -153,15 +164,5 @@ public class PlayerStateMachine : MonoBehaviour
     {
         MoveVelocityX *= StopDrag;
         MoveVelocityY *= StopDrag;
-    }
-
-    public void KillPlayer()
-    {
-        _dead = true;
-    }
-
-    public void SwingEnded()
-    {
-        
     }
 }
