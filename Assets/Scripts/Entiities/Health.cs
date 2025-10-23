@@ -25,6 +25,7 @@ public class Health : MonoBehaviour
     {
         if (other.TryGetComponent(out Damage damage))
         {
+            Debug.Log(other.name + " damaging " + name);
             TakeDamage(damage.DamageAmt);
         }
     }
@@ -36,6 +37,7 @@ public class Health : MonoBehaviour
         OnHealthChanged?.Invoke(_currentHealth, _currentHealth - damage);
         StartCoroutine(Invulnerable());
         _currentHealth -= damage;
+        Debug.Log(name + " health now at " + _currentHealth);
         if (_currentHealth <= 0f) OnDeath?.Invoke();
     }
 
