@@ -164,7 +164,7 @@ public class ZombieStateMachine : MonoBehaviour
         Dead = true;
     }
 
-    internal IEnumerator LookingAround()
+    public IEnumerator LookingAround()
     {
         _isLookingAround = true;
 
@@ -179,7 +179,7 @@ public class ZombieStateMachine : MonoBehaviour
         _lookedAround = true;
     }
 
-    internal IEnumerator AttackCooldown()
+    public IEnumerator AttackCooldown()
     {
         CanAttack = false;
 

@@ -19,7 +19,6 @@ public class ZombieAnimationEvents : MonoBehaviour
 
     public void DeactivateRightHandHitbox()
     {
-        Debug.Log("Deactivating right hand hitbox");
         rightHandDamage.Deactivate();
     }
 }

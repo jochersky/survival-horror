@@ -14848,6 +14848,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
   maxHealth: 100
+  invulnerabilityTime: 0.5
 --- !u!1001 &1501206252
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16359,6 +16360,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
   maxHealth: 100
+  invulnerabilityTime: 0.5
 --- !u!54 &1639077910
 Rigidbody:
   m_ObjectHideFlags: 0
