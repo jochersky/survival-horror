@@ -6,11 +6,11 @@ public class ZombieStateMachine : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private Animator animator;
+    [SerializeField] private ZombieAnimationEvents zombieAnimEvents;
     [SerializeField] private PlayerSensor playerSightedSensor;
     [SerializeField] private PlayerSensor playerInAttackRangeSensor;
     [SerializeField] private Transform headTransform;
     [SerializeField] private Health health;
-    [SerializeField] private Damage damage;
     [SerializeField] GameObject player;
     private CharacterController _characterController;
     private NavMeshAgent _agent;
@@ -27,8 +27,8 @@ public class ZombieStateMachine : MonoBehaviour
     // variables to store optimized setter/getter parameter IDs
     private int _isChasingHash;
     private int _isAttackingHash;
-    private int _performedRightSwingHash;
-    private int _performedLeftSwingHash;
+    private int _attackStartHash;
+    private int _attackEndHash;
     private int _isSearchingHash;
     private int _isReturningHash;
     private int _isDeadHash;
@@ -51,9 +51,9 @@ public class ZombieStateMachine : MonoBehaviour
     public ZombieStateDictionary States { get { return _states; } set { _states = value; } }
     public NavMeshAgent Agent { get { return _agent; } set { _agent = value; } }
     public Animator Animator { get { return animator; } set { animator = value; } }
+    public ZombieAnimationEvents ZombieAnimationEvents => zombieAnimEvents;
     public PlayerSensor PlayerSightedSensor => playerSightedSensor;
     public PlayerSensor PlayerInAttackRangeSensor => playerInAttackRangeSensor;
-    public Damage Damage => damage;
     
     public float ZombieSearchTime => zombieSearchTime;
     public float ZombieLineOfSightDistance => zombieLineOfSightDistance;
@@ -72,8 +72,8 @@ public class ZombieStateMachine : MonoBehaviour
     
     public int IsChasingHash => _isChasingHash;
     public int IsAttackingHash => _isAttackingHash;
-    public int PerformedRightSwingHash => _performedRightSwingHash;
-    public int PerformedLeftSwingHash => _performedLeftSwingHash;
+    public int AttackStartHash => _attackStartHash;
+    public int AttackEndHash => _attackEndHash;
     public int IsSearchingHash => _isSearchingHash;
     public int IsReturningHash => _isReturningHash;
     public int IsDeadHash => _isDeadHash;
@@ -97,8 +97,8 @@ public class ZombieStateMachine : MonoBehaviour
         // Set the parameter hash references
         _isChasingHash = Animator.StringToHash("isChasing");
         _isAttackingHash = Animator.StringToHash("isAttacking");
-        _performedRightSwingHash = Animator.StringToHash("performedRightSwing");
-        _performedLeftSwingHash = Animator.StringToHash("performedLeftSwing");
+        _attackStartHash = Animator.StringToHash("attackStart");
+        _attackEndHash = Animator.StringToHash("attackEnd");
         _isSearchingHash = Animator.StringToHash("isSearching");
         _isReturningHash = Animator.StringToHash("isReturning");
         _isDeadHash = Animator.StringToHash("isDead");

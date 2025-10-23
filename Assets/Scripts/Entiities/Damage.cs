@@ -10,22 +10,23 @@ public class Damage : MonoBehaviour
 
     public void Start()
     {
-        // hitbox.gameObject.SetActive(false);
+        hitbox.enabled = false;
     }
     
     private void Update()
     {
-        hitbox.transform.position = followTransform.position;
+        if (followTransform)
+            hitbox.transform.position = followTransform.position;
     }
 
     public void Activate()
     {
-        hitbox.gameObject.SetActive(true);
+        hitbox.enabled = true;
     }
 
     public void Deactivate()
     {
-        hitbox.gameObject.SetActive(false);
+        hitbox.enabled = false;
     }
 
     public void OnTriggerEnter(Collider other)

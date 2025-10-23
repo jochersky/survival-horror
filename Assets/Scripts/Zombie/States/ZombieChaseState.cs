@@ -14,7 +14,6 @@ public class ZombieChaseState : ZombieBaseState
         Context.Animator.SetBool(Context.IsChasingHash, true);
         Context.Animator.SetBool(Context.IsSearchingHash, false);
         Context.Animator.SetBool(Context.IsReturningHash, false);
-        Context.Animator.SetBool(Context.IsAttackingHash, false);
         Context.Animator.Update(0);
         
         if (Context.PlayerTransform) 

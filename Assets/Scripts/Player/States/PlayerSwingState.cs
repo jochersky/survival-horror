@@ -12,6 +12,7 @@ public class PlayerSwingState : PlayerBaseState
     {
         Context.Animator.SetTrigger(Context.StartSwingHash);
         // Add forward charge at start of the state
+        Context.MoveVelocity = Vector2.zero;
         Context.MoveVelocity += Context.ForwardDir * 0.5f;
     }
 
