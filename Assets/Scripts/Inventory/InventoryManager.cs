@@ -7,11 +7,10 @@ using UnityEngine.InputSystem;
 public class InventoryManager : MonoBehaviour
 {
     [SerializeField] private InputActionAsset actions;
-    private InputActionMap _playerActions;
-    
     // parent of inventory and container UIs in Canvas
     [SerializeField] private GameObject inventoryUI;
     [SerializeField] private Container playerInventoryContainer;
+    private InputActionMap _playerActions;
 
     // container that is being looked at
     public Container container;
@@ -26,6 +25,9 @@ public class InventoryManager : MonoBehaviour
     
     // getters and setters
     public Container PlayerInventoryContainer => playerInventoryContainer;
+    
+    public delegate void InventoryVisibilityChanged(bool visible);
+    public event InventoryVisibilityChanged OnInventoryVisibilityChanged;
 
     private void Awake()
     {
@@ -33,7 +35,7 @@ public class InventoryManager : MonoBehaviour
         if (instance && instance != this) Destroy(this);
         else instance = this;
         
-        _playerActions = actions.FindActionMap("Player");
+        _playerActions = actions.FindActionMap("PlayerUI");
         
         // assign input action callbacks
         m_InventoryAction = actions.FindAction("Inventory");
@@ -78,6 +80,7 @@ public class InventoryManager : MonoBehaviour
     {
         _inventoryVisible = !_inventoryVisible;
         inventoryUI.SetActive(_inventoryVisible);
-        if (!_inventoryVisible) RemoveContainer();
+        OnInventoryVisibilityChanged?.Invoke(_inventoryVisible);
+        // if (!_inventoryVisible) RemoveContainer();
     }
 }

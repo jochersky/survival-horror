@@ -7,7 +7,6 @@ public class Player : MonoBehaviour
     [SerializeField] private InputActionAsset actions;
     [SerializeField] private GameObject gun;
     [SerializeField] private GameObject melee;
-    [SerializeField] private GameObject pauseMenu;
     private InputActionMap _playerActions;
 
     // input actions

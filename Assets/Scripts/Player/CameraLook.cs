@@ -51,14 +51,22 @@ public class CameraLook : MonoBehaviour
         m_LookAction.canceled += OnLook;
 
         // connect health events
-        health.OnDeath += KillPlayer;
+        health.OnDeath += () => _playerDead = true;
+        
+        // connect inventory events
+        InventoryManager.instance.OnInventoryVisibilityChanged += (bool vis) =>
+        {
+            if (vis) _playerActions.Disable();
+            else _playerActions.Enable();
+            regularCam.SetActive(!vis);
+        };
         
         crosshair.SetActive(false);
     }
 
     private void Update()
     {
-        // don't update when dead
+        // don't update when player is dead
         if (_playerDead) return;
         
         // rotate camera pivot
