@@ -1,17 +1,26 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class Interactor : MonoBehaviour
 {
     // references
     [SerializeField] private InputActionAsset actions;
     [SerializeField] private LayerMask interactionLayer;
-    private InputActionMap _playerActions;
+    [SerializeField] private GameObject cursor;
+    private RawImage _crosshairImage;
+    [SerializeField] private Texture crosshairTexture;
+    [SerializeField] private Texture doorLockedTexture;
+    [SerializeField] private Texture doorUnlockedTexture;
+    [SerializeField] private Texture openContainerTexture;
+    private InputActionMap _playerActions;    
     
     // input actions
     private InputAction m_InteractAction;
+    private InputAction m_ZoomAction;
     
     private bool _isInteracting;
+    private bool _isZooming;
     
     void Awake()
     {
@@ -21,6 +30,14 @@ public class Interactor : MonoBehaviour
         m_InteractAction = actions.FindAction("Interact");
         m_InteractAction.started += OnInteract;
         m_InteractAction.canceled += OnInteract;
+        m_ZoomAction = actions.FindAction("Zoom");
+        m_ZoomAction.started += OnZoom;
+        m_ZoomAction.canceled += OnZoom;
+    }
+
+    void Start()
+    {
+        _crosshairImage = cursor.GetComponent<RawImage>();
     }
     
     private void OnEnable()
@@ -37,20 +54,48 @@ public class Interactor : MonoBehaviour
     
     void Update()
     {
-        if (_isInteracting)
+        if (!CanInteract()) return;
+        
+        InteractWithObject();
+    }
+
+    private bool CanInteract()
+    {
+        if (_isZooming) _crosshairImage.texture = crosshairTexture;
+        return !_isZooming;
+    }
+
+    private void InteractWithObject()
+    {
+        Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 5f, interactionLayer);
+        
+        cursor.SetActive(hit.transform);
+        if (!hit.transform) return;
+        
+        // change cursor to interactable icon
+        if (hit.transform.TryGetComponent<Door>(out Door door))
         {
-            Debug.DrawRay(transform.position, transform.forward * 5f, Color.green);
-            Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 5f, interactionLayer);
-            if (hit.transform && _isInteracting && hit.transform.TryGetComponent(out IInteractable interactable))
-            {
-                interactable.Interact();
-                _isInteracting = false;
-            }
+            _crosshairImage.texture = door.locked ? doorLockedTexture: doorUnlockedTexture;
+        } 
+        else if (hit.transform.TryGetComponent<Container>(out Container container))
+        {
+            _crosshairImage.texture = openContainerTexture;
+        }
+
+        if (_isInteracting && hit.transform && hit.transform.TryGetComponent(out IInteractable interactable))
+        {
+            interactable.Interact();
+            _isInteracting = false;
         }
     }
 
     public void OnInteract(InputAction.CallbackContext context)
     {
         _isInteracting = context.ReadValueAsButton();
+    }
+
+    public void OnZoom(InputAction.CallbackContext context)
+    {
+        _isZooming = context.ReadValueAsButton();
     }
 }
