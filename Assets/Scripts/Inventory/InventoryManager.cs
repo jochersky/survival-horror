@@ -9,6 +9,7 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private InputActionAsset actions;
     // parent of inventory and container UIs in Canvas
     [SerializeField] private GameObject inventoryUI;
+    [SerializeField] private GameObject inventoryGrids;
     [SerializeField] private Container playerInventoryContainer;
     private InputActionMap _playerActions;
 
@@ -57,7 +58,7 @@ public class InventoryManager : MonoBehaviour
     public void AddContainer(Container newContainer)
     {
         container = newContainer;
-        container.ContainerUI.transform.SetParent(inventoryUI.transform);
+        container.ContainerUI.transform.SetParent(inventoryGrids.transform);
         ToggleInventory();
         container.transform.localScale = Vector3.one;
     }
@@ -81,6 +82,6 @@ public class InventoryManager : MonoBehaviour
         _inventoryVisible = !_inventoryVisible;
         inventoryUI.SetActive(_inventoryVisible);
         OnInventoryVisibilityChanged?.Invoke(_inventoryVisible);
-        // if (!_inventoryVisible) RemoveContainer();
+        if (!_inventoryVisible) RemoveContainer();
     }
 }
