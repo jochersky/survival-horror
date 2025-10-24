@@ -21,7 +21,6 @@ public class HealthBar : MonoBehaviour
     private void UpdateHealth(float oldHealth, float newHealth)
     {
         float healthBarRatio = newHealth / health.MaxHealth;
-        Debug.Log(healthBarRatio);
         if (healthBarRatio >= 1)
         {
             healthBarImage.texture = fullHealthTexture;
