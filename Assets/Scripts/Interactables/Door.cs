@@ -3,7 +3,7 @@ using UnityEngine;
 public class Door : MonoBehaviour, IInteractable
 {
     [SerializeField] private Animator animator;
-    [SerializeField] private bool locked = false;
+    public bool locked = false;
     
     enum DoorStates
     {
@@ -17,7 +17,7 @@ public class Door : MonoBehaviour, IInteractable
     private int _isUnlockedHash;
     private int _isInteractingHash;
 
-    private bool unlocked = false;
+    private bool _unlocked = false;
     
     void Awake()
     {
@@ -48,9 +48,9 @@ public class Door : MonoBehaviour, IInteractable
         // TODO: check player inventory for key to unlock door
         if (locked) return;
         
-        if (!unlocked)
+        if (!_unlocked)
         {
-            unlocked = true;
+            _unlocked = true;
             animator.SetBool(_isUnlockedHash, true);
         }
         else
