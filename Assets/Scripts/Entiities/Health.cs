@@ -10,6 +10,8 @@ public class Health : MonoBehaviour
     
     private float _currentHealth;
     private bool _isInvulnerable;
+
+    public float MaxHealth => maxHealth;
     
     public delegate void HealthChanged(float oldHealth, float newHealth);
     public delegate void Died();
