@@ -8,12 +8,16 @@ using UnityEngine.EventSystems;
 public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     [SerializeField] private ItemData _itemData;
+    [SerializeField] private RectTransform followTransform;
+    [SerializeField] private Canvas canvas;
     
     private Transform _prevParent;
     [HideInInspector] public Transform parentAfterDrag;
+    private Transform _transformDuringDrag;
     private InventorySlot _prevSlot;
     [HideInInspector] public InventorySlot inventorySlot;
     [HideInInspector] public ContainerManager containerManager;
+    private Camera mainCam;
     
     private RectTransform _rectTransform;
     private Image _image;
@@ -26,6 +30,8 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         _image = GetComponent<Image>();
         _image.sprite = _itemData.itemImage;
         _rectPosition = _rectTransform.anchoredPosition;
+        _transformDuringDrag = InventoryManager.instance.InventoryUI.transform;
+        mainCam = Camera.main;
     }
     
     public void OnBeginDrag(PointerEventData eventData)
@@ -52,11 +58,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnDrag(PointerEventData eventData)
     {
-        int xOffset = _itemData.gridItemDimensions.x > 1 ? (int) -_rectTransform.sizeDelta.x / 4 : 0;
-        int yOffset = _itemData.gridItemDimensions.y > 1 ? (int) _rectTransform.sizeDelta.y / 4 : 0;
-        Vector3 offset = new Vector3(xOffset, yOffset, 0);
-            
-        transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition) - offset;
+        transform.position = eventData.position + (-followTransform.anchoredPosition * canvas.scaleFactor);
     }
 
     public void OnEndDrag(PointerEventData eventData)

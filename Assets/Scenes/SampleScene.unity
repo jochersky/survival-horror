@@ -544,7 +544,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1675897360}
   m_Father: {fileID: 1222437448}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
@@ -565,6 +566,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DraggableItem
   _itemData: {fileID: 11400000, guid: 645ab7ef8be5848438a3ed0933a10fbc, type: 2}
+  followTransform: {fileID: 1675897360}
+  canvas: {fileID: 92672603}
   parentAfterDrag: {fileID: 0}
   inventorySlot: {fileID: 0}
   containerManager: {fileID: 0}
@@ -1069,6 +1072,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DraggableItem
   _itemData: {fileID: 11400000, guid: 0f907cce15ede0e49b555116d389551e, type: 2}
+  followTransform: {fileID: 0}
+  canvas: {fileID: 0}
   parentAfterDrag: {fileID: 0}
   inventorySlot: {fileID: 0}
   containerManager: {fileID: 0}
@@ -9110,6 +9115,41 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 34825c20dc6598d459812c3e58184109, type: 3}
   m_PrefabInstance: {fileID: 1947656866}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &703855529
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 703855530}
+  m_Layer: 5
+  m_Name: FollowTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &703855530
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 703855529}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 750588740}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -16, y: 16}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &712920985 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 9337f638959a8a54cb18347268c4dab5, type: 3}
@@ -9461,7 +9501,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 703855530}
   m_Father: {fileID: 1123971007}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
@@ -9482,6 +9523,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DraggableItem
   _itemData: {fileID: 11400000, guid: 0f907cce15ede0e49b555116d389551e, type: 2}
+  followTransform: {fileID: 703855530}
+  canvas: {fileID: 92672603}
   parentAfterDrag: {fileID: 0}
   inventorySlot: {fileID: 0}
   containerManager: {fileID: 0}
@@ -10949,7 +10992,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 307, y: -261}
+  m_AnchoredPosition: {x: 464, y: -261}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!4 &874787568 stripped
@@ -14603,7 +14646,7 @@ Transform:
   m_GameObject: {fileID: 1311781951}
   serializedVersion: 2
   m_LocalRotation: {x: 0.15212336, y: -0.0000000051385447, z: 7.9089757e-10, w: 0.98836154}
-  m_LocalPosition: {x: 0.28699994, y: 0.14534098, z: -1.5030621}
+  m_LocalPosition: {x: 0.287, y: 0.14534098, z: -1.5030618}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -19520,6 +19563,41 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f4a4aca24ede0fb458b0a1da1033cb17, type: 3}
+--- !u!1 &1675897359
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1675897360}
+  m_Layer: 5
+  m_Name: FollowTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1675897360
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1675897359}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 40063477}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 48}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &1680596768
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19678,6 +19756,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DraggableItem
   _itemData: {fileID: 11400000, guid: d99c5633d0b21074ea164f07c5a7a620, type: 2}
+  followTransform: {fileID: 0}
+  canvas: {fileID: 0}
   parentAfterDrag: {fileID: 0}
   inventorySlot: {fileID: 0}
   containerManager: {fileID: 0}

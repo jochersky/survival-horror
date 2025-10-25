@@ -25,6 +25,7 @@ public class InventoryManager : MonoBehaviour
     private bool _inventoryVisible;
     
     // getters and setters
+    public GameObject InventoryUI => inventoryUI;
     public Container PlayerInventoryContainer => playerInventoryContainer;
     
     public delegate void InventoryVisibilityChanged(bool visible);
