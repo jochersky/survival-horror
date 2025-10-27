@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d0ba6baad4816143b70c26ddab046aa, type: 3}
+  m_Name: Shovel
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponData
+  itemName: Shovel
+  itemImage: {fileID: -729189386, guid: 6429f0d49cbc1414883e1fb8541bbf1e, type: 3}
+  itemPrefab: {fileID: 0}
+  gridItemDimensions: {x: 1, y: 3}
+  gridItemOrigin: {x: 0, y: 0}
+  magazineSize: 0
+  damage: 0
+  fireRate: 0
+  reloadTime: 0

@@ -21,7 +21,7 @@ public class ContainerManager : MonoBehaviour
         _cellSize = Mathf.FloorToInt(_gridLayoutGroup.cellSize.x);
         int gridHeight = Mathf.FloorToInt(rectTransform.sizeDelta.y / _cellSize);
         int gridWidth = Mathf.FloorToInt(rectTransform.sizeDelta.x / _cellSize);
-
+        
         _grid = new Grid<GridItem>(gridHeight, gridWidth, _cellSize, Vector3.zero, CreateTGridObject);
         
         _slots = new InventorySlot[gridWidth, gridHeight];

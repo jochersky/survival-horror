@@ -7,7 +7,8 @@ using UnityEngine.InputSystem;
 public class InventoryManager : MonoBehaviour
 {
     [SerializeField] private InputActionAsset actions;
-    // parent of inventory and container UIs in Canvas
+    // Parent structure: canvas -> inventoryUI -> inventoryGrids
+    public Canvas canvas;
     [SerializeField] private GameObject inventoryUI;
     [SerializeField] private GameObject inventoryGrids;
     [SerializeField] private Container playerInventoryContainer;

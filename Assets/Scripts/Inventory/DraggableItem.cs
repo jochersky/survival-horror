@@ -9,7 +9,6 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 {
     [SerializeField] private ItemData _itemData;
     [SerializeField] private RectTransform followTransform;
-    [SerializeField] private Canvas canvas;
     
     private Transform _prevParent;
     [HideInInspector] public Transform parentAfterDrag;
@@ -17,7 +16,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     private InventorySlot _prevSlot;
     [HideInInspector] public InventorySlot inventorySlot;
     [HideInInspector] public ContainerManager containerManager;
-    private Camera mainCam;
+    private Canvas _canvas;
     
     private RectTransform _rectTransform;
     private Image _image;
@@ -31,7 +30,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         _image.sprite = _itemData.itemImage;
         _rectPosition = _rectTransform.anchoredPosition;
         _transformDuringDrag = InventoryManager.instance.InventoryUI.transform;
-        mainCam = Camera.main;
+        _canvas = InventoryManager.instance.canvas;
     }
     
     public void OnBeginDrag(PointerEventData eventData)
@@ -58,7 +57,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnDrag(PointerEventData eventData)
     {
-        transform.position = eventData.position + (-followTransform.anchoredPosition * canvas.scaleFactor);
+        transform.position = eventData.position + (-followTransform.anchoredPosition * _canvas.scaleFactor);
     }
 
     public void OnEndDrag(PointerEventData eventData)
