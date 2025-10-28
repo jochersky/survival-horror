@@ -12,6 +12,8 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private GameObject inventoryUI;
     [SerializeField] private GameObject inventoryGrids;
     [SerializeField] private Container playerInventoryContainer;
+    [SerializeField] private Transform itemSpawnTransform;
+    [SerializeField] private Transform itemParentTransform;
     private InputActionMap _playerActions;
 
     // container that is being looked at
@@ -85,5 +87,11 @@ public class InventoryManager : MonoBehaviour
         inventoryUI.SetActive(_inventoryVisible);
         OnInventoryVisibilityChanged?.Invoke(_inventoryVisible);
         if (!_inventoryVisible) RemoveContainer();
+    }
+
+    public void SpawnItem(GameObject itemPrefab)
+    {
+        GameObject newItem = Instantiate(itemPrefab, itemParentTransform);
+        newItem.transform.position = itemSpawnTransform.position;
     }
 }

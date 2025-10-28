@@ -10,6 +10,7 @@ public class DraggableItem : MonoBehaviour, IPointerClickHandler, IBeginDragHand
 {
     [InspectorName("References")]
     [SerializeField] private ItemData _itemData;
+    public GameObject itemPrefab;
     [SerializeField] private RectTransform followTransform;
     public GameObject equippedIcon;
     [SerializeField] private GameObject itemOptionsButtons;
@@ -154,6 +155,14 @@ public class DraggableItem : MonoBehaviour, IPointerClickHandler, IBeginDragHand
 
     public void DropItem()
     {
-        Debug.Log("drop this item");
+        InventoryManager.instance.SpawnItem(itemPrefab);
+        
+        GridItem item = new GridItem(
+            inventorySlot.Grid,
+            new Vector2(inventorySlot.X, inventorySlot.Y),
+            _itemData.gridItemDimensions,
+            "empty");
+        containerManager.SetItem(inventorySlot.X, inventorySlot.Y, item);
+        Destroy(this.gameObject);
     }
 }
