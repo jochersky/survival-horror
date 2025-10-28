@@ -1,9 +1,20 @@
+using System;
 using UnityEngine;
 
 public class Item : MonoBehaviour, IInteractable
 {
+    [SerializeField] private Transform followTransform;
     [SerializeField] private ItemData itemData;
     private Container _container;
+
+    public void FixedUpdate()
+    {
+        if (followTransform)
+        {
+            transform.position = followTransform.position;
+            transform.rotation = followTransform.rotation;
+        }
+    }
 
     public void ChangeContainer(Container newContainer)
     {
@@ -20,7 +31,10 @@ public class Item : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        InventoryManager.instance.PlayerInventoryContainer.AddItem(this);
-        Destroy(gameObject);
+        // InventoryManager.instance.PlayerInventoryContainer.AddItem(this);
+        
+        // TODO: determine if there is an open spot in the inventory for the item and put it there.
+        // if not, tell player to make room and give them the dimensions
+        Destroy(transform.parent.gameObject);
     }
 }
