@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1829099837656196610, guid: 6fdd3a7d2c7da06409842605f5f7be1d, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 1956116054405657726, guid: 6fdd3a7d2c7da06409842605f5f7be1d, type: 3}
       propertyPath: _itemData
       value: 
@@ -117,7 +121,8 @@ PrefabInstance:
       value: Key
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 7241283966551005333, guid: 6fdd3a7d2c7da06409842605f5f7be1d, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6fdd3a7d2c7da06409842605f5f7be1d, type: 3}

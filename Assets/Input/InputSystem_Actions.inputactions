@@ -1282,6 +1282,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "ItemOptions",
+                    "type": "Button",
+                    "id": "cc37470e-de4f-4a62-87e9-70de5d48ffb5",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1304,6 +1313,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Inventory",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3b2a6e66-13e0-49d0-8618-2815da6b3699",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ItemOptions",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

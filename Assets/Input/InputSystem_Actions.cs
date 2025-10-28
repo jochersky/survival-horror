@@ -1368,6 +1368,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ItemOptions"",
+                    ""type"": ""Button"",
+                    ""id"": ""cc37470e-de4f-4a62-87e9-70de5d48ffb5"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -1390,6 +1399,17 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Inventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3b2a6e66-13e0-49d0-8618-2815da6b3699"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ItemOptions"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1495,6 +1515,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         // PlayerUI
         m_PlayerUI = asset.FindActionMap("PlayerUI", throwIfNotFound: true);
         m_PlayerUI_Inventory = m_PlayerUI.FindAction("Inventory", throwIfNotFound: true);
+        m_PlayerUI_ItemOptions = m_PlayerUI.FindAction("ItemOptions", throwIfNotFound: true);
     }
 
     ~@InputSystem_Actions()
@@ -2131,6 +2152,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_PlayerUI;
     private List<IPlayerUIActions> m_PlayerUIActionsCallbackInterfaces = new List<IPlayerUIActions>();
     private readonly InputAction m_PlayerUI_Inventory;
+    private readonly InputAction m_PlayerUI_ItemOptions;
     /// <summary>
     /// Provides access to input actions defined in input action map "PlayerUI".
     /// </summary>
@@ -2146,6 +2168,10 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "PlayerUI/Inventory".
         /// </summary>
         public InputAction @Inventory => m_Wrapper.m_PlayerUI_Inventory;
+        /// <summary>
+        /// Provides access to the underlying input action "PlayerUI/ItemOptions".
+        /// </summary>
+        public InputAction @ItemOptions => m_Wrapper.m_PlayerUI_ItemOptions;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -2175,6 +2201,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Inventory.started += instance.OnInventory;
             @Inventory.performed += instance.OnInventory;
             @Inventory.canceled += instance.OnInventory;
+            @ItemOptions.started += instance.OnItemOptions;
+            @ItemOptions.performed += instance.OnItemOptions;
+            @ItemOptions.canceled += instance.OnItemOptions;
         }
 
         /// <summary>
@@ -2189,6 +2218,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Inventory.started -= instance.OnInventory;
             @Inventory.performed -= instance.OnInventory;
             @Inventory.canceled -= instance.OnInventory;
+            @ItemOptions.started -= instance.OnItemOptions;
+            @ItemOptions.performed -= instance.OnItemOptions;
+            @ItemOptions.canceled -= instance.OnItemOptions;
         }
 
         /// <summary>
@@ -2514,5 +2546,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnInventory(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ItemOptions" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnItemOptions(InputAction.CallbackContext context);
     }
 }
