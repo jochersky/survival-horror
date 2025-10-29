@@ -58,11 +58,9 @@ public class ContainerManager : MonoBehaviour
         foreach (Tuple<DraggableItem, Vector2> t in draggableLocations)
         {
             DraggableItem di = t.Item1;
-            GridItem item = t.Item1.CreateGridItem();
-            SetItem((int)t.Item2.x, (int)t.Item2.y, item);
-            di.parentAfterDrag = _slots[(int)t.Item2.x, (int)t.Item2.y].transform;
-            di.inventorySlot = _slots[(int)t.Item2.x, (int)t.Item2.y];
-            di.containerManager = this;
+            int x = (int) t.Item2.x;
+            int y = (int) t.Item2.y;
+            SetDraggableItemToGrid(di, x, y);
         }
         
         OnStartFinished?.Invoke();
@@ -75,42 +73,38 @@ public class ContainerManager : MonoBehaviour
 
     public bool FindSpaceForItem(GameObject dragItemPrefab)
     {
-        if (dragItemPrefab.TryGetComponent<DraggableItem>(out DraggableItem dragItem))
+        if (dragItemPrefab.TryGetComponent<DraggableItem>(out DraggableItem dragItem) && dragItem.itemData)
         {
-            if (dragItem.itemData)
-            { 
-                Vector2 itemDim = dragItem.itemData.gridItemDimensions;
-                float yRange = _gridHeight - itemDim.y;
-                float xRange = _gridWidth - itemDim.x;
-                Debug.Log(_gridHeight + " " + _gridWidth);
-                for (int y = 0; y < yRange; y++)
+            Vector2 itemDim = dragItem.itemData.gridItemDimensions;
+            float yRange = _gridHeight - itemDim.y;
+            float xRange = _gridWidth - itemDim.x;
+            for (int y = 0; y < yRange; y++)
+            {
+                for (int x = 0; x < xRange; x++)
                 {
-                    for (int x = 0; x < xRange; x++)
+                    bool open = false;
+
+                    // found an empty slot
+                    if (_grid.GetGridObject(x, y).Name == "empty")
                     {
-                        bool open = false;
-                        // found an empty slot
-                        if (!_slots[x,y].item)
+                        open = true;
+                        // check surrounding slots
+                        for (int i = 0; i < itemDim.y; i++)
                         {
-                            open = true;
-                            // check surrounding slots
-                            for (int i = 0; i < itemDim.y; i++)
+                            for (int j = 0; j < itemDim.x; j++)
                             {
-                                for (int j = 0; j < itemDim.x; j++)
-                                {
-                                    if (_slots[x + j, y + j].item) open = false;
-                                    if (!open) break;
-                                }
-                                if (!open) break;
+                                if (_grid.GetGridObject(x + j, y + i).Name != "empty") open = false;
                             }
                         }
+                    }
 
-                        // found a place for the item to go
-                        if (open)
-                        {
-                            Debug.Log(x + " " + y);
-                            GameObject inst = Instantiate(dragItemPrefab, _slots[x,y].gameObject.transform);
-                            return true;
-                        }
+                    // found a place for the item to go
+                    if (open)
+                    {
+                        GameObject inst = Instantiate(dragItemPrefab, _slots[x,y].gameObject.transform);
+                        DraggableItem di = inst.GetComponent<DraggableItem>();
+                        SetDraggableItemToGrid(di, x, y);
+                        return true;
                     }
                 }
             }
@@ -134,6 +128,15 @@ public class ContainerManager : MonoBehaviour
             }
         }
         return true;
+    }
+
+    private void SetDraggableItemToGrid(DraggableItem dragItem, int x, int y)
+    {
+        GridItem item = dragItem.CreateGridItem();
+        SetItem(x, y, item);
+        dragItem.parentAfterDrag = _slots[x, y].transform;
+        dragItem.inventorySlot = _slots[x, y];
+        dragItem.containerManager = this;
     }
 
     private bool ValidateItemPlacement(int x, int y, GridItem item)
