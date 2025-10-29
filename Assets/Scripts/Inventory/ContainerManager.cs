@@ -73,33 +73,20 @@ public class ContainerManager : MonoBehaviour
 
     public bool FindSpaceForItem(GameObject dragItemPrefab)
     {
+        Debug.Log("here");
+        
         if (dragItemPrefab.TryGetComponent<DraggableItem>(out DraggableItem dragItem) && dragItem.itemData)
         {
             Vector2 itemDim = dragItem.itemData.gridItemDimensions;
-            float yRange = _gridHeight - itemDim.y;
-            float xRange = _gridWidth - itemDim.x;
+            float yRange = _gridHeight - itemDim.y + 1;
+            float xRange = _gridWidth - itemDim.x + 1;
+            Debug.Log(yRange + " " + xRange);
             for (int y = 0; y < yRange; y++)
             {
                 for (int x = 0; x < xRange; x++)
                 {
-                    bool open = false;
-
-                    // found an empty slot
-                    if (_grid.GetGridObject(x, y).Name == "empty")
-                    {
-                        open = true;
-                        // check surrounding slots
-                        for (int i = 0; i < itemDim.y; i++)
-                        {
-                            for (int j = 0; j < itemDim.x; j++)
-                            {
-                                if (_grid.GetGridObject(x + j, y + i).Name != "empty") open = false;
-                            }
-                        }
-                    }
-
-                    // found a place for the item to go
-                    if (open)
+                    // check whether the item can be placed here
+                    if (_grid.GetGridObject(x, y).Name == "empty" && DroppedItemPlaceable(x, y, itemDim.x, itemDim.y))
                     {
                         GameObject inst = Instantiate(dragItemPrefab, _slots[x,y].gameObject.transform);
                         DraggableItem di = inst.GetComponent<DraggableItem>();
@@ -111,6 +98,21 @@ public class ContainerManager : MonoBehaviour
         }
         
         return false;
+    }
+
+    private bool DroppedItemPlaceable(int x, int y, float itemX, float itemY)
+    {
+        // check surrounding slots
+        for (int i = 0; i < itemY; i++)
+        {
+            for (int j = 0; j < itemX; j++)
+            {
+                // item can't be placed here
+                if (_grid.GetGridObject(x + j, y + i).Name != "empty") return false;
+            }
+        }
+        // item can be placed here
+        return true;
     }
 
     public bool SetItem(int x, int y, GridItem item)

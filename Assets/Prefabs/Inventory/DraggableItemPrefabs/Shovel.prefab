@@ -16,6 +16,10 @@ PrefabInstance:
       propertyPath: _itemData
       value: 
       objectReference: {fileID: 11400000, guid: 8f5d06ffec6bc854189369409777ed8b, type: 2}
+    - target: {fileID: 1956116054405657726, guid: 6fdd3a7d2c7da06409842605f5f7be1d, type: 3}
+      propertyPath: itemPrefab
+      value: 
+      objectReference: {fileID: 362596692773106124, guid: 9d97f006d8a456f4b947a9e541e8fa68, type: 3}
     - target: {fileID: 3595262607344107935, guid: 6fdd3a7d2c7da06409842605f5f7be1d, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -10
