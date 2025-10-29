@@ -9,9 +9,10 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private InputActionAsset actions;
     // Parent structure: canvas -> inventoryUI -> inventoryGrids
     public Canvas canvas;
-    [SerializeField] private GameObject inventoryUI;
+    public GameObject inventoryUI;
     [SerializeField] private GameObject inventoryGrids;
-    [SerializeField] private Container playerInventoryContainer;
+    public GameObject playerInventoryContainerUI;
+    public ContainerManager playerInventoryContainerManager;
     [SerializeField] private Transform itemSpawnTransform;
     [SerializeField] private Transform itemParentTransform;
     private InputActionMap _playerActions;
@@ -26,10 +27,6 @@ public class InventoryManager : MonoBehaviour
     public static InventoryManager instance { get; private set; }
     
     private bool _inventoryVisible;
-    
-    // getters and setters
-    public GameObject InventoryUI => inventoryUI;
-    public Container PlayerInventoryContainer => playerInventoryContainer;
     
     public delegate void InventoryVisibilityChanged(bool visible);
     public event InventoryVisibilityChanged OnInventoryVisibilityChanged;
@@ -46,6 +43,11 @@ public class InventoryManager : MonoBehaviour
         m_InventoryAction = actions.FindAction("Inventory");
         m_InventoryAction.started += OnInventory;
     }
+
+    private void Start()
+    {
+        playerInventoryContainerManager.OnStartFinished += AddInventoryContainer;
+    }
     
     private void OnEnable()
     {
@@ -57,6 +59,12 @@ public class InventoryManager : MonoBehaviour
     {
         // disable the character controls action map
         _playerActions.Disable();
+    }
+
+    private void AddInventoryContainer()
+    {
+        playerInventoryContainerUI.transform.SetParent(inventoryGrids.transform);
+        playerInventoryContainerUI.transform.localScale = Vector3.one;
     }
 
     public void AddContainer(Container newContainer)

@@ -6,6 +6,7 @@ using UnityEngine;
 public class Container : MonoBehaviour, IInteractable
 {
     [SerializeField] private GameObject containerUI;
+    
     [SerializeField] private int maxItems = 4;
     [SerializeField] private List<Item> items;
     private GameObject _inventoryUIContainer;

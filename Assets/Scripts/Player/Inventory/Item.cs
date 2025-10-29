@@ -4,6 +4,7 @@ using UnityEngine;
 public class Item : MonoBehaviour, IInteractable
 {
     [SerializeField] private Transform followTransform;
+    [SerializeField] private GameObject draggableItemPrefab;
     [SerializeField] private ItemData itemData;
     private Container _container;
 
@@ -23,18 +24,16 @@ public class Item : MonoBehaviour, IInteractable
         _container.AddItem(this);
     }
 
-    public void DropIntoWorld()
-    {
-        _container.RemoveItem(this);
-        // TODO: spawn the prefab into the game
-    }
-
     public void Interact()
     {
-        // InventoryManager.instance.PlayerInventoryContainer.AddItem(this);
-        
-        // TODO: determine if there is an open spot in the inventory for the item and put it there.
-        // if not, tell player to make room and give them the dimensions
-        Destroy(transform.parent.gameObject);
+        // Find a spot to put the item into the inventory
+        if (InventoryManager.instance.playerInventoryContainerManager.FindSpaceForItem(draggableItemPrefab))
+        {
+            Destroy(transform.parent.gameObject);
+        }
+        else
+        {
+            // tell player to make room and give them the dimensions
+        }
     }
 }

@@ -9,7 +9,7 @@ using UnityEngine.InputSystem;
 public class DraggableItem : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     [InspectorName("References")]
-    [SerializeField] private ItemData _itemData;
+    public ItemData itemData;
     public GameObject itemPrefab;
     [SerializeField] private RectTransform followTransform;
     public GameObject equippedIcon;
@@ -33,9 +33,9 @@ public class DraggableItem : MonoBehaviour, IPointerClickHandler, IBeginDragHand
         itemOptionsButtons.SetActive(false);
         _rectTransform = GetComponent<RectTransform>();
         _image = GetComponent<Image>();
-        _image.sprite = _itemData.itemImage;
+        _image.sprite = itemData.itemImage;
         _rectPosition = _rectTransform.anchoredPosition;
-        _transformDuringDrag = InventoryManager.instance.InventoryUI.transform;
+        _transformDuringDrag = InventoryManager.instance.inventoryUI.transform;
         _canvas = InventoryManager.instance.canvas;
     }
 
@@ -77,7 +77,7 @@ public class DraggableItem : MonoBehaviour, IPointerClickHandler, IBeginDragHand
             GridItem empty = new GridItem(
                 inventorySlot.Grid,
                 new Vector2(inventorySlot.X, inventorySlot.Y),
-                _itemData.gridItemDimensions,
+                itemData.gridItemDimensions,
                 "empty");
             containerManager.SetItem(inventorySlot.X, inventorySlot.Y, empty);
         }
@@ -108,8 +108,8 @@ public class DraggableItem : MonoBehaviour, IPointerClickHandler, IBeginDragHand
         GridItem item = new GridItem(
             inventorySlot.Grid,
             new Vector2(inventorySlot.X, inventorySlot.Y),
-            _itemData.gridItemDimensions,
-            _itemData.itemName);
+            itemData.gridItemDimensions,
+            itemData.itemName);
         if (!containerManager.SetItem(inventorySlot.X, inventorySlot.Y, item))
         {
             parentAfterDrag = _prevParent;
@@ -124,7 +124,7 @@ public class DraggableItem : MonoBehaviour, IPointerClickHandler, IBeginDragHand
 
     public GridItem CreateGridItem()
     {
-        return new GridItem(null, _itemData.gridItemOrigin, _itemData.gridItemDimensions, _itemData.itemName);
+        return new GridItem(null, itemData.gridItemOrigin, itemData.gridItemDimensions, itemData.itemName);
     }
 
     private void CheckMouseRangeForItemOptions()
@@ -160,9 +160,10 @@ public class DraggableItem : MonoBehaviour, IPointerClickHandler, IBeginDragHand
         GridItem item = new GridItem(
             inventorySlot.Grid,
             new Vector2(inventorySlot.X, inventorySlot.Y),
-            _itemData.gridItemDimensions,
+            itemData.gridItemDimensions,
             "empty");
         containerManager.SetItem(inventorySlot.X, inventorySlot.Y, item);
+        
         Destroy(this.gameObject);
     }
 }

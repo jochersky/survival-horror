@@ -137,6 +137,10 @@ PrefabInstance:
       propertyPath: followTransform
       value: 
       objectReference: {fileID: 5373155062018053976}
+    - target: {fileID: 2045003180219883938, guid: 0fa2347ce0950be48a8845389df8c8b8, type: 3}
+      propertyPath: draggableItemPrefab
+      value: 
+      objectReference: {fileID: 6683084980171057465, guid: ed37b52058d46d749a7ee690d39b7640, type: 3}
     - target: {fileID: 2386811067529113693, guid: 0fa2347ce0950be48a8845389df8c8b8, type: 3}
       propertyPath: m_Name
       value: SmallGunItem
