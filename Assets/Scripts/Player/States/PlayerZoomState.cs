@@ -14,6 +14,8 @@ public class PlayerZoomState : PlayerBaseState
 
     public override void ExitState()
     {
+        Context.transform.rotation = Context.PlayerMesh.transform.rotation;
+        Context.PlayerMesh.transform.rotation = Context.transform.rotation;
     }
 
     public override void InitializeSubState()
@@ -24,8 +26,8 @@ public class PlayerZoomState : PlayerBaseState
     {
         if (Context.Dead) SwitchState(Dictionary.Dead());
         
+        ApplyMeshRotation();
         ApplyMoveVelocity();
-        ApplyRotation();
 
         if (Context.MeleeWeaponEquipped && Context.AttackPressed) SwitchState(Dictionary.Swing());
         else if (!Context.ZoomPressed) SwitchState(Context.MovePressed ? Dictionary.Walk() : Dictionary.Idle());
@@ -33,14 +35,16 @@ public class PlayerZoomState : PlayerBaseState
 
     private void ApplyMoveVelocity()
     {
-        Vector3 moveDir = Context.ForwardDir * Context.MoveInput.y + Context.RightDir * Context.MoveInput.x;
+        Vector3 rotatedForwardDir = Quaternion.AngleAxis(7.5f, Context.Orientation.transform.up) * Context.Orientation.transform.forward;
+        Vector3 rotatedRightDir = Quaternion.AngleAxis(7.5f, Context.Orientation.transform.up) * Context.Orientation.transform.right;
+        Vector3 moveDir = rotatedForwardDir * Context.MoveInput.y + rotatedRightDir * Context.MoveInput.x;
         Context.CurrentHorizontalSpeed += Context.MoveAccel * Time.deltaTime;
         Context.CurrentHorizontalSpeed = Mathf.Min(Context.CurrentHorizontalSpeed, Context.MaxMoveSpeed);
         Context.MoveVelocity = moveDir * Context.CurrentHorizontalSpeed;
     }
 
-    private void ApplyRotation()
+    private void ApplyMeshRotation()
     {
-        Context.transform.rotation = Context.Orientation.transform.rotation;
+        Context.PlayerMesh.transform.rotation = Context.RotatedOrientation.rotation;
     }
 }

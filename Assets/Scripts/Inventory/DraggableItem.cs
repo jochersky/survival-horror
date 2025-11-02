@@ -150,7 +150,6 @@ public class DraggableItem : MonoBehaviour, IPointerClickHandler, IBeginDragHand
     public void EquipItem()
     {
         equippedIcon.SetActive(true);
-        Debug.Log("equip this item");
     }
 
     public void DropItem()

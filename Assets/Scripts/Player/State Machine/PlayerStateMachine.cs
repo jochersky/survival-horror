@@ -10,6 +10,8 @@ public class PlayerStateMachine : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private PlayerAnimationEvents playerAnimEvents;
     [SerializeField] private GameObject orientation;
+    [SerializeField] private GameObject playerMesh;
+    [SerializeField] private Transform rotatedOrientation;
     [SerializeField] private Health health;
     private CharacterController _characterController;
     private InputActionMap _playerActions;
@@ -51,6 +53,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     // Getters and Setters
     public Player Player => player;
+    public GameObject PlayerMesh => playerMesh;
     public Animator Animator => animator;
     public PlayerAnimationEvents PlayerAnimationEvents => playerAnimEvents;
     public CharacterController CharacterController { get { return _characterController; } } 
@@ -81,6 +84,7 @@ public class PlayerStateMachine : MonoBehaviour
     public int EndSwingHash => _endSwingHash;
     public int IsDeadHash => _isDeadHash;
     public GameObject Orientation => orientation;
+    public Transform RotatedOrientation => rotatedOrientation;
     public Vector3 ForwardDir => orientation.transform.forward;
     public Vector3 RightDir => orientation.transform.right;
     
@@ -109,8 +113,8 @@ public class PlayerStateMachine : MonoBehaviour
         health.OnDeath += () => _dead = true;
         
         // connect player events
-        Player.OnMeleeWeaponEquipped += () => { _meleeWeaponEquipped = true; _gunWeaponEquipped = false; };
-        Player.OnGunWeaponEquipped += () => { _meleeWeaponEquipped = false; _gunWeaponEquipped = true; };
+        // Player.OnMeleeWeaponEquipped += () => { _meleeWeaponEquipped = true; _gunWeaponEquipped = false; };
+        // Player.OnGunWeaponEquipped += () => { _meleeWeaponEquipped = false; _gunWeaponEquipped = true; };
         
         // set the parameter hash references
         _isWalkingHash = Animator.StringToHash("isWalking");

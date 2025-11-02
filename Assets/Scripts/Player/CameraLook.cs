@@ -7,7 +7,7 @@ public class CameraLook : MonoBehaviour
     // references
     [SerializeField] private InputActionAsset actions;
     [SerializeField] private GameObject cameraTarget;
-    [SerializeField] private GameObject player;
+    [SerializeField] private GameObject playerBody;
     [SerializeField] private GameObject playerMoveOrientation;
     [SerializeField] private Health health;
 
@@ -24,6 +24,7 @@ public class CameraLook : MonoBehaviour
     private InputAction m_LookAction;
     
     private Vector2 _mouseInput;
+    private bool _isZooming;
     private bool _playerDead;
 
     // camera cine machine states
@@ -71,6 +72,12 @@ public class CameraLook : MonoBehaviour
         
         // rotate camera pivot
         Vector3 viewDir = cameraTarget.transform.position - new Vector3(transform.position.x, cameraTarget.transform.position.y, transform.position.z);
+        // if (_isZooming) viewDir = Quaternion.AngleAxis(7.5f, playerMoveOrientation.transform.up) * viewDir;
+        // if (_applyReverseRot)
+        // {
+        //     viewDir = Quaternion.AngleAxis(-7.5f, playerMoveOrientation.transform.up) * viewDir;
+        //     _applyReverseRot = false;
+        // }
         playerMoveOrientation.transform.forward = viewDir.normalized;
     }
     
@@ -93,8 +100,8 @@ public class CameraLook : MonoBehaviour
 
     public void OnZoom(InputAction.CallbackContext context)
     {
-        bool isZooming = context.ReadValueAsButton();
-        SwitchCameraState(isZooming ? CameraState.Zoom : CameraState.Regular);
+        _isZooming = context.ReadValueAsButton();
+        SwitchCameraState(_isZooming ? CameraState.Zoom : CameraState.Regular);
     }
 
     private void SwitchCameraState(CameraState newState)
@@ -108,10 +115,5 @@ public class CameraLook : MonoBehaviour
         crosshair.SetActive(newState == CameraState.Zoom);
         
         currentState = newState;
-    }
-
-    private void KillPlayer()
-    {
-        _playerDead = true;
     }
 }

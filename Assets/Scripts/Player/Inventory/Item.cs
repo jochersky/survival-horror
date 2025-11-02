@@ -33,7 +33,7 @@ public class Item : MonoBehaviour, IInteractable
         }
         else
         {
-            // tell player to make room and give them the dimensions
+            // TODO: tell player to make room and give them the dimensions
         }
     }
 }

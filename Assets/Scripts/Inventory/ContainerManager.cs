@@ -73,14 +73,11 @@ public class ContainerManager : MonoBehaviour
 
     public bool FindSpaceForItem(GameObject dragItemPrefab)
     {
-        Debug.Log("here");
-        
         if (dragItemPrefab.TryGetComponent<DraggableItem>(out DraggableItem dragItem) && dragItem.itemData)
         {
             Vector2 itemDim = dragItem.itemData.gridItemDimensions;
             float yRange = _gridHeight - itemDim.y + 1;
             float xRange = _gridWidth - itemDim.x + 1;
-            Debug.Log(yRange + " " + xRange);
             for (int y = 0; y < yRange; y++)
             {
                 for (int x = 0; x < xRange; x++)
