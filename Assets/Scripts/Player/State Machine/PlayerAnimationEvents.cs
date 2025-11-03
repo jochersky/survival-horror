@@ -21,4 +21,9 @@ public class PlayerAnimationEvents : MonoBehaviour
     {
         rightHandWeaponDamage.Deactivate();
     }
+
+    public void ThrowMeleeWeapon()
+    {
+        Debug.Log("Throwing weapon");
+    }
 }

@@ -59,23 +59,11 @@ public class Gun : MonoBehaviour
         _mask = LayerMask.GetMask("EnemyHurtbox", "Environment");
         
         // set the parameter hash references
-        _isZoomingHash = Animator.StringToHash("isZooming");
-        _startedShootingHash = Animator.StringToHash("StartedShooting");
-        _endedShootingHash = Animator.StringToHash("EndedShooting");
+        // _isZoomingHash = Animator.StringToHash("isZooming");
+        // _startedShootingHash = Animator.StringToHash("StartedShooting");
+        // _endedShootingHash = Animator.StringToHash("EndedShooting");
         
         _bulletsRemaining = maxMagazineSize;
-    }
-    
-    private void OnEnable()
-    {
-        // enable the character controls action map
-        // _playerActions.Enable();
-    }
-
-    private void OnDisable()
-    {
-        // disable the character controls action map
-        // _playerActions.Disable();
     }
 
     private void Update()
@@ -121,7 +109,7 @@ public class Gun : MonoBehaviour
     private IEnumerator Fire()
     {
         _isFiring = true;
-        animator.SetTrigger(_startedShootingHash);
+        // animator.SetTrigger(_startedShootingHash);
         
         float timer = 0;
         while (timer < fireRate)
@@ -137,7 +125,7 @@ public class Gun : MonoBehaviour
 
     private void CalculateShot()
     {
-        transform.LookAt(-_cam.transform.forward * 1000f);
+        // transform.LookAt(-_cam.transform.forward * 1000f);
                 
         Vector3 firingDirection = (_cam.transform.forward - projectileSpawners[0].transform.forward).normalized;
             

@@ -72,12 +72,6 @@ public class CameraLook : MonoBehaviour
         
         // rotate camera pivot
         Vector3 viewDir = cameraTarget.transform.position - new Vector3(transform.position.x, cameraTarget.transform.position.y, transform.position.z);
-        // if (_isZooming) viewDir = Quaternion.AngleAxis(7.5f, playerMoveOrientation.transform.up) * viewDir;
-        // if (_applyReverseRot)
-        // {
-        //     viewDir = Quaternion.AngleAxis(-7.5f, playerMoveOrientation.transform.up) * viewDir;
-        //     _applyReverseRot = false;
-        // }
         playerMoveOrientation.transform.forward = viewDir.normalized;
     }
     

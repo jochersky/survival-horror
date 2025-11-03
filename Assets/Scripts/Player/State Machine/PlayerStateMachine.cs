@@ -49,6 +49,8 @@ public class PlayerStateMachine : MonoBehaviour
     private int _isZoomingHash;
     private int _startSwingHash;
     private int _endSwingHash;
+    private int _startThrowHash;
+    private int _endThrowHash;
     private int _isDeadHash;
 
     // Getters and Setters
@@ -82,6 +84,8 @@ public class PlayerStateMachine : MonoBehaviour
     public int IsZoomingHash => _isZoomingHash;
     public int StartSwingHash => _startSwingHash;
     public int EndSwingHash => _endSwingHash;
+    public int StartThrowHash => _startThrowHash;
+    public int EndThrowHash => _endThrowHash;
     public int IsDeadHash => _isDeadHash;
     public GameObject Orientation => orientation;
     public Transform RotatedOrientation => rotatedOrientation;
@@ -121,6 +125,8 @@ public class PlayerStateMachine : MonoBehaviour
         _isZoomingHash = Animator.StringToHash("isZooming");
         _startSwingHash = Animator.StringToHash("StartSwing");
         _endSwingHash = Animator.StringToHash("EndSwing");
+        _startThrowHash = Animator.StringToHash("StartThrow");
+        _endThrowHash = Animator.StringToHash("EndThrow");
         _isDeadHash = Animator.StringToHash("isDead");
         
         // State machine + initial state setup
