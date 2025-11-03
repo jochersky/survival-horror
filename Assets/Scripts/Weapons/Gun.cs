@@ -120,7 +120,7 @@ public class Gun : MonoBehaviour
         
         _bulletsRemaining--;
         _isFiring = false;
-        animator.SetTrigger(_endedShootingHash);
+        // animator.SetTrigger(_endedShootingHash);
     }
 
     private void CalculateShot()

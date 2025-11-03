@@ -14,13 +14,19 @@ public class PlayerSwingState : PlayerBaseState
     {
         _swingEnded = false;
         Context.Animator.SetTrigger(Context.StartSwingHash);
-        // Add forward charge at start of the state
-        Context.MoveVelocity = Vector2.zero;
+        
+        // turn player in direction of cam
+        Context.Player.transform.forward = Context.Orientation.transform.forward;
+        Context.Orientation.transform.forward = Context.Player.transform.forward;
+        
+        // TODO: Add forward charge when animation steps forward
+        Context.MoveVelocity = Vector3.zero; // leave this line here in enter
         Context.MoveVelocity += Context.ForwardDir * 0.5f;
     }
 
     public override void ExitState()
     {
+        Context.MoveVelocity = Vector2.zero;
     }
 
     public override void InitializeSubState()

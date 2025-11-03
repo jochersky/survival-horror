@@ -24,6 +24,6 @@ public class PlayerAnimationEvents : MonoBehaviour
 
     public void ThrowMeleeWeapon()
     {
-        Debug.Log("Throwing weapon");
+        // Debug.Log("Throwing weapon");
     }
 }

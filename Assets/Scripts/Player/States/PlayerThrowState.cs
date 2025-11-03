@@ -14,6 +14,8 @@ public class PlayerThrowState : PlayerBaseState
     {
         _throwEnded = false;
         Context.Animator.SetTrigger(Context.StartThrowHash);
+        
+        Context.MoveVelocity = Vector3.zero;
     }
 
     public override void ExitState()
@@ -35,6 +37,6 @@ public class PlayerThrowState : PlayerBaseState
     private void ThrowEnded()
     {
         _throwEnded = true;
-        Context.Animator.SetTrigger(Context.EndSwingHash);
+        Context.Animator.SetTrigger(Context.EndThrowHash);
     }
 }
