@@ -64,7 +64,7 @@ public class Item : MonoBehaviour, IInteractable
 
     public void MoveToBack()
     {
-        mainTransform.position = backTransform.position;
+        mainTransform.localPosition = backTransform.localPosition;
         mainTransform.localRotation = backTransform.localRotation;
     }
 }

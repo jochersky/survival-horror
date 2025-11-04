@@ -149,6 +149,8 @@ public class DraggableItem : MonoBehaviour, IPointerClickHandler, IBeginDragHand
 
     public void EquipItem()
     {
+        // TODO: call WeaponManager.EquipWeapon(blah) 
+        WeaponManager.instance.EquipWeapon(itemPrefab, itemData);
         equippedIcon.SetActive(true);
     }
 

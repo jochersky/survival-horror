@@ -7,18 +7,30 @@ public class PlayerAnimationEvents : MonoBehaviour
     public delegate void SwingFinished();
     public event SwingFinished OnSwingFinished;
     
+    public delegate void ShootFinished();
+    public event SwingFinished OnShootFinished;
+    
     public void SwingEnded()
     {
         OnSwingFinished?.Invoke();
     }
 
+    public void ShootEnded()
+    {
+        OnShootFinished?.Invoke();
+    }
+
     public void ActivateRightHandWeaponHitbox()
     {
+        if (!rightHandWeaponDamage) return;
+        
         rightHandWeaponDamage.Activate();
     }
 
     public void DeactivateRightHandWeaponHitbox()
     {
+        if (!rightHandWeaponDamage) return;
+        
         rightHandWeaponDamage.Deactivate();
     }
 

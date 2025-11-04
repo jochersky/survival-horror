@@ -7,6 +7,7 @@ public class PlayerStateMachine : MonoBehaviour
     [Header("References")]
     [SerializeField] private InputActionAsset actions;
     [SerializeField] private Player player;
+    [SerializeField] private WeaponManager weaponManager;
     [SerializeField] private Animator animator;
     [SerializeField] private PlayerAnimationEvents playerAnimEvents;
     [SerializeField] private GameObject orientation;
@@ -33,7 +34,8 @@ public class PlayerStateMachine : MonoBehaviour
     private float _currentHorizontalSpeed;
     private bool _dead;
     private bool _meleeWeaponEquipped;
-    private bool _gunWeaponEquipped;
+    // TODO: update this to not set manually
+    private bool _gunWeaponEquipped = true;
 
     // State Variables
     private PlayerBaseState _currentState;
@@ -49,6 +51,8 @@ public class PlayerStateMachine : MonoBehaviour
     private int _isZoomingHash;
     private int _startSwingHash;
     private int _endSwingHash;
+    private int _startedShootingHash;
+    private int _endedShootingHash;
     private int _startThrowHash;
     private int _endThrowHash;
     private int _isDeadHash;
@@ -78,12 +82,14 @@ public class PlayerStateMachine : MonoBehaviour
     public Vector3 VerticalVelocity { get { return _verticalVelocity; } set { _verticalVelocity = value; } }
     public float CurrentHorizontalSpeed { get { return _currentHorizontalSpeed; } set { _currentHorizontalSpeed = value; } }
     public bool Dead => _dead;
-    public bool MeleeWeaponEquipped => _meleeWeaponEquipped;
-    public bool GunWeaponEquipped => _gunWeaponEquipped;
+    public bool MeleeWeaponEquipped { get { return _meleeWeaponEquipped; } set { _meleeWeaponEquipped = value; } }
+    public bool GunWeaponEquipped { get { return _gunWeaponEquipped; } set { _gunWeaponEquipped = value; } }
     public int IsWalkingHash => _isWalkingHash;
     public int IsZoomingHash => _isZoomingHash;
     public int StartSwingHash => _startSwingHash;
     public int EndSwingHash => _endSwingHash;
+    public int StartedShootingHash => _startedShootingHash;
+    public int EndedShootingHash => _endedShootingHash;
     public int StartThrowHash => _startThrowHash;
     public int EndThrowHash => _endThrowHash;
     public int IsDeadHash => _isDeadHash;
@@ -117,14 +123,16 @@ public class PlayerStateMachine : MonoBehaviour
         health.OnDeath += () => _dead = true;
         
         // connect player events
-        // Player.OnMeleeWeaponEquipped += () => { _meleeWeaponEquipped = true; _gunWeaponEquipped = false; };
-        // Player.OnGunWeaponEquipped += () => { _meleeWeaponEquipped = false; _gunWeaponEquipped = true; };
+        weaponManager.OnMeleeWeaponEquipped += () => { _meleeWeaponEquipped = true; _gunWeaponEquipped = false; };
+        weaponManager.OnGunWeaponEquipped += () => { _meleeWeaponEquipped = false; _gunWeaponEquipped = true; };
         
         // set the parameter hash references
         _isWalkingHash = Animator.StringToHash("isWalking");
         _isZoomingHash = Animator.StringToHash("isZooming");
         _startSwingHash = Animator.StringToHash("StartSwing");
         _endSwingHash = Animator.StringToHash("EndSwing");
+        _startedShootingHash = Animator.StringToHash("StartedShooting");
+        _endedShootingHash = Animator.StringToHash("EndedShooting");
         _startThrowHash = Animator.StringToHash("StartThrow");
         _endThrowHash = Animator.StringToHash("EndThrow");
         _isDeadHash = Animator.StringToHash("isDead");
