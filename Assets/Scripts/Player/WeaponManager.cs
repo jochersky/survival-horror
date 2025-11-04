@@ -11,6 +11,8 @@ public class WeaponManager : MonoBehaviour
     public GameObject primary;
     public GameObject secondary;
 
+    private Item primaryItem;
+    private Item secondaryItem;
     private WeaponType _primaryType;
     private WeaponType _secondaryType;
     private bool _switchToPrimary = false;
@@ -33,6 +35,21 @@ public class WeaponManager : MonoBehaviour
         m_SwitchWeapon.started += SwitchWeapon;
     }
 
+    void Start()
+    {
+        if (primary)
+        {
+            primaryItem = primary.GetComponentInChildren<Item>();
+            primaryItem.Equip();
+            primaryItem.MoveToHand();
+        }
+        // if (secondary)
+        // {
+        //     secondaryItem = secondary.GetComponentInChildren<Item>();
+        //     secondaryItem.Equip();
+        // }
+    }
+
     private void SwitchWeapon(InputAction.CallbackContext context)
     {
         // send event to other scripts with what kind of weapon was switched to
@@ -42,7 +59,9 @@ public class WeaponManager : MonoBehaviour
             // else if (_primaryType == WeaponType.Melee) OnMeleeWeaponEquipped?.Invoke();
             
             SetTransform(primary.transform, handTransform);
+            primaryItem.MoveToHand();
             SetTransform(secondary.transform, backTransform);
+            // secondaryItem.MoveToBack();
         }
         else
         {
@@ -50,7 +69,9 @@ public class WeaponManager : MonoBehaviour
             // else if (_secondaryType == WeaponType.Melee) OnMeleeWeaponEquipped?.Invoke();
             
             SetTransform(secondary.transform, handTransform);
+            // secondaryItem.MoveToHand();
             SetTransform(primary.transform, backTransform);
+            primaryItem.MoveToBack();
         }
         
         _switchToPrimary = !_switchToPrimary;
@@ -60,11 +81,12 @@ public class WeaponManager : MonoBehaviour
     {
         t.SetParent(weaponTransform);
         t.localPosition = Vector3.zero;
-        t.rotation = Quaternion.identity;
+        // t.rotation = Quaternion.identity;
     }
     
     public void EquipWeapon(DraggableItem item)
     {
+        // TODO: finish implementing this method
         WeaponData wd = (WeaponData)item.itemData;
         
     }

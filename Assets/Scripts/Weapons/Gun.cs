@@ -2,11 +2,10 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Gun : MonoBehaviour
+public class Gun : Weapon
 {
     // references
     [SerializeField] private InputActionAsset actions;
-    [SerializeField] private Animator animator;
     [SerializeField] private Transform[] projectileSpawners;
     [SerializeField] private GameObject projectileDecal;
     private InputActionMap _playerActions;
@@ -70,7 +69,7 @@ public class Gun : MonoBehaviour
     {
         if (_isZooming)
         {
-            CalculateShot();
+            AimAttack();
         }
     }
 
@@ -121,6 +120,16 @@ public class Gun : MonoBehaviour
         _bulletsRemaining--;
         _isFiring = false;
         // animator.SetTrigger(_endedShootingHash);
+    }
+
+    public override void SwingAttack()
+    {
+        
+    }
+
+    public override void AimAttack()
+    {
+        CalculateShot();
     }
 
     private void CalculateShot()

@@ -3,17 +3,22 @@ using UnityEngine;
 
 public class Item : MonoBehaviour, IInteractable
 {
-    [SerializeField] private Transform followTransform;
+    [SerializeField] private Transform mainTransform;
+    [SerializeField] private Transform rbFollowTransform;
+    [SerializeField] private Transform handTransform;
+    [SerializeField] private Transform backTransform;
+    [SerializeField] private Rigidbody rb;
     [SerializeField] private GameObject draggableItemPrefab;
     [SerializeField] private ItemData itemData;
+    
     private Container _container;
 
     public void FixedUpdate()
     {
-        if (followTransform)
+        if (rbFollowTransform)
         {
-            transform.position = followTransform.position;
-            transform.rotation = followTransform.rotation;
+            transform.position = rbFollowTransform.position;
+            transform.rotation = rbFollowTransform.rotation;
         }
     }
 
@@ -35,5 +40,31 @@ public class Item : MonoBehaviour, IInteractable
         {
             // TODO: tell player to make room and give them the dimensions
         }
+    }
+
+    public void Equip()
+    {
+        rb.detectCollisions = false;
+        rb.useGravity = false;
+        rb.interpolation = RigidbodyInterpolation.None;
+    }
+
+    public void Unequip()
+    {
+        rb.detectCollisions = true;
+        rb.useGravity = true;
+        rb.interpolation = RigidbodyInterpolation.Interpolate;
+    }
+
+    public void MoveToHand()
+    {
+        mainTransform.localPosition = handTransform.localPosition;
+        mainTransform.localRotation = handTransform.localRotation;
+    }
+
+    public void MoveToBack()
+    {
+        mainTransform.position = backTransform.position;
+        mainTransform.localRotation = backTransform.localRotation;
     }
 }
