@@ -1,5 +1,6 @@
 using System;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -22,7 +23,12 @@ public class DraggableItem : MonoBehaviour, IPointerClickHandler, IBeginDragHand
     [HideInInspector] public ContainerManager containerManager;
     private Canvas _canvas;
     private RectTransform _rectTransform;
+    private Vector2 _initialRectPos;
+    private Vector2 _initialAnchorMin;
+    private Vector2 _initialAnchorMax;
     private Image _image;
+
+    private GameObject equippedItemInst;
 
     private Vector3 _rectPosition;
 
@@ -35,6 +41,9 @@ public class DraggableItem : MonoBehaviour, IPointerClickHandler, IBeginDragHand
         _image = GetComponent<Image>();
         _image.sprite = itemData.itemImage;
         _rectPosition = _rectTransform.anchoredPosition;
+        _initialRectPos = _rectTransform.anchoredPosition;
+        _initialAnchorMin = _rectTransform.anchorMin;
+        _initialAnchorMax = _rectTransform.anchorMax;
         _transformDuringDrag = InventoryManager.instance.inventoryUI.transform;
         _canvas = InventoryManager.instance.canvas;
     }
@@ -104,22 +113,39 @@ public class DraggableItem : MonoBehaviour, IPointerClickHandler, IBeginDragHand
         // InventorySlot.OnDrop runs first
         // - inventorySlot is set by the InventorySlot this is dropped on -
         // - containerManager is set by the InventorySlot this is dropped on -
-        
-        GridItem item = new GridItem(
-            inventorySlot.Grid,
-            new Vector2(inventorySlot.X, inventorySlot.Y),
-            itemData.gridItemDimensions,
-            itemData.itemName);
-        if (!containerManager.SetItem(inventorySlot.X, inventorySlot.Y, item))
+
+        if (inventorySlot)
         {
-            parentAfterDrag = _prevParent;
-            inventorySlot = _prevSlot;
-            containerManager.SetItem(inventorySlot.X, inventorySlot.Y, item);
+            GridItem item = new GridItem(
+                inventorySlot.Grid,
+                new Vector2(inventorySlot.X, inventorySlot.Y),
+                itemData.gridItemDimensions,
+                itemData.itemName);
+            if (!containerManager.SetItem(inventorySlot.X, inventorySlot.Y, item))
+            {
+                parentAfterDrag = _prevParent;
+                inventorySlot = _prevSlot;
+                containerManager.SetItem(inventorySlot.X, inventorySlot.Y, item);
+            }
         }
 
         transform.SetParent(parentAfterDrag);
         _image.raycastTarget = true;
-        _rectTransform.anchoredPosition = _rectPosition;
+        
+        // TODO: check to see if parent of WeaponSlot to change position to Vector2.zero
+        // otherwise change it to be the saved _rectPosition
+        
+        if (inventorySlot)
+        {
+            // _rectTransform.anchoredPosition = _rectPosition;
+            _rectTransform.anchoredPosition = _initialRectPos;
+            _rectTransform.anchorMin = _initialAnchorMin;
+            _rectTransform.anchorMax = _initialAnchorMax;
+        }
+        else
+        {
+            _rectTransform.anchoredPosition = Vector2.zero;
+        }
     }
 
     public GridItem CreateGridItem()
@@ -149,9 +175,13 @@ public class DraggableItem : MonoBehaviour, IPointerClickHandler, IBeginDragHand
 
     public void EquipItem()
     {
-        // TODO: call WeaponManager.EquipWeapon(blah) 
-        WeaponManager.instance.EquipWeapon(itemPrefab, itemData);
+        equippedItemInst = WeaponManager.instance.EquipWeapon(itemPrefab, itemData);
         equippedIcon.SetActive(true);
+    }
+
+    public void UnequipItem()
+    {
+        equippedIcon.SetActive(false);
     }
 
     public void DropItem()

@@ -92,7 +92,7 @@ public class WeaponManager : MonoBehaviour
         t.localPosition = Vector3.zero;
     }
     
-    public void EquipWeapon(GameObject item, ItemData itemData)
+    public GameObject EquipWeapon(GameObject item, ItemData itemData)
     {
         // need this line because we can access the WeaponType through the WeaponData attached
         WeaponData wd = (WeaponData)itemData;
@@ -114,8 +114,10 @@ public class WeaponManager : MonoBehaviour
             
             if (_primaryType == WeaponType.Gun) OnGunWeaponEquipped?.Invoke();
             else if (_primaryType == WeaponType.Melee) OnMeleeWeaponEquipped?.Invoke();
+            
+            return primary;
         }
-        else if (!secondary || _equippedPrimaryLast)
+        if (!secondary || _equippedPrimaryLast)
         {
             if (secondary) Destroy(secondary);
             
@@ -131,6 +133,10 @@ public class WeaponManager : MonoBehaviour
             
             if (_secondaryType == WeaponType.Gun) OnGunWeaponEquipped?.Invoke();
             else if (_secondaryType == WeaponType.Melee) OnMeleeWeaponEquipped?.Invoke();
+
+            return secondary;
         }
+
+        return null;
     }
 }
