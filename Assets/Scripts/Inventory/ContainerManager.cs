@@ -128,16 +128,7 @@ public class ContainerManager : MonoBehaviour
         }
         return true;
     }
-
-    private void SetDraggableItemToGrid(DraggableItem dragItem, int x, int y)
-    {
-        GridItem item = dragItem.CreateGridItem();
-        SetItem(x, y, item);
-        dragItem.parentAfterDrag = _slots[x, y].transform;
-        dragItem.inventorySlot = _slots[x, y];
-        dragItem.containerManager = this;
-    }
-
+    
     private bool ValidateItemPlacement(int x, int y, GridItem item)
     {
         // check the item can be placed here 
@@ -156,5 +147,14 @@ public class ContainerManager : MonoBehaviour
             }
         }
         return true;
+    }
+
+    private void SetDraggableItemToGrid(DraggableItem dragItem, int x, int y)
+    {
+        GridItem item = dragItem.CreateGridItem();
+        SetItem(x, y, item);
+        dragItem.parentAfterDrag = _slots[x, y].transform;
+        dragItem.inventorySlot = _slots[x, y];
+        dragItem.containerManager = this;
     }
 }
