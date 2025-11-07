@@ -7,8 +7,25 @@ public class WeaponSlot : MonoBehaviour, IDropHandler
 {
     [HideInInspector] public DraggableItem item;
     
+    public delegate void WeaponEquipped(DraggableItem di);
+    public event WeaponEquipped OnWeaponEquipped;
+
+    public delegate void WeaponUnequipped();
+    public event WeaponUnequipped OnWeaponUnequipped;
+    
+    private void Awake()
+    {
+        DraggableItem[] d = GetComponentsInChildren<DraggableItem>();
+        if (d.Length > 0)
+        {
+            item = d[0];
+        }
+    }
+    
     public void OnDrop(PointerEventData eventData)
     {
+        if (item) return;
+        
         // item dropped on the inventory slot
         GameObject dropped = eventData.pointerDrag;
         MoveToEmptySlot(dropped);
@@ -16,13 +33,15 @@ public class WeaponSlot : MonoBehaviour, IDropHandler
     
     private void MoveToEmptySlot(GameObject dropped)
     {
-        DraggableItem draggableItem = dropped.GetComponent<DraggableItem>();
-        draggableItem.parentAfterDrag = transform;
-        draggableItem.inventorySlot = null;
-        
-        RectTransform rt = dropped.GetComponent<RectTransform>();
-        rt.anchorMax = new Vector2(0.5f, 0.5f);
-        rt.anchorMin = new Vector2(0.5f, 0.5f);
-        rt.anchoredPosition= Vector2.zero;
+        item = dropped.GetComponent<DraggableItem>();
+        item.parentAfterDrag = transform;
+        item.weaponSlot = this;
+        item.inventorySlot = null;
+        OnWeaponEquipped?.Invoke(item);
+    }
+
+    public void UnequipWeaponFromSlot()
+    {
+        OnWeaponUnequipped?.Invoke();
     }
 }

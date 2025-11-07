@@ -8,6 +8,8 @@ public class WeaponManager : MonoBehaviour
     private InputActionMap _playerActions;
     [SerializeField] private Transform handTransform;
     [SerializeField] private Transform backTransform;
+    public WeaponSlot primarySlot;
+    public WeaponSlot secondarySlot;
     public GameObject primary;
     public GameObject secondary;
 
@@ -41,10 +43,18 @@ public class WeaponManager : MonoBehaviour
         // assign input action callbacks
         m_SwitchWeapon = _playerActions.FindAction("SwitchWeapon");
         m_SwitchWeapon.started += SwitchWeapon;
+        
+        // subscribe to events
+        primarySlot.OnWeaponEquipped += EquipPrimary;
+        primarySlot.OnWeaponUnequipped += UnequipPrimary;
+        secondarySlot.OnWeaponEquipped += EquipSecondary;
+        secondarySlot.OnWeaponUnequipped += UnequipSecondary;
     }
 
     void Start()
     {
+        // TODO: get references to weapons already in the slots before calling respective Equip funcs
+        
         if (primary)
         {
             primaryItem = primary.GetComponentInChildren<Item>();
@@ -62,28 +72,41 @@ public class WeaponManager : MonoBehaviour
     private void SwitchWeapon(InputAction.CallbackContext context)
     {
         // send event to other scripts with what kind of weapon was switched to
-        if (_switchToPrimary)
+        if (primary && _switchToPrimary)
         {
             if (_primaryType == WeaponType.Gun) OnGunWeaponEquipped?.Invoke();
             else if (_primaryType == WeaponType.Melee) OnMeleeWeaponEquipped?.Invoke();
+
+            if (primary)
+            {
+                SetTransform(primary.transform, handTransform);
+                primaryItem.MoveToHand();
+            }
+            if (secondary)
+            {
+                SetTransform(secondary.transform, backTransform);
+                secondaryItem.MoveToBack();
+            }
             
-            SetTransform(primary.transform, handTransform);
-            primaryItem.MoveToHand();
-            SetTransform(secondary.transform, backTransform);
-            secondaryItem.MoveToBack();
+            _switchToPrimary = !_switchToPrimary;
         }
-        else
+        else if (secondary && !_switchToPrimary)
         {
             if (_secondaryType == WeaponType.Gun) OnGunWeaponEquipped?.Invoke();
             else if (_secondaryType == WeaponType.Melee) OnMeleeWeaponEquipped?.Invoke();
-            
-            SetTransform(secondary.transform, handTransform);
-            secondaryItem.MoveToHand();
-            SetTransform(primary.transform, backTransform);
-            primaryItem.MoveToBack();
+
+            if (secondary)
+            {
+                SetTransform(secondary.transform, handTransform);
+                secondaryItem.MoveToHand();
+            }
+            if (primary)
+            {
+                SetTransform(primary.transform, backTransform);
+                primaryItem.MoveToBack();
+            }
+            _switchToPrimary = !_switchToPrimary;
         }
-        
-        _switchToPrimary = !_switchToPrimary;
     }
 
     private void SetTransform(Transform t, Transform weaponTransform)
@@ -91,52 +114,60 @@ public class WeaponManager : MonoBehaviour
         t.SetParent(weaponTransform);
         t.localPosition = Vector3.zero;
     }
-    
-    public GameObject EquipWeapon(GameObject item, ItemData itemData)
+
+    private void EquipPrimary(DraggableItem dragItem)
     {
-        // need this line because we can access the WeaponType through the WeaponData attached
-        WeaponData wd = (WeaponData)itemData;
+        if (primary) Destroy(primary);
         
-        // determine which weapon to equip over
-        if (!primary || !_equippedPrimaryLast)
-        {
-            if (primary) Destroy(primary);
-            
-            _equippedPrimaryLast = true;
-            Transform t = _switchToPrimary ? backTransform : handTransform;
-            primary = Instantiate(item, t);
-            primaryItem = primary.GetComponentInChildren<Item>();
-            primaryItem.Equip();
-            _primaryType = wd.weaponType;
-            
-            if (!_switchToPrimary) primaryItem.MoveToHand();
-            else primaryItem.MoveToBack();
-            
-            if (_primaryType == WeaponType.Gun) OnGunWeaponEquipped?.Invoke();
-            else if (_primaryType == WeaponType.Melee) OnMeleeWeaponEquipped?.Invoke();
-            
-            return primary;
-        }
-        if (!secondary || _equippedPrimaryLast)
-        {
-            if (secondary) Destroy(secondary);
-            
-            _equippedPrimaryLast = false;
-            Transform t = _switchToPrimary ? backTransform : handTransform;
-            secondary = Instantiate(item, t);
-            secondaryItem = secondary.GetComponentInChildren<Item>();
-            secondaryItem.Equip();
-            _secondaryType = wd.weaponType;
-            
-            if (!_switchToPrimary) secondaryItem.MoveToBack();
-            else secondaryItem.MoveToHand();
-            
-            if (_secondaryType == WeaponType.Gun) OnGunWeaponEquipped?.Invoke();
-            else if (_secondaryType == WeaponType.Melee) OnMeleeWeaponEquipped?.Invoke();
+        WeaponData wd = (WeaponData)dragItem.itemData;
+        GameObject prefab = dragItem.itemPrefab;
+        
+        Transform t = _switchToPrimary ? backTransform : handTransform;
+        primary = Instantiate(prefab, t);
+        primaryItem = primary.GetComponentInChildren<Item>();
+        primaryItem.Equip();
+        _primaryType = wd.weaponType;
+        
+        if (!_switchToPrimary) primaryItem.MoveToHand();
+        else primaryItem.MoveToBack();
+        
+        if (_primaryType == WeaponType.Gun) OnGunWeaponEquipped?.Invoke();
+        else if (_primaryType == WeaponType.Melee) OnMeleeWeaponEquipped?.Invoke();
+    }
 
-            return secondary;
-        }
+    private void EquipSecondary(DraggableItem dragItem)
+    {
+        if (secondary) Destroy(secondary);
+        
+        WeaponData wd = (WeaponData)dragItem.itemData;
+        GameObject prefab = dragItem.itemPrefab;
+        
+        Transform t = _switchToPrimary ? handTransform : backTransform;
+        secondary = Instantiate(prefab, t);
+        secondaryItem = secondary.GetComponentInChildren<Item>();
+        secondaryItem.Equip();
+        _secondaryType = wd.weaponType;
+        
+        if (_switchToPrimary) secondaryItem.MoveToHand();
+        else secondaryItem.MoveToBack();
+        
+        if (_secondaryType == WeaponType.Gun) OnGunWeaponEquipped?.Invoke();
+        else if (_secondaryType == WeaponType.Melee) OnMeleeWeaponEquipped?.Invoke();
+    }
 
-        return null;
+    private void UnequipPrimary()
+    {
+        primarySlot.item = null;
+        Destroy(primary);
+        primary = null;
+        primaryItem = null;
+    }
+
+    private void UnequipSecondary()
+    {
+        Destroy(secondary);
+        secondarySlot.item = null;
+        secondary = null;
+        secondaryItem = null;
     }
 }

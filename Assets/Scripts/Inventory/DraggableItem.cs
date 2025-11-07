@@ -20,6 +20,7 @@ public class DraggableItem : MonoBehaviour, IPointerClickHandler, IBeginDragHand
     private Transform _transformDuringDrag;
     private InventorySlot _prevSlot;
     [HideInInspector] public InventorySlot inventorySlot;
+    [HideInInspector] public WeaponSlot weaponSlot;
     [HideInInspector] public ContainerManager containerManager;
     private Canvas _canvas;
     private RectTransform _rectTransform;
@@ -111,8 +112,8 @@ public class DraggableItem : MonoBehaviour, IPointerClickHandler, IBeginDragHand
         if (eventData.button != PointerEventData.InputButton.Left) return;
         
         // InventorySlot.OnDrop runs first
-        // - inventorySlot is set by the InventorySlot this is dropped on -
-        // - containerManager is set by the InventorySlot this is dropped on -
+        // - inventorySlot is set by the InventorySlot this is dropped on
+        // - containerManager is set by the InventorySlot this is dropped on
 
         if (inventorySlot)
         {
@@ -132,19 +133,24 @@ public class DraggableItem : MonoBehaviour, IPointerClickHandler, IBeginDragHand
         transform.SetParent(parentAfterDrag);
         _image.raycastTarget = true;
         
-        // TODO: check to see if parent of WeaponSlot to change position to Vector2.zero
-        // otherwise change it to be the saved _rectPosition
-        
+        // Assign transform values based on what kind of slot the item is in
         if (inventorySlot)
         {
-            // _rectTransform.anchoredPosition = _rectPosition;
+            if (weaponSlot)
+            {
+                weaponSlot.UnequipWeaponFromSlot();
+                weaponSlot = null;
+            }
             _rectTransform.anchoredPosition = _initialRectPos;
             _rectTransform.anchorMin = _initialAnchorMin;
             _rectTransform.anchorMax = _initialAnchorMax;
         }
         else
         {
-            _rectTransform.anchoredPosition = Vector2.zero;
+            inventorySlot = null;
+            _rectTransform.anchoredPosition= Vector2.zero;
+            _rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
+            _rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
         }
     }
 
@@ -171,17 +177,6 @@ public class DraggableItem : MonoBehaviour, IPointerClickHandler, IBeginDragHand
                 itemOptionsButtons.SetActive(false);
             }
         }
-    }
-
-    public void EquipItem()
-    {
-        equippedItemInst = WeaponManager.instance.EquipWeapon(itemPrefab, itemData);
-        equippedIcon.SetActive(true);
-    }
-
-    public void UnequipItem()
-    {
-        equippedIcon.SetActive(false);
     }
 
     public void DropItem()
