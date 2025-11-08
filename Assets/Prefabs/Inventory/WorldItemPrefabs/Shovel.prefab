@@ -208,6 +208,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fffbc68f7360e841a11552ac3d7c6df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Melee
+  actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   swingDmg: 0
 --- !u!4 &8152794516158994684 stripped
 Transform:
