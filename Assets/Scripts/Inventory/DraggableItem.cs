@@ -18,6 +18,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     private InventorySlot _prevSlot;
     [HideInInspector] public InventorySlot inventorySlot;
     [HideInInspector] public WeaponSlot weaponSlot;
+    private WeaponSlot _prevWeaponSlot;
     [HideInInspector] public ContainerManager containerManager;
     private Canvas _canvas;
     private RectTransform _rectTransform;
@@ -56,6 +57,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         }
 
         _prevSlot = inventorySlot;
+        _prevWeaponSlot = weaponSlot;
         _prevParent = transform.parent;
         parentAfterDrag = transform.parent;
         transform.SetParent(transform.root);
@@ -110,6 +112,10 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         }
         else
         {
+            if (_prevWeaponSlot && _prevWeaponSlot != weaponSlot)
+            {
+                _prevWeaponSlot.UnequipWeaponFromSlot();
+            }
             if (inventorySlot)
             {
                 containerManager = null;

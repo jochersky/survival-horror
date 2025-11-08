@@ -30,7 +30,7 @@ public class Gun : Weapon
 
     private LayerMask _mask;
 
-    public void Awake()
+    private void Awake()
     {
         _cam = Camera.main;
         
@@ -73,10 +73,7 @@ public class Gun : Weapon
             camHit.point - projectileSpawners[0].transform.position : 
             (_cam.transform.forward - projectileSpawners[0].transform.forward).normalized);
             
-        if (WeaponManager.instance._isPressingFire)
-        {
-            ShootBullet(firingDirection);
-        }
+        ShootBullet(firingDirection);
     }
 
     private void ShootBullet(Vector3 firingDirection)
