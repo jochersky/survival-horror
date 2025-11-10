@@ -9,14 +9,14 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(RectTransform)), RequireComponent(typeof(Image))]
 public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    [InspectorName("References")]
+    [Header("References")]
     public ItemData itemData;
     public GameObject itemPrefab;
     [SerializeField] private RectTransform followTransform;
-    private Transform _prevParent;
     [HideInInspector] public Transform parentAfterDrag;
-    private InventorySlot _prevSlot;
+    private Transform _prevParent;
     [HideInInspector] public InventorySlot inventorySlot;
+    private InventorySlot _prevSlot;
     [HideInInspector] public WeaponSlot weaponSlot;
     private WeaponSlot _prevWeaponSlot;
     [HideInInspector] public ContainerManager containerManager;
@@ -26,8 +26,26 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     private Vector2 _initialAnchorMin;
     private Vector2 _initialAnchorMax;
     private Image _image;
+    [SerializeField] private TextMeshProUGUI _countLabel;
 
     private GameObject equippedItemInst;
+    
+    [Header("Instance Values")]
+    [SerializeField] private int _count = 1;
+    
+    // Getters and Setters
+    public int Count
+    {
+        get { return _count; }
+        set
+        {
+            if (_countLabel)
+            {
+                _countLabel.text = value.ToString();
+                _count = value;
+            }
+        }
+    }
     
     private void Start()
     {
@@ -38,6 +56,11 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         _initialAnchorMin = _rectTransform.anchorMin;
         _initialAnchorMax = _rectTransform.anchorMax;
         _canvas = InventoryManager.instance.canvas;
+        
+        if (_countLabel)
+        {
+            _countLabel.text = Count.ToString();
+        }
     }
     
     public void OnBeginDrag(PointerEventData eventData)

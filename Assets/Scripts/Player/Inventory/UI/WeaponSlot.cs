@@ -34,6 +34,10 @@ public class WeaponSlot : MonoBehaviour, IDropHandler
     private void MoveToEmptySlot(GameObject dropped)
     {
         item = dropped.GetComponent<DraggableItem>();
+        
+        // don't allow non-weapon items to be equipped to weapon slots
+        if (item.itemData.itemType != ItemType.Weapon) return;
+        
         item.parentAfterDrag = transform;
         item.weaponSlot = this;
         item.inventorySlot = null;

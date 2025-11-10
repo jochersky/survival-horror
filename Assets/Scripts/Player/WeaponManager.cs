@@ -87,8 +87,13 @@ public class WeaponManager : MonoBehaviour
 
     private void SwitchWeapon(InputAction.CallbackContext context)
     {
-        if (_weaponInHand == _primaryWeapon) SwitchToSecondary();
-        else if (_weaponInHand == _secondaryWeapon) SwitchToPrimary();
+        if (_weaponInHand == _primaryWeapon && _secondaryWeapon) SwitchToSecondary();
+        else if (_weaponInHand == _secondaryWeapon && _primaryWeapon) SwitchToPrimary();
+        else if (!_weaponInHand)
+        {
+            if (_primaryWeapon) SwitchToPrimary();
+            else SwitchToSecondary();
+        }
     }
 
     private void SwitchToPrimary()
@@ -177,6 +182,7 @@ public class WeaponManager : MonoBehaviour
         primaryObj = null;
         _primaryItem = null;
         _primaryDragItem = null;
+        _primaryWeapon = null;
     }
 
     // connected to secondarySlot event OnWeaponUnequipped
@@ -187,6 +193,7 @@ public class WeaponManager : MonoBehaviour
         secondaryObj = null;
         _secondaryItem = null;
         _secondaryDragItem = null;
+        _secondaryWeapon = null;
     }
 
     public void UnequipCurrent()
@@ -212,6 +219,7 @@ public class WeaponManager : MonoBehaviour
             _primaryItem = null;
             Destroy(_primaryDragItem.gameObject);
             _primaryDragItem = null;
+            _primaryWeapon = null;
         }
         else if (_weaponInHand == _secondaryWeapon)
         {
@@ -220,6 +228,7 @@ public class WeaponManager : MonoBehaviour
             _secondaryItem = null;
             Destroy(_secondaryDragItem.gameObject);
             _secondaryDragItem = null;
+            _secondaryWeapon = null;
         }
 
         _weaponInHand = null;

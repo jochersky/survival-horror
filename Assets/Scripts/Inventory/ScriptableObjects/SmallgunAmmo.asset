@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21ea45c5192a94a4f8786cd9d4956c55, type: 3}
+  m_Name: SmallgunAmmo
+  m_EditorClassIdentifier: Assembly-CSharp::AmmoData
+  itemType: 1
+  itemName: SmallgunAmmo
+  itemImage: {fileID: -1292063349, guid: bf8a8cb3f9b320240b87b79fd7017eda, type: 3}
+  itemPrefab: {fileID: 1675452044815054457, guid: 99dfe6ceea2fd464aa22e276893f740d, type: 3}
+  gridItemDimensions: {x: 1, y: 1}
+  gridItemOrigin: {x: 0, y: 0}
+  maxCount: 12
+  gunType: 
