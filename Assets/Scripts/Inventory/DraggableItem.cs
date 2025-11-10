@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(RectTransform)), RequireComponent(typeof(Image))]
 public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
@@ -31,21 +32,23 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     private GameObject equippedItemInst;
     
     [Header("Instance Values")]
-    [SerializeField] private int _count = 1;
+    [SerializeField] private int count = 1;
     
     // Getters and Setters
     public int Count
     {
-        get { return _count; }
+        get => count;
         set
         {
             if (_countLabel)
             {
                 _countLabel.text = value.ToString();
-                _count = value;
+                count = value;
             }
         }
     }
+    public RectTransform RectTransform => _rectTransform;
+    public Vector2 InitialRectPos => _initialRectPos;
     
     private void Start()
     {
@@ -57,10 +60,10 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         _initialAnchorMax = _rectTransform.anchorMax;
         _canvas = InventoryManager.instance.canvas;
         
-        if (_countLabel)
-        {
-            _countLabel.text = Count.ToString();
-        }
+        // if (_countLabel)
+        // {
+        //     _countLabel.text = count.ToString();
+        // }
     }
     
     public void OnBeginDrag(PointerEventData eventData)
@@ -144,7 +147,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
                 containerManager = null;
                 inventorySlot = null;
             }
-            _rectTransform.anchoredPosition= Vector2.zero;
+            _rectTransform.anchoredPosition = Vector2.zero;
             _rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
             _rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
         }

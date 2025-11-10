@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Item : MonoBehaviour, IInteractable
 {
+    [Header("References")]
     [SerializeField] private Transform mainTransform;
     [SerializeField] private Transform rbFollowTransform;
     [SerializeField] private Transform handTransform;
@@ -10,6 +11,9 @@ public class Item : MonoBehaviour, IInteractable
     [SerializeField] private Rigidbody rb;
     [SerializeField] private GameObject draggableItemPrefab;
     [SerializeField] private ItemData itemData;
+    
+    [Header("Instance Values")]
+    [SerializeField] private int count = 1;
     
     private Container _container;
 
@@ -32,7 +36,8 @@ public class Item : MonoBehaviour, IInteractable
     public void Interact()
     {
         // Find a spot to put the item into the inventory
-        if (InventoryManager.instance.playerInventoryContainerManager.FindSpaceForItem(draggableItemPrefab))
+        bool foundSpot = InventoryManager.instance.playerInventoryContainerManager.FindSpaceForItem(draggableItemPrefab, count);
+        if (foundSpot)
         {
             Destroy(transform.parent.gameObject);
         }

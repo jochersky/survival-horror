@@ -71,17 +71,14 @@ public class ContainerManager : MonoBehaviour
         return new GridItem(g, origin, dim, n);
     }
 
-    public bool FindSpaceForItem(GameObject dragItemPrefab)
+    public bool FindSpaceForItem(GameObject dragItemPrefab, int count)
     {
-        bool dragItemFound = dragItemPrefab.TryGetComponent<DraggableItem>(out DraggableItem dragItem);
-        if (!dragItemFound) return false;
-        
-        if (dragItem.itemData)
+        if (dragItemPrefab.TryGetComponent<DraggableItem>(out DraggableItem dragItem) && dragItem.itemData)
         {
             bool stackable = IsStackableItem(dragItem.itemData.itemType);
 
             if (!stackable) return AddNonStackableItem(dragItem, dragItemPrefab);
-            else return AddStackableItem(dragItem, dragItemPrefab);
+            else return AddStackableItem(dragItem, dragItemPrefab, count);
         }
         
         return false;
@@ -94,7 +91,7 @@ public class ContainerManager : MonoBehaviour
     //          populate the first empty location found with the remaining amount of the item.
     //      if no stackable item location exists or there are no open stackable locations,
     //      place in first empty location.
-    private bool AddStackableItem(DraggableItem dragItem, GameObject dragItemPrefab)
+    private bool AddStackableItem(DraggableItem dragItem, GameObject dragItemPrefab, int count)
     {
         Vector2 itemDim = dragItem.itemData.gridItemDimensions;
         float yRange = _gridHeight - itemDim.y + 1;
@@ -110,20 +107,23 @@ public class ContainerManager : MonoBehaviour
             for (int x = 0; x < _gridWidth; x++)
             {
                 int slotIndex = y * _gridWidth + x;
-                _slots[x,y] = _s[slotIndex];
+                // _slots[x,y] = _s[slotIndex];
                 DraggableItem di = _s[slotIndex].item;
+                Debug.Log(di);
                 if (!di) continue;
                 
                 String diName = di.itemData.itemName;
-                int count = di.Count;
+                int c = di.Count;
                 
                 // Only add matching items which have a count lower than the max
-                if (diName == itemName && count < maxCount) draggableItems.Add(di);
+                if (diName == itemName && c < maxCount) draggableItems.Add(di);
             }
         }
         
+        Debug.Log(draggableItems.Count);
+        
         // go through all items found
-        int countLeft = dragItem.Count; // TODO: change to the right count
+        int countLeft = count;
         if (draggableItems.Count > 0)
         {
             foreach (DraggableItem di in draggableItems)
@@ -143,8 +143,6 @@ public class ContainerManager : MonoBehaviour
                     di.Count = newCount;
                 }
             }
-            
-            dragItem.Count = countLeft;
         }
         
         // look for an empty spot to add the item
@@ -161,11 +159,18 @@ public class ContainerManager : MonoBehaviour
                     {
                         GameObject inst = Instantiate(dragItemPrefab, _slots[x, y].gameObject.transform);
                         DraggableItem di = inst.GetComponent<DraggableItem>();
+                        di.Count = countLeft;
                         SetDraggableItemToGrid(di, x, y);
+                        _slots[x, y].item = di;
                         return true;
                     }
                 }
             }
+        }
+        // item successfully stacked into existing stacks
+        else
+        {
+            return true;
         }
         
         return false;
@@ -189,6 +194,7 @@ public class ContainerManager : MonoBehaviour
                     GameObject inst = Instantiate(dragItemPrefab, _slots[x, y].gameObject.transform);
                     DraggableItem di = inst.GetComponent<DraggableItem>();
                     SetDraggableItemToGrid(di, x, y);
+                    _slots[x, y].item = di;
                     return true;
                 }
             }
