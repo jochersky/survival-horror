@@ -84,19 +84,11 @@ public class ContainerManager : MonoBehaviour
         return false;
     }
 
-    // Go through all inventory slots looking for a stackable item location.
-    //      if there are stackable item locations,
-    //      update the count of each stackable item,
-    //          if the item still has count > 0 after updating counts,
-    //          populate the first empty location found with the remaining amount of the item.
-    //      if no stackable item location exists or there are no open stackable locations,
-    //      place in first empty location.
     private bool AddStackableItem(DraggableItem dragItem, GameObject dragItemPrefab, int count)
     {
         Vector2 itemDim = dragItem.itemData.gridItemDimensions;
         float yRange = _gridHeight - itemDim.y + 1;
         float xRange = _gridWidth - itemDim.x + 1;
-        ItemType itemType = dragItem.itemData.itemType;
         String itemName = dragItem.itemData.itemName;
         int maxCount = dragItem.itemData.maxCount;
         
@@ -106,10 +98,7 @@ public class ContainerManager : MonoBehaviour
         {
             for (int x = 0; x < _gridWidth; x++)
             {
-                int slotIndex = y * _gridWidth + x;
-                // _slots[x,y] = _s[slotIndex];
-                DraggableItem di = _s[slotIndex].item;
-                Debug.Log(di);
+                DraggableItem di = _slots[x, y].item;
                 if (!di) continue;
                 
                 String diName = di.itemData.itemName;
@@ -119,8 +108,6 @@ public class ContainerManager : MonoBehaviour
                 if (diName == itemName && c < maxCount) draggableItems.Add(di);
             }
         }
-        
-        Debug.Log(draggableItems.Count);
         
         // go through all items found
         int countLeft = count;

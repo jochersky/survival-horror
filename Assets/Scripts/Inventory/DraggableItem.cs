@@ -60,10 +60,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         _initialAnchorMax = _rectTransform.anchorMax;
         _canvas = InventoryManager.instance.canvas;
         
-        // if (_countLabel)
-        // {
-        //     _countLabel.text = count.ToString();
-        // }
+        if (_countLabel) _countLabel.text = count.ToString();
     }
     
     public void OnBeginDrag(PointerEventData eventData)
