@@ -124,6 +124,14 @@ PrefabInstance:
       propertyPath: m_PreserveAspect
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5526912263520373065, guid: 6fdd3a7d2c7da06409842605f5f7be1d, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -16
+      objectReference: {fileID: 0}
+    - target: {fileID: 5526912263520373065, guid: 6fdd3a7d2c7da06409842605f5f7be1d, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -16
+      objectReference: {fileID: 0}
     - target: {fileID: 6826899344767817855, guid: 6fdd3a7d2c7da06409842605f5f7be1d, type: 3}
       propertyPath: m_IsActive
       value: 0

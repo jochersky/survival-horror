@@ -239,17 +239,17 @@ public class WeaponManager : MonoBehaviour
 
     public bool EquipThrownWeaponOnPickup(GameObject dragItemPrefab)
     {
-        if (!_primaryDragItem)
+        if (!primaryObj)
         {
             DraggableItem dragItemInst = InstanceDragItemPrefabIntoSlot(dragItemPrefab, primarySlot);
             EquipPrimary(dragItemInst);
             lastThrownWeaponName = "";
             return true;
         } 
-        if (!_secondaryDragItem)
+        if (!secondaryObj)
         {
             DraggableItem dragItemInst = InstanceDragItemPrefabIntoSlot(dragItemPrefab, secondarySlot);
-            EquipPrimary(dragItemInst);
+            EquipSecondary(dragItemInst);
             lastThrownWeaponName = "";
             return true;
         }
@@ -261,6 +261,10 @@ public class WeaponManager : MonoBehaviour
     {
         GameObject inst = Instantiate(dragItemPrefab, slot.transform);
         DraggableItem di = inst.GetComponent<DraggableItem>();
+        RectTransform rt = inst.GetComponent<RectTransform>();
+        rt.anchoredPosition = Vector2.zero;
+        rt.anchorMax = new Vector2(0.5f, 0.5f);
+        rt.anchorMin = new Vector2(0.5f, 0.5f);
         return di;
     }
 }

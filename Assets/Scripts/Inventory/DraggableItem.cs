@@ -14,6 +14,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public ItemData itemData;
     public GameObject itemPrefab;
     [SerializeField] private RectTransform followTransform;
+    [SerializeField] private RectTransform inventorySlotTransform;
     [HideInInspector] public Transform parentAfterDrag;
     private Transform _prevParent;
     [HideInInspector] public InventorySlot inventorySlot;
@@ -24,8 +25,6 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     private Canvas _canvas;
     private RectTransform _rectTransform;
     private Vector2 _initialRectPos;
-    private Vector2 _initialAnchorMin;
-    private Vector2 _initialAnchorMax;
     private Image _image;
     [SerializeField] private TextMeshProUGUI _countLabel;
 
@@ -56,8 +55,6 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         _image = GetComponent<Image>();
         _image.sprite = itemData.itemImage;
         _initialRectPos = _rectTransform.anchoredPosition;
-        _initialAnchorMin = _rectTransform.anchorMin;
-        _initialAnchorMax = _rectTransform.anchorMax;
         _canvas = InventoryManager.instance.canvas;
         
         if (_countLabel) _countLabel.text = count.ToString();
@@ -129,9 +126,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
                 weaponSlot.UnequipWeaponFromSlot();
                 weaponSlot = null;
             }
-            _rectTransform.anchoredPosition = _initialRectPos;
-            _rectTransform.anchorMin = _initialAnchorMin;
-            _rectTransform.anchorMax = _initialAnchorMax;
+            SetTransformToInventorySlot();
         }
         else
         {
@@ -144,9 +139,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
                 containerManager = null;
                 inventorySlot = null;
             }
-            _rectTransform.anchoredPosition = Vector2.zero;
-            _rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
-            _rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
+            SetTransformToWeaponSlot();
         }
     }
 
@@ -175,5 +168,19 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         }
         
         Destroy(this.gameObject);
+    }
+
+    private void SetTransformToWeaponSlot()
+    {
+        _rectTransform.anchoredPosition = Vector2.zero;
+        _rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
+        _rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
+    }
+
+    private void SetTransformToInventorySlot()
+    {
+        _rectTransform.anchoredPosition = inventorySlotTransform.anchoredPosition;
+        _rectTransform.anchorMax = inventorySlotTransform.anchorMax;
+        _rectTransform.anchorMin = inventorySlotTransform.anchorMin;
     }
 }
