@@ -22,6 +22,7 @@ public class WeaponManager : MonoBehaviour
     private Weapon _weaponInHand;
     private Weapon _primaryWeapon;
     private Weapon _secondaryWeapon;
+    public string lastThrownWeaponName = "";
     
     public bool _isZooming;
     public bool _isPressingFire;
@@ -126,6 +127,7 @@ public class WeaponManager : MonoBehaviour
         else item.MoveToBack();
     }
 
+    // connected to primarySlot event OnWeaponEquipped
     private void EquipPrimary(DraggableItem dragItem)
     {
         if (primaryObj) Destroy(primaryObj);
@@ -150,6 +152,7 @@ public class WeaponManager : MonoBehaviour
         _primaryItem.Equip();
     }
 
+    // connected to secondarySlot event OnWeaponEquipped
     private void EquipSecondary(DraggableItem dragItem)
     {
         if (secondaryObj) Destroy(secondaryObj);
@@ -210,10 +213,9 @@ public class WeaponManager : MonoBehaviour
 
     public void UnequipThrownWeapon()
     {
-        // TODO: replace Destroy(dragItem.gameObject); with temporary equipped item
-        // for when the item is picked up and can be picked up again
         if (_weaponInHand == _primaryWeapon)
         {
+            lastThrownWeaponName = _primaryDragItem.itemData.itemName;
             primarySlot.item = null;
             primaryObj = null;
             _primaryItem = null;
@@ -223,6 +225,7 @@ public class WeaponManager : MonoBehaviour
         }
         else if (_weaponInHand == _secondaryWeapon)
         {
+            lastThrownWeaponName = _secondaryDragItem.itemData.itemName;
             secondarySlot.item = null;
             secondaryObj = null;
             _secondaryItem = null;
@@ -232,5 +235,32 @@ public class WeaponManager : MonoBehaviour
         }
 
         _weaponInHand = null;
+    }
+
+    public bool EquipThrownWeaponOnPickup(GameObject dragItemPrefab)
+    {
+        if (!_primaryDragItem)
+        {
+            DraggableItem dragItemInst = InstanceDragItemPrefabIntoSlot(dragItemPrefab, primarySlot);
+            EquipPrimary(dragItemInst);
+            lastThrownWeaponName = "";
+            return true;
+        } 
+        if (!_secondaryDragItem)
+        {
+            DraggableItem dragItemInst = InstanceDragItemPrefabIntoSlot(dragItemPrefab, secondarySlot);
+            EquipPrimary(dragItemInst);
+            lastThrownWeaponName = "";
+            return true;
+        }
+
+        return false;
+    }
+
+    private DraggableItem InstanceDragItemPrefabIntoSlot(GameObject dragItemPrefab, WeaponSlot slot)
+    {
+        GameObject inst = Instantiate(dragItemPrefab, slot.transform);
+        DraggableItem di = inst.GetComponent<DraggableItem>();
+        return di;
     }
 }

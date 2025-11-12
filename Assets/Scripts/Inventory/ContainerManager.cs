@@ -76,7 +76,15 @@ public class ContainerManager : MonoBehaviour
         if (dragItemPrefab.TryGetComponent<DraggableItem>(out DraggableItem dragItem) && dragItem.itemData)
         {
             bool stackable = IsStackableItem(dragItem.itemData.itemType);
+            
+            // Thrown weapon re-equip handling
+            bool matchingWeapon = dragItem.itemData.itemName == WeaponManager.instance.lastThrownWeaponName;
+            if (matchingWeapon && WeaponManager.instance.EquipThrownWeaponOnPickup(dragItemPrefab))
+            {
+                return true;
+            }
 
+            // stackable and non-stackable item handling
             if (!stackable) return AddNonStackableItem(dragItem, dragItemPrefab);
             else return AddStackableItem(dragItem, dragItemPrefab, count);
         }
