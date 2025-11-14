@@ -151,6 +151,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public void DropItem()
     {
         InventoryManager.instance.SpawnItem(itemPrefab);
+        containerManager.DropItemWithName(itemData.itemName);
 
         if (inventorySlot)
         {

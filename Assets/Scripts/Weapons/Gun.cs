@@ -29,6 +29,9 @@ public class Gun : Weapon
     private bool _isFiring;
 
     private LayerMask _mask;
+    
+    // getters and setters
+    public int BulletsRemaining { get { return _bulletsRemaining; } }
 
     private void Awake()
     {

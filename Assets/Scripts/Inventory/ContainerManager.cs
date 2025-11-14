@@ -20,6 +20,9 @@ public class ContainerManager : MonoBehaviour
     
     public delegate void StartFinished();
     public event StartFinished OnStartFinished;
+
+    public delegate void StackableItemCountsUpdated(string itemName);
+    public event StackableItemCountsUpdated OnStackableItemCountsUpdated;
     
     private void Start() {
         _gridLayoutGroup = GetComponent<GridLayoutGroup>();
@@ -157,14 +160,18 @@ public class ContainerManager : MonoBehaviour
                         di.Count = countLeft;
                         SetDraggableItemToGrid(di, x, y);
                         _slots[x, y].item = di;
+                        OnStackableItemCountsUpdated?.Invoke(itemName);
                         return true;
                     }
                 }
             }
+            
+            // TODO: no empty place was found, place an overflow amount in the world
         }
         // item successfully stacked into existing stacks
         else
         {
+            OnStackableItemCountsUpdated?.Invoke(itemName);
             return true;
         }
         
@@ -263,5 +270,31 @@ public class ContainerManager : MonoBehaviour
         dragItem.parentAfterDrag = _slots[x, y].transform;
         dragItem.inventorySlot = _slots[x, y];
         dragItem.containerManager = this;
+    }
+
+    public List<DraggableItem> GetAllDraggableItems(string itemName)
+    {
+        // Find all matching stackable draggable items in inventory slots
+        List<DraggableItem> draggableItems = new List<DraggableItem>();
+        for (int y = 0; y < _gridHeight; y++)
+        {
+            for (int x = 0; x < _gridWidth; x++)
+            {
+                DraggableItem di = _slots[x, y].item;
+                if (!di) continue;
+                
+                String diName = di.itemData.itemName;
+                int c = di.Count;
+                
+                if (diName == itemName) draggableItems.Add(di);
+            }
+        }
+        
+        return draggableItems;
+    }
+
+    public void DropItemWithName(string itemName)
+    {
+        OnStackableItemCountsUpdated?.Invoke(itemName);
     }
 }
