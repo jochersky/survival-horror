@@ -35,6 +35,12 @@ public class Gun : Weapon
     // getters and setters
     public int BulletsRemaining { get { return _bulletsRemaining; } }
 
+    public delegate void ReloadComplete(Gun gun);
+    public event ReloadComplete OnReloadComplete;
+
+    public delegate void FireComplete(Gun gun);
+    public event FireComplete OnFireComplete;
+
     private void Awake()
     {
         _cam = Camera.main;
@@ -55,9 +61,9 @@ public class Gun : Weapon
     {
         if (_isReloading || _bulletsRemaining == maxMagazineSize) return;
         
-        int amt = WeaponManager.instance.GetAmmoAmount(this, maxMagazineSize);
+        int amt = WeaponManager.instance.GetAmmoAmount(this, maxMagazineSize - _bulletsRemaining);
         if (amt == 0) return;
-        _reload = StartCoroutine(Reload(amt));
+        _reload = StartCoroutine(Reload(_bulletsRemaining + amt));
     }
 
     public override void SwingAttack()
@@ -106,9 +112,9 @@ public class Gun : Weapon
         }
         else if (_bulletsRemaining <= 0)
         {
-            int amt = WeaponManager.instance.GetAmmoAmount(this, maxMagazineSize);
+            int amt = WeaponManager.instance.GetAmmoAmount(this, maxMagazineSize - _bulletsRemaining);
             if (amt == 0) return;
-            _reload = StartCoroutine(Reload(amt));
+            _reload = StartCoroutine(Reload(_bulletsRemaining + amt));
         }
     }
     
@@ -122,8 +128,8 @@ public class Gun : Weapon
             timer += Time.deltaTime;
             yield return null;
         }
-
         _bulletsRemaining = amt;
+        OnReloadComplete?.Invoke(this);
         _isReloading = false;
     }
 
@@ -139,6 +145,7 @@ public class Gun : Weapon
         }
         
         _bulletsRemaining--;
+        OnFireComplete?.Invoke(this);
         _isFiring = false;
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -213,6 +214,8 @@ public class WeaponManager : MonoBehaviour
             _primaryAmmoName = "SmallgunAmmo";
             _primaryAmmoCount = CountAmmo(_primaryWeaponAmmoItems);
             ammoCounterText.text = gun.BulletsRemaining +  " // " + _primaryAmmoCount;
+            gun.OnReloadComplete += UpdateBulletsRemaining;
+            gun.OnFireComplete += UpdateBulletsRemaining;
         }
         
         SetTransform(primaryObj.transform, primaryInHand ? handTransform : backTransform, _primaryItem);
@@ -248,7 +251,7 @@ public class WeaponManager : MonoBehaviour
         _secondaryWeapon = w;
         _secondaryItem = secondaryObj.GetComponentInChildren<Item>();
         
-        if (_primaryWeapon is Gun gun)
+        if (_secondaryWeapon is Gun gun)
         {
             // get all the ammo for the gun in the inventory
             ContainerManager cm = InventoryManager.instance.playerInventoryContainerManager;
@@ -256,6 +259,8 @@ public class WeaponManager : MonoBehaviour
             _secondaryAmmoName = "SmallgunAmmo";
             _secondaryAmmoCount = CountAmmo(_secondaryWeaponAmmoItems);
             ammoCounterText.text = gun.BulletsRemaining +  " // " + _secondaryAmmoCount;
+            gun.OnReloadComplete += UpdateBulletsRemaining;
+            gun.OnFireComplete += UpdateBulletsRemaining;
         }
 
         SetTransform(secondaryObj.transform, !primaryInHand ? handTransform : backTransform, _secondaryItem);
@@ -345,6 +350,8 @@ public class WeaponManager : MonoBehaviour
 
     private int CountAmmo(List<DraggableItem> dragItems)
     {
+        if (dragItems.Count == 0) return 0;
+        
         int totalAmmo = 0;
         foreach (DraggableItem dragItem in dragItems)
             totalAmmo += dragItem.Count;
@@ -376,23 +383,72 @@ public class WeaponManager : MonoBehaviour
         if (gun == _primaryWeapon)
         {
             if (_primaryAmmoCount == 0) return 0;
+
+            int numAmmo = amt;
             if (_primaryAmmoCount < amt)
             {
-                int rem = _primaryAmmoCount;
+                numAmmo = _primaryAmmoCount;
                 _primaryAmmoCount = 0;
-                return rem;
             }
-            if (_primaryAmmoCount >= amt)
+            else if (_primaryAmmoCount >= amt)
             {
                 _primaryAmmoCount -= amt;
-                return amt;
             }
+            
+            int amtToDecrement = numAmmo;
+            foreach (DraggableItem di in _primaryWeaponAmmoItems)
+            {
+                if (di.Count <= amtToDecrement)
+                {
+                    amtToDecrement -= di.Count;
+                }
+                else
+                {
+                    di.Count -= amtToDecrement;
+                }
+                if (amtToDecrement == 0) break;
+            }
+            return numAmmo;
         }
         if (gun == _secondaryWeapon)
         {
+            if (_secondaryAmmoCount == 0) return 0;
+
+            int numAmmo = amt;
+            if (_secondaryAmmoCount < amt)
+            {
+                numAmmo = _secondaryAmmoCount;
+                _secondaryAmmoCount = 0;
+            }
+            else if (_secondaryAmmoCount >= amt)
+            {
+                _secondaryAmmoCount -= amt;
+            }
             
+            int amtToDecrement = numAmmo;
+            foreach (DraggableItem di in _secondaryWeaponAmmoItems)
+            {
+                if (di.Count <= amtToDecrement)
+                {
+                    amtToDecrement -= di.Count;
+                    Destroy(di.gameObject);
+                }
+                else
+                {
+                    di.Count -= amtToDecrement;
+                }
+                if (amtToDecrement == 0) break;
+            }
+            return numAmmo;
         }
         
         return 0;
+    }
+
+    private void UpdateBulletsRemaining(Gun gun)
+    {
+        ammoCounterText.text = gun.BulletsRemaining + " // ";
+        if (gun == _primaryWeapon) ammoCounterText.text += _primaryAmmoCount;
+        else if (gun == _secondaryWeapon) ammoCounterText.text += _secondaryAmmoCount;
     }
 }

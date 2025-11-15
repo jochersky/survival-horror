@@ -39,6 +39,11 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         get => count;
         set
         {
+            if (value == 0)
+            {
+                RemoveItemFromGrid();
+                Destroy(gameObject);
+            }
             if (_countLabel)
             {
                 _countLabel.text = value.ToString();
@@ -66,14 +71,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         
         if (inventorySlot)
         {
-            // remove the item from the grid as it's being dragged.
-            // (set grid values back to default GridItem + enable surrounding InventorySlots)
-            GridItem empty = new GridItem(
-                inventorySlot.Grid,
-                new Vector2(inventorySlot.X, inventorySlot.Y),
-                itemData.gridItemDimensions,
-                "empty");
-            containerManager.SetItem(inventorySlot.X, inventorySlot.Y, empty);
+            RemoveItemFromGrid();
         }
 
         _prevSlot = inventorySlot;
@@ -156,12 +154,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
         if (inventorySlot)
         {
-            GridItem item = new GridItem(
-                inventorySlot.Grid,
-                new Vector2(inventorySlot.X, inventorySlot.Y),
-                itemData.gridItemDimensions,
-                "empty");
-            containerManager.SetItem(inventorySlot.X, inventorySlot.Y, item);
+            RemoveItemFromGrid();
         }
 
         if (weaponSlot)
@@ -184,5 +177,15 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         _rectTransform.anchoredPosition = inventorySlotTransform.anchoredPosition;
         _rectTransform.anchorMax = inventorySlotTransform.anchorMax;
         _rectTransform.anchorMin = inventorySlotTransform.anchorMin;
+    }
+
+    private void RemoveItemFromGrid()
+    {
+        GridItem empty = new GridItem(
+            inventorySlot.Grid,
+            new Vector2(inventorySlot.X, inventorySlot.Y),
+            itemData.gridItemDimensions,
+            "empty");
+        containerManager.SetItem(inventorySlot.X, inventorySlot.Y, empty);
     }
 }
