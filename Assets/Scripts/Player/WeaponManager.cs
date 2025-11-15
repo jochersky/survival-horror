@@ -360,7 +360,6 @@ public class WeaponManager : MonoBehaviour
             _primaryWeaponAmmoItems = cm.GetAllDraggableItems(itemName); // TODO: change to an ammo tag check
             _primaryAmmoCount = CountAmmo(_primaryWeaponAmmoItems);
             ammoCounterText.text = priGun.BulletsRemaining +  " // " + _primaryAmmoCount;
-            Debug.Log(_primaryAmmoCount);
         }
         if (itemName == _secondaryAmmoName && _secondaryWeapon is Gun secGun)
         {
@@ -370,5 +369,30 @@ public class WeaponManager : MonoBehaviour
             _secondaryAmmoCount = CountAmmo(_secondaryWeaponAmmoItems);
             ammoCounterText.text = secGun.BulletsRemaining +  " // " + _secondaryAmmoCount;
         }
+    }
+
+    public int GetAmmoAmount(Gun gun, int amt)
+    {
+        if (gun == _primaryWeapon)
+        {
+            if (_primaryAmmoCount == 0) return 0;
+            if (_primaryAmmoCount < amt)
+            {
+                int rem = _primaryAmmoCount;
+                _primaryAmmoCount = 0;
+                return rem;
+            }
+            if (_primaryAmmoCount >= amt)
+            {
+                _primaryAmmoCount -= amt;
+                return amt;
+            }
+        }
+        if (gun == _secondaryWeapon)
+        {
+            
+        }
+        
+        return 0;
     }
 }

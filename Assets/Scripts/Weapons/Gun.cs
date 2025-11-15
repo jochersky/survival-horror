@@ -5,10 +5,12 @@ using UnityEngine.InputSystem;
 public class Gun : Weapon
 {
     [Header("References")]
+    [SerializeField] private InputActionAsset actions;
     [SerializeField] private Transform[] projectileSpawners;
     [SerializeField] private GameObject projectileDecal;
     // must be assigned when the prefab has already been instanced
     private Camera _cam;
+    private InputActionMap _playerActions;
 
     [Header("Gun Stats")] 
     [SerializeField] private float damage = 35f;
@@ -37,6 +39,12 @@ public class Gun : Weapon
     {
         _cam = Camera.main;
         
+        _playerActions = actions.FindActionMap("Player");
+        
+        // assign input action callbacks
+        m_ReloadAction = actions.FindAction("Reload");
+        m_ReloadAction.started += OnReload;
+        
         // Assign layers that the gun can interact with
         _mask = LayerMask.GetMask("EnemyHurtbox", "Environment");
         
@@ -47,7 +55,9 @@ public class Gun : Weapon
     {
         if (_isReloading || _bulletsRemaining == maxMagazineSize) return;
         
-        _reload = StartCoroutine(Reload());
+        int amt = WeaponManager.instance.GetAmmoAmount(this, maxMagazineSize);
+        if (amt == 0) return;
+        _reload = StartCoroutine(Reload(amt));
     }
 
     public override void SwingAttack()
@@ -96,11 +106,13 @@ public class Gun : Weapon
         }
         else if (_bulletsRemaining <= 0)
         {
-            _reload = StartCoroutine(Reload());
+            int amt = WeaponManager.instance.GetAmmoAmount(this, maxMagazineSize);
+            if (amt == 0) return;
+            _reload = StartCoroutine(Reload(amt));
         }
     }
     
-    private IEnumerator Reload()
+    private IEnumerator Reload(int amt)
     {
         _isReloading = true;
         
@@ -111,7 +123,7 @@ public class Gun : Weapon
             yield return null;
         }
 
-        _bulletsRemaining = maxMagazineSize;
+        _bulletsRemaining = amt;
         _isReloading = false;
     }
 
