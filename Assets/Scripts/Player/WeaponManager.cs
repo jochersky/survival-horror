@@ -28,6 +28,8 @@ public class WeaponManager : MonoBehaviour
     private Weapon _secondaryWeapon;
     private List<DraggableItem> _primaryWeaponAmmoItems;
     private List<DraggableItem> _secondaryWeaponAmmoItems;
+    private string _primaryAmmoName;
+    private string _secondaryAmmoName;
     private int _primaryAmmoCount;
     private int _secondaryAmmoCount;
     public string lastThrownWeaponName = "";
@@ -208,6 +210,7 @@ public class WeaponManager : MonoBehaviour
             // get all the ammo for the gun in the inventory
             ContainerManager cm = InventoryManager.instance.playerInventoryContainerManager;
             _primaryWeaponAmmoItems = cm.GetAllDraggableItems("SmallgunAmmo"); // TODO: change to an ammo tag check
+            _primaryAmmoName = "SmallgunAmmo";
             _primaryAmmoCount = CountAmmo(_primaryWeaponAmmoItems);
             ammoCounterText.text = gun.BulletsRemaining +  " // " + _primaryAmmoCount;
         }
@@ -250,6 +253,7 @@ public class WeaponManager : MonoBehaviour
             // get all the ammo for the gun in the inventory
             ContainerManager cm = InventoryManager.instance.playerInventoryContainerManager;
             _secondaryWeaponAmmoItems = cm.GetAllDraggableItems("SmallgunAmmo"); // TODO: change to an ammo tag check
+            _secondaryAmmoName = "SmallgunAmmo";
             _secondaryAmmoCount = CountAmmo(_secondaryWeaponAmmoItems);
             ammoCounterText.text = gun.BulletsRemaining +  " // " + _secondaryAmmoCount;
         }
@@ -349,31 +353,22 @@ public class WeaponManager : MonoBehaviour
 
     private void UpdateAmmoCounts(string itemName)
     {
-        if (_primaryWeaponAmmoItems != null && _primaryWeaponAmmoItems.Count > 0)
+        if (itemName == _primaryAmmoName && _primaryWeapon is Gun priGun)
         {
-            string ammoName = _primaryWeaponAmmoItems[0].itemData.itemName;
-            if (itemName != ammoName) return;
-            if (_primaryWeapon is Gun gun)
-            {
-                // get all the ammo for the gun in the inventory
-                ContainerManager cm = InventoryManager.instance.playerInventoryContainerManager;
-                _primaryWeaponAmmoItems = cm.GetAllDraggableItems("SmallgunAmmo"); // TODO: change to an ammo tag check
-                _primaryAmmoCount = CountAmmo(_primaryWeaponAmmoItems);
-                ammoCounterText.text = gun.BulletsRemaining +  " // " + _primaryAmmoCount;
-            }
+            // get all the ammo for the gun in the inventory
+            ContainerManager cm = InventoryManager.instance.playerInventoryContainerManager;
+            _primaryWeaponAmmoItems = cm.GetAllDraggableItems(itemName); // TODO: change to an ammo tag check
+            _primaryAmmoCount = CountAmmo(_primaryWeaponAmmoItems);
+            ammoCounterText.text = priGun.BulletsRemaining +  " // " + _primaryAmmoCount;
+            Debug.Log(_primaryAmmoCount);
         }
-        if (_secondaryWeaponAmmoItems != null && _secondaryWeaponAmmoItems.Count > 0)
+        if (itemName == _secondaryAmmoName && _secondaryWeapon is Gun secGun)
         {
-            string ammoName = _secondaryWeaponAmmoItems[0].itemData.itemName;
-            if (itemName != ammoName) return;
-            if (_secondaryWeapon is Gun gun)
-            {
-                // get all the ammo for the gun in the inventory
-                ContainerManager cm = InventoryManager.instance.playerInventoryContainerManager;
-                _secondaryWeaponAmmoItems = cm.GetAllDraggableItems("SmallgunAmmo"); // TODO: change to an ammo tag check
-                _secondaryAmmoCount = CountAmmo(_secondaryWeaponAmmoItems);
-                ammoCounterText.text = gun.BulletsRemaining +  " // " + _secondaryAmmoCount;
-            }
+            // get all the ammo for the gun in the inventory
+            ContainerManager cm = InventoryManager.instance.playerInventoryContainerManager;
+            _secondaryWeaponAmmoItems = cm.GetAllDraggableItems(itemName); // TODO: change to an ammo tag check
+            _secondaryAmmoCount = CountAmmo(_secondaryWeaponAmmoItems);
+            ammoCounterText.text = secGun.BulletsRemaining +  " // " + _secondaryAmmoCount;
         }
     }
 }

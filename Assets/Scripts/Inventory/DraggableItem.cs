@@ -150,7 +150,8 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void DropItem()
     {
-        InventoryManager.instance.SpawnItem(itemPrefab);
+        InventoryManager.instance.SpawnItem(itemPrefab, Count);
+        Count = 0;
         containerManager.DropItemWithName(itemData.itemName);
 
         if (inventorySlot)
@@ -167,7 +168,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         {
             weaponSlot.UnequipWeaponFromSlot();
         }
-        
+
         Destroy(this.gameObject);
     }
 

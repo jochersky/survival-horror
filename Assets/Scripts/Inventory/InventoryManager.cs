@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -97,9 +98,11 @@ public class InventoryManager : MonoBehaviour
         if (!_inventoryVisible) RemoveContainer();
     }
 
-    public void SpawnItem(GameObject itemPrefab)
+    public void SpawnItem(GameObject itemPrefab, int count)
     {
         GameObject newItem = Instantiate(itemPrefab, itemParentTransform);
+        Item item = newItem.GetComponentInChildren<Item>();
+        if (item) item.Count = count;
         newItem.transform.position = itemSpawnTransform.position;
     }
 }

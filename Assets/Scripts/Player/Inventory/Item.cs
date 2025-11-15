@@ -16,6 +16,9 @@ public class Item : MonoBehaviour, IInteractable
     [SerializeField] private int count = 1;
     
     private Container _container;
+    
+    // Getters and Setters
+    public int Count { get { return count; } set { count = value; } }
 
     public void FixedUpdate()
     {
