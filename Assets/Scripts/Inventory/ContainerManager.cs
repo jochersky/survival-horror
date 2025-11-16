@@ -78,7 +78,7 @@ public class ContainerManager : MonoBehaviour
     {
         if (dragItemPrefab.TryGetComponent<DraggableItem>(out DraggableItem dragItem) && dragItem.itemData)
         {
-            bool stackable = IsStackableItem(dragItem.itemData.itemType);
+            bool stackable = dragItem.itemData.maxCount > 1;
             
             // Thrown weapon re-equip handling
             bool matchingWeapon = dragItem.itemData.itemName == WeaponManager.instance.lastThrownWeaponName;
@@ -202,12 +202,6 @@ public class ContainerManager : MonoBehaviour
             }
         }
         
-        return false;
-    }
-
-    private bool IsStackableItem(ItemType itemType)
-    {
-        if (itemType == ItemType.Ammo) return true;
         return false;
     }
 
