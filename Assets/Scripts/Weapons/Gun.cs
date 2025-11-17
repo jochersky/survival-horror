@@ -12,7 +12,7 @@ public class Gun : Weapon
     private Camera _cam;
     private InputActionMap _playerActions;
 
-    [Header("Gun Stats")] 
+    [Header("Gun Properties")] 
     [SerializeField] private float damage = 35f;
     [SerializeField] private int maxMagazineSize = 8;
     [SerializeField] private float reloadTime = 2f;
@@ -73,30 +73,18 @@ public class Gun : Weapon
 
     public override void AimAttack()
     {
-        if(!_isFiring) CalculateShot();
+        if(!_isFiring) ShootGun();
     }
 
-    private void CalculateShot()
+    private void ShootGun()
     {
-        // transform.LookAt(-cam.transform.forward * 1000f);
-                
         Vector3 firingDirection = (_cam.transform.forward - projectileSpawners[0].transform.forward).normalized;
-            
-        Debug.DrawRay(projectileSpawners[0].transform.position, firingDirection * maxBulletDistance, Color.red);
-        Debug.DrawRay(_cam.transform.position, _cam.transform.forward * maxBulletDistance, Color.green);
             
         Physics.Raycast(_cam.transform.position, _cam.transform.forward, out RaycastHit camHit, maxBulletDistance, _mask);
 
         // adjust where the bullet will hit if something collides with a ray going out of the camera
-        firingDirection = (camHit.transform ? 
-            camHit.point - projectileSpawners[0].transform.position : 
-            (_cam.transform.forward - projectileSpawners[0].transform.forward).normalized);
-            
-        ShootBullet(firingDirection);
-    }
-
-    private void ShootBullet(Vector3 firingDirection)
-    {
+        firingDirection = camHit.transform ? camHit.point - projectileSpawners[0].transform.position : firingDirection;
+        
         if (!_isReloading && !_isFiring && _bulletsRemaining > 0)
         {
             Physics.Raycast(projectileSpawners[0].transform.position, firingDirection, out RaycastHit hit, maxBulletDistance, _mask);

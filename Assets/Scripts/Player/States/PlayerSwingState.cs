@@ -12,6 +12,7 @@ public class PlayerSwingState : PlayerBaseState
     
     public override void EnterState()
     {
+        Context.Animator.SetBool(Context.IsWalkingHash, false);
         _swingEnded = false;
         Context.Animator.SetTrigger(Context.StartSwingHash);
         
@@ -38,7 +39,7 @@ public class PlayerSwingState : PlayerBaseState
         if (Context.Dead) SwitchState(Dictionary.Dead());
         
         if (_swingEnded)
-            SwitchState(Context.Animator.GetBool(Context.IsWalkingHash) ? Dictionary.Walk() : Dictionary.Idle());
+            SwitchState(Dictionary.Idle());
     }
 
     private void SwingEnded()
