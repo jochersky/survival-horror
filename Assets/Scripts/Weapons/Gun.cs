@@ -2,15 +2,15 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Gun : MonoBehaviour
+public class Gun : Weapon
 {
-    // references
+    [Header("References")]
     [SerializeField] private InputActionAsset actions;
-    [SerializeField] private Animator animator;
     [SerializeField] private Transform[] projectileSpawners;
     [SerializeField] private GameObject projectileDecal;
-    private InputActionMap _playerActions;
+    // must be assigned when the prefab has already been instanced
     private Camera _cam;
+    private InputActionMap _playerActions;
 
     [Header("Gun Stats")] 
     [SerializeField] private float damage = 35f;
@@ -20,17 +20,9 @@ public class Gun : MonoBehaviour
     [SerializeField] private float maxBulletDistance = 100f;
     
     // input actions
-    private InputAction m_ZoomAction;
-    private InputAction m_AttackAction;
     private InputAction m_ReloadAction;
-    
-    // variables to store optimized setter/getter parameter IDs
-    private int _isZoomingHash;
-    private int _startedShootingHash;
-    private int _endedShootingHash;
-    
-    private bool _isZooming;
-    private bool _isPressingFire;
+
+    private bool _initialized;
     private int _bulletsRemaining;
     
     private Coroutine _reload;
@@ -39,105 +31,54 @@ public class Gun : MonoBehaviour
     private bool _isFiring;
 
     private LayerMask _mask;
+    
+    // getters and setters
+    public int BulletsRemaining { get { return _bulletsRemaining; } }
+
+    public delegate void ReloadComplete(Gun gun);
+    public event ReloadComplete OnReloadComplete;
+
+    public delegate void FireComplete(Gun gun);
+    public event FireComplete OnFireComplete;
 
     private void Awake()
     {
         _cam = Camera.main;
+        
         _playerActions = actions.FindActionMap("Player");
         
         // assign input action callbacks
-        m_ZoomAction = actions.FindAction("Zoom");
-        m_ZoomAction.started += OnZoom;
-        m_ZoomAction.canceled += OnZoom;
-        m_AttackAction = actions.FindAction("Attack");
-        m_AttackAction.started += OnAttack;
-        m_AttackAction.canceled += OnAttack;
         m_ReloadAction = actions.FindAction("Reload");
         m_ReloadAction.started += OnReload;
-
+        
         // Assign layers that the gun can interact with
         _mask = LayerMask.GetMask("EnemyHurtbox", "Environment");
         
-        // set the parameter hash references
-        _isZoomingHash = Animator.StringToHash("isZooming");
-        _startedShootingHash = Animator.StringToHash("StartedShooting");
-        _endedShootingHash = Animator.StringToHash("EndedShooting");
-        
         _bulletsRemaining = maxMagazineSize;
-    }
-    
-    private void OnEnable()
-    {
-        // enable the character controls action map
-        // _playerActions.Enable();
-    }
-
-    private void OnDisable()
-    {
-        // disable the character controls action map
-        // _playerActions.Disable();
-    }
-
-    private void Update()
-    {
-        if (_isZooming)
-        {
-            CalculateShot();
-        }
-    }
-
-    public void OnZoom(InputAction.CallbackContext context)
-    {
-        _isZooming = context.ReadValueAsButton();
-    }
-
-    public void OnAttack(InputAction.CallbackContext context)
-    {
-        _isPressingFire = context.ReadValueAsButton();
     }
 
     public void OnReload(InputAction.CallbackContext context)
     {
         if (_isReloading || _bulletsRemaining == maxMagazineSize) return;
         
-        _reload = StartCoroutine(Reload());
+        int amt = WeaponManager.instance.GetAmmoAmount(this, maxMagazineSize - _bulletsRemaining);
+        if (amt == 0) return;
+        _reload = StartCoroutine(Reload(_bulletsRemaining + amt));
     }
 
-    private IEnumerator Reload()
+    public override void SwingAttack()
     {
-        _isReloading = true;
         
-        float timer = 0;
-        while (timer < reloadTime)
-        {
-            timer += Time.deltaTime;
-            yield return null;
-        }
-
-        _bulletsRemaining = maxMagazineSize;
-        _isReloading = false;
     }
 
-    private IEnumerator Fire()
+    public override void AimAttack()
     {
-        _isFiring = true;
-        animator.SetTrigger(_startedShootingHash);
-        
-        float timer = 0;
-        while (timer < fireRate)
-        {
-            timer += Time.deltaTime;
-            yield return null;
-        }
-        
-        _bulletsRemaining--;
-        _isFiring = false;
-        animator.SetTrigger(_endedShootingHash);
+        if(!_isFiring) CalculateShot();
     }
 
     private void CalculateShot()
     {
-        transform.LookAt(-_cam.transform.forward * 1000f);
+        // transform.LookAt(-cam.transform.forward * 1000f);
                 
         Vector3 firingDirection = (_cam.transform.forward - projectileSpawners[0].transform.forward).normalized;
             
@@ -151,10 +92,7 @@ public class Gun : MonoBehaviour
             camHit.point - projectileSpawners[0].transform.position : 
             (_cam.transform.forward - projectileSpawners[0].transform.forward).normalized);
             
-        if (_isPressingFire)
-        {
-            ShootBullet(firingDirection);
-        }
+        ShootBullet(firingDirection);
     }
 
     private void ShootBullet(Vector3 firingDirection)
@@ -174,7 +112,40 @@ public class Gun : MonoBehaviour
         }
         else if (_bulletsRemaining <= 0)
         {
-            _reload = StartCoroutine(Reload());
+            int amt = WeaponManager.instance.GetAmmoAmount(this, maxMagazineSize - _bulletsRemaining);
+            if (amt == 0) return;
+            _reload = StartCoroutine(Reload(_bulletsRemaining + amt));
         }
+    }
+    
+    private IEnumerator Reload(int amt)
+    {
+        _isReloading = true;
+        
+        float timer = 0;
+        while (timer < reloadTime)
+        {
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        _bulletsRemaining = amt;
+        OnReloadComplete?.Invoke(this);
+        _isReloading = false;
+    }
+
+    private IEnumerator Fire()
+    {
+        _isFiring = true;
+        
+        float timer = 0;
+        while (timer < fireRate)
+        {
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        
+        _bulletsRemaining--;
+        OnFireComplete?.Invoke(this);
+        _isFiring = false;
     }
 }

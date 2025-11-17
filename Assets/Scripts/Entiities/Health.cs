@@ -31,6 +31,13 @@ public class Health : MonoBehaviour
         }
     }
 
+    public void Heal(float amount)
+    {
+        if (_currentHealth >= maxHealth) return;
+        OnHealthChanged?.Invoke(_currentHealth, _currentHealth + amount);
+        _currentHealth += amount;
+    }
+
     public void TakeDamage(float damage)
     {
         if (_isInvulnerable || _currentHealth <= 0f) return;

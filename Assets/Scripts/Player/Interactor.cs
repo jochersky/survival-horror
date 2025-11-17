@@ -12,7 +12,7 @@ public class Interactor : MonoBehaviour
     [SerializeField] private Texture crosshairTexture;
     [SerializeField] private Texture doorLockedTexture;
     [SerializeField] private Texture doorUnlockedTexture;
-    [SerializeField] private Texture openContainerTexture;
+    [SerializeField] private Texture openHandTexture;
     private InputActionMap _playerActions;    
     
     // input actions
@@ -79,7 +79,11 @@ public class Interactor : MonoBehaviour
         } 
         else if (hit.transform.TryGetComponent<Container>(out Container container))
         {
-            _crosshairImage.texture = openContainerTexture;
+            _crosshairImage.texture = openHandTexture;
+        }
+        else if (hit.transform.TryGetComponent<Item>(out Item item))
+        {
+            _crosshairImage.texture = openHandTexture;
         }
 
         if (_isInteracting && hit.transform && hit.transform.TryGetComponent(out IInteractable interactable))

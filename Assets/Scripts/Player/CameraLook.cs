@@ -7,7 +7,7 @@ public class CameraLook : MonoBehaviour
     // references
     [SerializeField] private InputActionAsset actions;
     [SerializeField] private GameObject cameraTarget;
-    [SerializeField] private GameObject player;
+    [SerializeField] private GameObject playerBody;
     [SerializeField] private GameObject playerMoveOrientation;
     [SerializeField] private Health health;
 
@@ -24,6 +24,7 @@ public class CameraLook : MonoBehaviour
     private InputAction m_LookAction;
     
     private Vector2 _mouseInput;
+    private bool _isZooming;
     private bool _playerDead;
 
     // camera cine machine states
@@ -51,14 +52,22 @@ public class CameraLook : MonoBehaviour
         m_LookAction.canceled += OnLook;
 
         // connect health events
-        health.OnDeath += KillPlayer;
+        health.OnDeath += () => _playerDead = true;
+        
+        // connect inventory events
+        InventoryManager.instance.OnInventoryVisibilityChanged += (bool vis) =>
+        {
+            if (vis) _playerActions.Disable();
+            else _playerActions.Enable();
+            regularCam.SetActive(!vis);
+        };
         
         crosshair.SetActive(false);
     }
 
     private void Update()
     {
-        // don't update when dead
+        // don't update when player is dead
         if (_playerDead) return;
         
         // rotate camera pivot
@@ -85,8 +94,8 @@ public class CameraLook : MonoBehaviour
 
     public void OnZoom(InputAction.CallbackContext context)
     {
-        bool isZooming = context.ReadValueAsButton();
-        SwitchCameraState(isZooming ? CameraState.Zoom : CameraState.Regular);
+        _isZooming = context.ReadValueAsButton();
+        SwitchCameraState(_isZooming ? CameraState.Zoom : CameraState.Regular);
     }
 
     private void SwitchCameraState(CameraState newState)
@@ -100,10 +109,5 @@ public class CameraLook : MonoBehaviour
         crosshair.SetActive(newState == CameraState.Zoom);
         
         currentState = newState;
-    }
-
-    private void KillPlayer()
-    {
-        _playerDead = true;
     }
 }

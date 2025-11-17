@@ -11,6 +11,8 @@ enum PlayerStates
   Walk,
   Zoom,
   Swing,
+  Throw,
+  Shoot,
   Dead
 }
 
@@ -30,6 +32,8 @@ public class PlayerStateDictionary
     _states[PlayerStates.Walk] = new PlayerWalkState(_context, this);
     _states[PlayerStates.Zoom] = new PlayerZoomState(_context, this);
     _states[PlayerStates.Swing] = new PlayerSwingState(_context, this);
+    _states[PlayerStates.Throw] = new PlayerThrowState(_context, this);
+    _states[PlayerStates.Shoot] = new PlayerShootState(_context, this);
     _states[PlayerStates.Dead] = new PlayerDeadState(_context, this);
   }
 
@@ -63,6 +67,16 @@ public class PlayerStateDictionary
   public PlayerBaseState Swing()
   {
     return _states[PlayerStates.Swing];
+  }
+
+  public PlayerBaseState Throw()
+  {
+    return _states[PlayerStates.Throw];
+  }
+
+  public PlayerBaseState Shoot()
+  {
+    return _states[PlayerStates.Shoot];
   }
 
   public PlayerBaseState Dead()

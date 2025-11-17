@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,10 +9,15 @@ public class InventoryManager : MonoBehaviour
 {
     [SerializeField] private InputActionAsset actions;
     private InputActionMap _playerActions;
-    
-    // parent of inventory and container UIs in Canvas
-    [SerializeField] private GameObject inventoryUI;
-    [SerializeField] private Container playerInventoryContainer;
+    // Parent structure: canvas -> inventoryUI -> inventoryGrids
+    public Canvas canvas;
+    public GameObject inventoryUI;
+    [SerializeField] private GameObject inventoryGrids;
+    public GameObject playerInventoryContainerUI;
+    public ContainerManager playerInventoryContainerManager;
+    [SerializeField] private Transform itemSpawnTransform;
+    [SerializeField] private Transform itemParentTransform;
+    [SerializeField] private Health playerHealth;
 
     // container that is being looked at
     public Container container;
@@ -21,11 +27,12 @@ public class InventoryManager : MonoBehaviour
     
     // singleton instance
     public static InventoryManager instance { get; private set; }
+    public Health PlayerHealth => playerHealth;
     
     private bool _inventoryVisible;
     
-    // getters and setters
-    public Container PlayerInventoryContainer => playerInventoryContainer;
+    public delegate void InventoryVisibilityChanged(bool visible);
+    public event InventoryVisibilityChanged OnInventoryVisibilityChanged;
 
     private void Awake()
     {
@@ -33,11 +40,16 @@ public class InventoryManager : MonoBehaviour
         if (instance && instance != this) Destroy(this);
         else instance = this;
         
-        _playerActions = actions.FindActionMap("Player");
+        _playerActions = actions.FindActionMap("PlayerUI");
         
         // assign input action callbacks
         m_InventoryAction = actions.FindAction("Inventory");
         m_InventoryAction.started += OnInventory;
+    }
+
+    private void Start()
+    {
+        playerInventoryContainerManager.OnStartFinished += AddInventoryContainer;
     }
     
     private void OnEnable()
@@ -52,12 +64,18 @@ public class InventoryManager : MonoBehaviour
         _playerActions.Disable();
     }
 
+    private void AddInventoryContainer()
+    {
+        playerInventoryContainerUI.transform.SetParent(inventoryGrids.transform);
+        playerInventoryContainerUI.transform.localScale = Vector3.one;
+    }
+
     public void AddContainer(Container newContainer)
     {
         container = newContainer;
-        container.ContainerUI.transform.SetParent(inventoryUI.transform);
+        container.ContainerUI.transform.SetParent(inventoryGrids.transform);
         ToggleInventory();
-        container.transform.localScale = Vector3.one;
+        container.ContainerUI.transform.localScale = Vector3.one;
     }
 
     private void RemoveContainer()
@@ -78,6 +96,15 @@ public class InventoryManager : MonoBehaviour
     {
         _inventoryVisible = !_inventoryVisible;
         inventoryUI.SetActive(_inventoryVisible);
+        OnInventoryVisibilityChanged?.Invoke(_inventoryVisible);
         if (!_inventoryVisible) RemoveContainer();
+    }
+
+    public void SpawnItem(GameObject itemPrefab, int count)
+    {
+        GameObject newItem = Instantiate(itemPrefab, itemParentTransform);
+        Item item = newItem.GetComponentInChildren<Item>();
+        if (item) item.Count = count;
+        newItem.transform.position = itemSpawnTransform.position;
     }
 }

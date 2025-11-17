@@ -10,10 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 79a6d680662529147a18e82fff6024cd, type: 3}
-  m_Name: LongItemTest
+  m_Name: HealthPack
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
-  itemName: 
-  itemImage: {fileID: 0}
+  itemType: 2
+  itemName: HealthPack
+  itemImage: {fileID: 1843755795, guid: 0084397de01e7644ba8d7513bb7c6c6d, type: 3}
   itemPrefab: {fileID: 0}
-  gridItemDimensions: {x: 1, y: 4}
+  gridItemDimensions: {x: 1, y: 1}
   gridItemOrigin: {x: 0, y: 0}
+  maxCount: 2

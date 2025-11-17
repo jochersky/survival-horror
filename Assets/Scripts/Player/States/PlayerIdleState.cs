@@ -28,6 +28,7 @@ public class PlayerIdleState : PlayerBaseState
     Context.ApplyStopDrag();
 
     if (Context.ZoomPressed) SwitchState(Dictionary.Zoom());
+    else if (Context.AttackPressed) SwitchState(Dictionary.Swing());
     else if (Context.MovePressed) SwitchState(Dictionary.Walk());
   }
 }

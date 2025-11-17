@@ -89,3 +89,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventorySlot
   image: {fileID: 5239551772300145902}
+  item: {fileID: 0}
