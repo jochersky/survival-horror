@@ -8,6 +8,7 @@ using UnityEngine.InputSystem;
 public class InventoryManager : MonoBehaviour
 {
     [SerializeField] private InputActionAsset actions;
+    private InputActionMap _playerActions;
     // Parent structure: canvas -> inventoryUI -> inventoryGrids
     public Canvas canvas;
     public GameObject inventoryUI;
@@ -16,7 +17,7 @@ public class InventoryManager : MonoBehaviour
     public ContainerManager playerInventoryContainerManager;
     [SerializeField] private Transform itemSpawnTransform;
     [SerializeField] private Transform itemParentTransform;
-    private InputActionMap _playerActions;
+    [SerializeField] private Health playerHealth;
 
     // container that is being looked at
     public Container container;
@@ -26,6 +27,7 @@ public class InventoryManager : MonoBehaviour
     
     // singleton instance
     public static InventoryManager instance { get; private set; }
+    public Health PlayerHealth => playerHealth;
     
     private bool _inventoryVisible;
     

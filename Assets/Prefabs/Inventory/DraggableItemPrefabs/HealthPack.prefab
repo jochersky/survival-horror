@@ -426,10 +426,43 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3726304408527748172, guid: 6fdd3a7d2c7da06409842605f5f7be1d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2709143023183358399}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8264314690936549075, guid: 6fdd3a7d2c7da06409842605f5f7be1d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2086387777261125518}
   m_SourcePrefab: {fileID: 100100000, guid: 6fdd3a7d2c7da06409842605f5f7be1d, type: 3}
+--- !u!114 &1559299286953971398 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1956116054405657726, guid: 6fdd3a7d2c7da06409842605f5f7be1d, type: 3}
+  m_PrefabInstance: {fileID: 1046589112211012280}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8950487735524676715}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aac2defccc67c88488da140ba1e853b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DraggableItem
 --- !u!224 &4409100302010304244 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3726304408527748172, guid: 6fdd3a7d2c7da06409842605f5f7be1d, type: 3}
   m_PrefabInstance: {fileID: 1046589112211012280}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8950487735524676715 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8264314690936549075, guid: 6fdd3a7d2c7da06409842605f5f7be1d, type: 3}
+  m_PrefabInstance: {fileID: 1046589112211012280}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2086387777261125518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8950487735524676715}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1be35ea290acb7844ad15b5f583fdf95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthPack
+  dragItem: {fileID: 1559299286953971398}
+  healthAmt: 50
