@@ -94,7 +94,7 @@ public class Gun : Weapon
                 
             // place slightly inside of object so that decal doesn't flicker
             Vector3 pos = hit.point - hit.normal * 0.1f;
-            GameObject decal = Instantiate(projectileDecal, pos, Quaternion.LookRotation(hit.normal));
+            GameObject decal = Instantiate(projectileDecal, pos, Quaternion.LookRotation(hit.normal), hit.transform);
 
             _fire = StartCoroutine(Fire());
         }
