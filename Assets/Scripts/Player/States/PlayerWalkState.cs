@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerWalkState : PlayerBaseState
@@ -25,7 +26,7 @@ public class PlayerWalkState : PlayerBaseState
     if (Context.Dead) SwitchState(Dictionary.Dead());
     
     ApplyMoveVelocity();
-    ApplyRotation();
+    ApplyMeshRotation();
 
     if (Context.ZoomPressed) SwitchState(Dictionary.Zoom());
     else if (Context.AttackPressed) SwitchState(Dictionary.Swing());
@@ -40,12 +41,12 @@ public class PlayerWalkState : PlayerBaseState
     Context.MoveVelocity = moveDir * Context.CurrentHorizontalSpeed;
   }
 
-  private void ApplyRotation()
+  private void ApplyMeshRotation()
   {
-    Context.transform.rotation = 
-      Quaternion.RotateTowards(
-        Context.transform.rotation, 
-        Context.Orientation.transform.rotation,
-        Context.WalkRotationSpeed);
+    Vector3 moveDir = Context.ForwardDir * Context.MoveInput.y + Context.RightDir * Context.MoveInput.x;
+    Vector3 targetVector = (moveDir + Context.PlayerMesh.transform.position) - Context.PlayerMesh.transform.position;
+    float rotSpeed = Context.WalkRotationSpeed * Time.deltaTime;
+    Vector3 newDir = Vector3.RotateTowards(Context.PlayerMesh.transform.forward, targetVector, rotSpeed, 0);
+    Context.PlayerMesh.transform.rotation = Quaternion.LookRotation(newDir);
   }
 }

@@ -102,9 +102,9 @@ public class InventoryManager : MonoBehaviour
 
     public void SpawnItem(GameObject itemPrefab, int count)
     {
-        GameObject newItem = Instantiate(itemPrefab, itemParentTransform);
+        GameObject newItem = Instantiate(itemPrefab, itemSpawnTransform);
+        newItem.transform.SetParent(itemParentTransform);
         Item item = newItem.GetComponentInChildren<Item>();
         if (item) item.Count = count;
-        newItem.transform.position = itemSpawnTransform.position;
     }
 }
