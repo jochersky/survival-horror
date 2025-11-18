@@ -20,7 +20,7 @@ public class PlayerStateMachine : MonoBehaviour
     [Header("Movement Properties")]
     [SerializeField] private float maxMoveSpeed = 1f;
     [SerializeField] private float moveAccel = 0.5f;
-    [SerializeField] private float walkRotationSpeed = 2.0f;
+    [SerializeField] private float walkRotationSpeed = 8.0f;
     [SerializeField] private float stopDrag = 0.6f;
     [SerializeField] private float gravity = -9.8f;
 

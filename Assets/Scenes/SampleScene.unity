@@ -17490,7 +17490,7 @@ MonoBehaviour:
   health: {fileID: 1485665876}
   maxMoveSpeed: 2
   moveAccel: 3
-  walkRotationSpeed: 2
+  walkRotationSpeed: 8
   stopDrag: 0.9
   gravity: -9.8
 --- !u!114 &1993958687
