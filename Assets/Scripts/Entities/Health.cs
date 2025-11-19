@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
@@ -22,7 +23,15 @@ public class Health : MonoBehaviour
     {
         _currentHealth = maxHealth;
     }
-    
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.collider.TryGetComponent(out Damage damage))
+        {
+            TakeDamage(damage.DamageAmt);
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.TryGetComponent(out Damage damage))

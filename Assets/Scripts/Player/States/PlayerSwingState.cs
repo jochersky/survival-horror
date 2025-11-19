@@ -22,7 +22,6 @@ public class PlayerSwingState : PlayerBaseState
         
         // TODO: Add forward charge when animation steps forward
         Context.MoveVelocity = Vector3.zero; // leave this line here in enter
-        Context.MoveVelocity += Context.ForwardDir * 0.5f;
     }
 
     public override void ExitState()

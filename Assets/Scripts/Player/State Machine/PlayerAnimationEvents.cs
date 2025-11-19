@@ -2,13 +2,19 @@ using UnityEngine;
 
 public class PlayerAnimationEvents : MonoBehaviour
 {
-    [SerializeField] private Damage rightHandWeaponDamage;
-    
+    public delegate void SwingBegin();
+    public event SwingBegin OnSwingBegin;
     public delegate void SwingFinished();
     public event SwingFinished OnSwingFinished;
-    
     public delegate void ShootFinished();
     public event SwingFinished OnShootFinished;
+    public delegate void WeaponThrown();
+    public event WeaponThrown OnWeaponThrown;
+
+    public void SwingStarted()
+    {
+        OnSwingBegin?.Invoke();
+    }
     
     public void SwingEnded()
     {
@@ -20,22 +26,8 @@ public class PlayerAnimationEvents : MonoBehaviour
         OnShootFinished?.Invoke();
     }
 
-    public void ActivateRightHandWeaponHitbox()
-    {
-        if (!rightHandWeaponDamage) return;
-        
-        rightHandWeaponDamage.Activate();
-    }
-
-    public void DeactivateRightHandWeaponHitbox()
-    {
-        if (!rightHandWeaponDamage) return;
-        
-        rightHandWeaponDamage.Deactivate();
-    }
-
     public void ThrowMeleeWeapon()
     {
-        // Debug.Log("Throwing weapon");
+        OnWeaponThrown?.Invoke();
     }
 }

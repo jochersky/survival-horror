@@ -10,6 +10,7 @@ public class WeaponManager : MonoBehaviour
     [Header("References")]
     [SerializeField] private InputActionAsset actions;
     private InputActionMap _playerActions;
+    [SerializeField] private PlayerAnimationEvents playerAnimationEvents;
     [SerializeField] private Transform handTransform;
     [SerializeField] private Transform backTransform;
     public WeaponSlot primarySlot;
@@ -50,7 +51,9 @@ public class WeaponManager : MonoBehaviour
     public event MeleeWeaponEquipped OnMeleeWeaponEquipped;
     public delegate void GunWeaponEquipped();
     public event GunWeaponEquipped OnGunWeaponEquipped;
-
+    
+    // TODO: create event to fire when a new weapon is in use and check whether it is a melee or gun type
+    
     void Awake()
     {
         // ensure only one instance of the inventory manager exists globally
@@ -75,8 +78,6 @@ public class WeaponManager : MonoBehaviour
         primarySlot.OnWeaponUnequipped += UnequipPrimary;
         secondarySlot.OnWeaponEquipped += EquipSecondary;
         secondarySlot.OnWeaponUnequipped += UnequipSecondary;
-
-        
     }
 
     void Start()
@@ -85,6 +86,12 @@ public class WeaponManager : MonoBehaviour
         
         ContainerManager cm = InventoryManager.instance.playerInventoryContainerManager;
         cm.OnStackableItemCountsUpdated += UpdateAmmoCounts;
+
+        playerAnimationEvents.OnSwingFinished += () =>
+        {
+            if (!_weaponInHand) return;
+            _weaponInHand.SwingDamage.Deactivate();
+        };
     }
     
     public void OnZoom(InputAction.CallbackContext context)
@@ -95,23 +102,26 @@ public class WeaponManager : MonoBehaviour
     public void OnAttack(InputAction.CallbackContext context)
     {
         _isPressingFire = context.ReadValueAsButton();
-
         if (!_weaponInHand) return;
 
-        if (_isZooming)
+        if (!_isZooming)
         {
-            if (_weaponInHand is Gun gun)
-            {
-                if (gun.BulletsRemaining > 0) _weaponInHand.AimAttack();
-                int ammoCount = _weaponInHand == _primaryWeapon ?  _primaryAmmoCount : _secondaryAmmoCount;
-                ammoCounterText.text = gun.BulletsRemaining + " // " + ammoCount;
-            }
-            else
-            {
-                _weaponInHand.AimAttack();
-            }
+            _weaponInHand.SwingAttack();
+            return;
+        } 
+        
+        if (_weaponInHand is Gun gun)
+        {
+            if (gun.BulletsRemaining > 0) _weaponInHand.AimAttack();
+            int ammoCount = _weaponInHand == _primaryWeapon ?  _primaryAmmoCount : _secondaryAmmoCount;
+            ammoCounterText.text = gun.BulletsRemaining + " // " + ammoCount;
         }
-        else _weaponInHand.SwingAttack();
+        // melee weapons have AimAttack() called when animation event triggers
+    }
+
+    private void ThrowWeaponAttack()
+    {
+        if (_isZooming) _weaponInHand.AimAttack();
     }
 
     private void SwitchWeapon(InputAction.CallbackContext context)
@@ -217,6 +227,12 @@ public class WeaponManager : MonoBehaviour
             gun.OnReloadComplete += UpdateBulletsRemaining;
             gun.OnFireComplete += UpdateBulletsRemaining;
         }
+        else if (_primaryWeapon is Melee melee)
+        {
+            playerAnimationEvents.OnWeaponThrown += ThrowWeaponAttack;
+        }
+        playerAnimationEvents.OnSwingBegin += _primaryItem.MoveToAttack;
+        playerAnimationEvents.OnSwingFinished += _primaryItem.MoveToHand;
         
         SetTransform(primaryObj.transform, primaryInHand ? handTransform : backTransform, _primaryItem);
         _primaryItem.Equip();
@@ -262,6 +278,12 @@ public class WeaponManager : MonoBehaviour
             gun.OnReloadComplete += UpdateBulletsRemaining;
             gun.OnFireComplete += UpdateBulletsRemaining;
         }
+        else if (_secondaryWeapon is Melee melee)
+        {
+            playerAnimationEvents.OnWeaponThrown += ThrowWeaponAttack;
+        }
+        playerAnimationEvents.OnSwingBegin += _secondaryItem.MoveToAttack;
+        playerAnimationEvents.OnSwingFinished += _secondaryItem.MoveToHand;
 
         SetTransform(secondaryObj.transform, !primaryInHand ? handTransform : backTransform, _secondaryItem);
         _secondaryItem.Equip();
@@ -271,6 +293,13 @@ public class WeaponManager : MonoBehaviour
     private void UnequipPrimary()
     {
         if (_primaryType == WeaponType.Gun) ammoCounterText.gameObject.SetActive(false);
+        else if (_primaryWeapon is Melee melee)
+        {
+            playerAnimationEvents.OnWeaponThrown -= ThrowWeaponAttack;
+        }
+        playerAnimationEvents.OnSwingBegin -= _primaryItem.MoveToAttack;
+        playerAnimationEvents.OnSwingFinished -= _primaryItem.MoveToHand;
+        
         primarySlot.item = null;
         Destroy(primaryObj);
         primaryObj = null;
@@ -283,6 +312,13 @@ public class WeaponManager : MonoBehaviour
     private void UnequipSecondary()
     {
         if (_secondaryType == WeaponType.Gun) ammoCounterText.gameObject.SetActive(false);
+        if (_secondaryWeapon is Melee melee)
+        {
+            playerAnimationEvents.OnWeaponThrown -= ThrowWeaponAttack;
+        }
+        playerAnimationEvents.OnSwingBegin -= _secondaryItem.MoveToAttack;
+        playerAnimationEvents.OnSwingFinished -= _secondaryItem.MoveToHand;
+        
         secondarySlot.item = null;
         Destroy(secondaryObj);
         secondaryObj = null;
@@ -295,6 +331,13 @@ public class WeaponManager : MonoBehaviour
     {
         if (_weaponInHand == _primaryWeapon)
         {
+            if (_primaryWeapon is Melee melee)
+            {
+                playerAnimationEvents.OnSwingBegin -= _primaryItem.MoveToAttack;
+            }
+            playerAnimationEvents.OnSwingFinished -= _primaryItem.MoveToHand;
+            playerAnimationEvents.OnWeaponThrown -= ThrowWeaponAttack;
+            
             lastThrownWeaponName = _primaryDragItem.itemData.itemName;
             primarySlot.item = null;
             primaryObj = null;
@@ -305,6 +348,13 @@ public class WeaponManager : MonoBehaviour
         }
         else if (_weaponInHand == _secondaryWeapon)
         {
+            if (_secondaryWeapon is Melee melee)
+            {
+                playerAnimationEvents.OnWeaponThrown -= ThrowWeaponAttack;
+            }
+            playerAnimationEvents.OnSwingBegin -= _secondaryItem.MoveToAttack;
+            playerAnimationEvents.OnSwingFinished -= _secondaryItem.MoveToHand;
+            
             lastThrownWeaponName = _secondaryDragItem.itemData.itemName;
             secondarySlot.item = null;
             secondaryObj = null;

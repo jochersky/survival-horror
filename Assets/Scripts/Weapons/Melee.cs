@@ -7,6 +7,7 @@ public class Melee : Weapon
     [SerializeField] private Rigidbody rb;
     [SerializeField] private Item item;
     [SerializeField] private Transform throwPoint;
+    [SerializeField] private Damage throwDamage;
     private Camera _cam;
     private LayerMask _mask;
     
@@ -16,17 +17,11 @@ public class Melee : Weapon
     [SerializeField] private float spinSpeed = 6f;
     
     private bool _isThrowing;
-    private float _throwRate = 1.0f;
 
     private void Awake()
     {
         _cam = Camera.main;
         _mask = LayerMask.GetMask("EnemyHurtbox", "Environment");
-    }
-    
-    public override void SwingAttack()
-    {
-        
     }
 
     public override void AimAttack()
@@ -47,20 +42,6 @@ public class Melee : Weapon
         rb.AddForce(throwVector, ForceMode.Impulse);
         rb.AddRelativeTorque(-throwPoint.right * spinSpeed, ForceMode.Impulse);
         
-        StartCoroutine(Throw());
-    }
-    
-    private IEnumerator Throw()
-    {
-        _isThrowing = true;
-        
-        float timer = 0;
-        while (timer < _throwRate)
-        {
-            timer += Time.deltaTime;
-            yield return null;
-        }
-        
-        _isThrowing = false;
+        throwDamage.Activate();
     }
 }

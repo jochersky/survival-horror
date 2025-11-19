@@ -33,9 +33,8 @@ public class PlayerStateMachine : MonoBehaviour
     private Vector3 _verticalVelocity;
     private float _currentHorizontalSpeed;
     private bool _dead;
-    private bool _meleeWeaponEquipped;
-    // TODO: update this to not set manually
-    private bool _gunWeaponEquipped = true;
+    private bool _meleeWeaponEquipped = false;
+    private bool _gunWeaponEquipped = false;
 
     // State Variables
     private PlayerBaseState _currentState;
@@ -124,7 +123,7 @@ public class PlayerStateMachine : MonoBehaviour
         
         // connect player events
         weaponManager.OnMeleeWeaponEquipped += () => { _meleeWeaponEquipped = true; _gunWeaponEquipped = false; };
-        weaponManager.OnGunWeaponEquipped += () => { _meleeWeaponEquipped = false; _gunWeaponEquipped = true; };
+        weaponManager.OnGunWeaponEquipped += () => { _gunWeaponEquipped = true; _meleeWeaponEquipped = false; };
         
         // set the parameter hash references
         _isWalkingHash = Animator.StringToHash("isWalking");

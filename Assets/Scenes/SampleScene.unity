@@ -13901,6 +13901,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  playerAnimationEvents: {fileID: 2108498602}
   handTransform: {fileID: 1509967068}
   backTransform: {fileID: 1040229795}
   primarySlot: {fileID: 645839721}
@@ -21104,10 +21105,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZombieBody
       objectReference: {fileID: 0}
+    - target: {fileID: 3970438495121544035, guid: 2d9cd21847ec3d3428f18ebfa6657a0d, type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7262892586372338397, guid: 2d9cd21847ec3d3428f18ebfa6657a0d, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 1993958683}
+    - target: {fileID: 8479606075971323868, guid: 2d9cd21847ec3d3428f18ebfa6657a0d, type: 3}
+      propertyPath: m_Size.x
+      value: 0.32
+      objectReference: {fileID: 0}
+    - target: {fileID: 8479606075971323868, guid: 2d9cd21847ec3d3428f18ebfa6657a0d, type: 3}
+      propertyPath: m_Size.z
+      value: 0.26
+      objectReference: {fileID: 0}
+    - target: {fileID: 8479606075971323868, guid: 2d9cd21847ec3d3428f18ebfa6657a0d, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8479606075971323868, guid: 2d9cd21847ec3d3428f18ebfa6657a0d, type: 3}
+      propertyPath: m_ProvidesContacts
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9185272133879276651, guid: 2d9cd21847ec3d3428f18ebfa6657a0d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

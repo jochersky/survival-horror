@@ -8,6 +8,7 @@ public class Item : MonoBehaviour, IInteractable
     [SerializeField] private Transform rbFollowTransform;
     [SerializeField] private Transform handTransform;
     [SerializeField] private Transform backTransform;
+    [SerializeField] private Transform attackTransform;
     [SerializeField] private Rigidbody rb;
     [SerializeField] private GameObject draggableItemPrefab;
     [SerializeField] private ItemData itemData;
@@ -74,5 +75,12 @@ public class Item : MonoBehaviour, IInteractable
     {
         mainTransform.localPosition = backTransform.localPosition;
         mainTransform.localRotation = backTransform.localRotation;
+    }
+
+    public void MoveToAttack()
+    {
+        mainTransform.SetParent(attackTransform);
+        mainTransform.localRotation = attackTransform.localRotation;
+        mainTransform.localPosition = attackTransform.localPosition;
     }
 }

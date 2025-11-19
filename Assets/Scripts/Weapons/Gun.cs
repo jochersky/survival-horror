@@ -66,11 +66,6 @@ public class Gun : Weapon
         _reload = StartCoroutine(Reload(_bulletsRemaining + amt));
     }
 
-    public override void SwingAttack()
-    {
-        
-    }
-
     public override void AimAttack()
     {
         if(!_isFiring) ShootGun();
@@ -78,32 +73,31 @@ public class Gun : Weapon
 
     private void ShootGun()
     {
-        Vector3 firingDirection = (_cam.transform.forward - projectileSpawners[0].transform.forward).normalized;
-            
-        Physics.Raycast(_cam.transform.position, _cam.transform.forward, out RaycastHit camHit, maxBulletDistance, _mask);
-
-        // adjust where the bullet will hit if something collides with a ray going out of the camera
-        firingDirection = camHit.transform ? camHit.point - projectileSpawners[0].transform.position : firingDirection;
-        
-        if (!_isReloading && !_isFiring && _bulletsRemaining > 0)
-        {
-            Physics.Raycast(projectileSpawners[0].transform.position, firingDirection, out RaycastHit hit, maxBulletDistance, _mask);
-            
-            if (hit.transform && hit.transform.TryGetComponent(out Health health))
-                health.TakeDamage(damage);
-                
-            // place slightly inside of object so that decal doesn't flicker
-            Vector3 pos = hit.point - hit.normal * 0.1f;
-            GameObject decal = Instantiate(projectileDecal, pos, Quaternion.LookRotation(hit.normal), hit.transform);
-
-            _fire = StartCoroutine(Fire());
-        }
-        else if (_bulletsRemaining <= 0)
+        if (_isReloading || _isFiring) return;
+        // reload if trying to fire and there are bullets to reload with
+        if (_bulletsRemaining <= 0)
         {
             int amt = WeaponManager.instance.GetAmmoAmount(this, maxMagazineSize - _bulletsRemaining);
             if (amt == 0) return;
             _reload = StartCoroutine(Reload(_bulletsRemaining + amt));
         }
+        
+        Vector3 firingDirection = (_cam.transform.forward - projectileSpawners[0].transform.forward).normalized;
+
+        if (Physics.Raycast(_cam.transform.position, _cam.transform.forward, out RaycastHit camHit, maxBulletDistance, _mask))
+            firingDirection = camHit.point - projectileSpawners[0].transform.position;
+
+        if (Physics.Raycast(projectileSpawners[0].transform.position, firingDirection, out RaycastHit hit, maxBulletDistance, _mask))
+        {
+            if (hit.transform.TryGetComponent(out Health health))
+                health.TakeDamage(damage);
+                
+            // place slightly inside of object so that decal doesn't flicker
+            Vector3 pos = hit.point - hit.normal * 0.1f;
+            Instantiate(projectileDecal, pos, Quaternion.LookRotation(hit.normal), hit.transform);
+        }
+
+        _fire = StartCoroutine(Fire());
     }
     
     private IEnumerator Reload(int amt)
