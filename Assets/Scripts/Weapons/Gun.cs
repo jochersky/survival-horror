@@ -33,7 +33,8 @@ public class Gun : Weapon
     private LayerMask _mask;
     
     // getters and setters
-    public int BulletsRemaining { get { return _bulletsRemaining; } }
+    public int BulletsRemaining { get { return _bulletsRemaining; } set { _bulletsRemaining = value; }
+    }
 
     public delegate void ReloadComplete(Gun gun);
     public event ReloadComplete OnReloadComplete;
@@ -53,8 +54,6 @@ public class Gun : Weapon
         
         // Assign layers that the gun can interact with
         _mask = LayerMask.GetMask("EnemyHurtbox", "Environment");
-        
-        _bulletsRemaining = maxMagazineSize;
     }
 
     public void OnReload(InputAction.CallbackContext context)

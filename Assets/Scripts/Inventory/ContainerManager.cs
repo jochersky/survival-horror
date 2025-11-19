@@ -74,7 +74,7 @@ public class ContainerManager : MonoBehaviour
         return new GridItem(g, origin, dim, n);
     }
 
-    public bool FindSpaceForItem(GameObject dragItemPrefab, int count)
+    public bool FindSpaceForItem(GameObject dragItemPrefab, int count, int ammoCount)
     {
         if (dragItemPrefab.TryGetComponent<DraggableItem>(out DraggableItem dragItem) && dragItem.itemData)
         {
@@ -88,7 +88,7 @@ public class ContainerManager : MonoBehaviour
             }
 
             // stackable and non-stackable item handling
-            if (!stackable) return AddNonStackableItem(dragItem, dragItemPrefab);
+            if (!stackable) return AddNonStackableItem(dragItem, dragItemPrefab, ammoCount);
             else return AddStackableItem(dragItem, dragItemPrefab, count);
         }
         
@@ -178,7 +178,7 @@ public class ContainerManager : MonoBehaviour
         return false;
     }
 
-    private bool AddNonStackableItem(DraggableItem dragItem, GameObject dragItemPrefab)
+    private bool AddNonStackableItem(DraggableItem dragItem, GameObject dragItemPrefab, int ammoCount)
     {
         Vector2 itemDim = dragItem.itemData.gridItemDimensions;
         float yRange = _gridHeight - itemDim.y + 1;
@@ -197,6 +197,7 @@ public class ContainerManager : MonoBehaviour
                     DraggableItem di = inst.GetComponent<DraggableItem>();
                     SetDraggableItemToGrid(di, x, y);
                     _slots[x, y].item = di;
+                    di.AmmoCount = ammoCount;
                     return true;
                 }
             }

@@ -32,6 +32,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     
     [Header("Instance Values")]
     [SerializeField] private int count = 1;
+    [SerializeField] private int ammoCount = 0;
     
     // Getters and Setters
     public int Count
@@ -51,6 +52,8 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             }
         }
     }
+    public int  AmmoCount { get { return ammoCount; } set { ammoCount = value; } }
+    
     public RectTransform RectTransform => _rectTransform;
     public Vector2 InitialRectPos => _initialRectPos;
     
@@ -148,7 +151,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void DropItem()
     {
-        InventoryManager.instance.SpawnItem(itemPrefab, Count);
+        InventoryManager.instance.SpawnItem(itemPrefab, Count, AmmoCount);
         Count = 0;
         containerManager.DropItemWithName(itemData.itemName);
 

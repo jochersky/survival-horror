@@ -100,11 +100,15 @@ public class InventoryManager : MonoBehaviour
         if (!_inventoryVisible) RemoveContainer();
     }
 
-    public void SpawnItem(GameObject itemPrefab, int count)
+    public void SpawnItem(GameObject itemPrefab, int count, int ammoCount)
     {
         GameObject newItem = Instantiate(itemPrefab, itemSpawnTransform);
         newItem.transform.SetParent(itemParentTransform);
         Item item = newItem.GetComponentInChildren<Item>();
-        if (item) item.Count = count;
+        if (item)
+        {
+            item.Count = count;
+            item.AmmoCount = ammoCount;
+        }
     }
 }

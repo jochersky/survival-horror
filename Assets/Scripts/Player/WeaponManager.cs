@@ -222,6 +222,7 @@ public class WeaponManager : MonoBehaviour
             ContainerManager cm = InventoryManager.instance.playerInventoryContainerManager;
             _primaryWeaponAmmoItems = cm.GetAllDraggableItems("SmallgunAmmo"); // TODO: change to an ammo tag check
             _primaryAmmoName = "SmallgunAmmo";
+            gun.BulletsRemaining = _primaryDragItem.AmmoCount;
             _primaryAmmoCount = CountAmmo(_primaryWeaponAmmoItems);
             ammoCounterText.text = gun.BulletsRemaining +  " // " + _primaryAmmoCount;
             gun.OnReloadComplete += UpdateBulletsRemaining;
@@ -273,6 +274,7 @@ public class WeaponManager : MonoBehaviour
             ContainerManager cm = InventoryManager.instance.playerInventoryContainerManager;
             _secondaryWeaponAmmoItems = cm.GetAllDraggableItems("SmallgunAmmo"); // TODO: change to an ammo tag check
             _secondaryAmmoName = "SmallgunAmmo";
+            gun.BulletsRemaining = _secondaryDragItem.AmmoCount;
             _secondaryAmmoCount = CountAmmo(_secondaryWeaponAmmoItems);
             ammoCounterText.text = gun.BulletsRemaining +  " // " + _secondaryAmmoCount;
             gun.OnReloadComplete += UpdateBulletsRemaining;
@@ -292,7 +294,11 @@ public class WeaponManager : MonoBehaviour
     // connected to primarySlot event OnWeaponUnequipped
     private void UnequipPrimary()
     {
-        if (_primaryType == WeaponType.Gun) ammoCounterText.gameObject.SetActive(false);
+        if (_primaryWeapon is Gun gun)
+        {
+            _primaryDragItem.AmmoCount = gun.BulletsRemaining;
+            ammoCounterText.gameObject.SetActive(false);
+        }
         else if (_primaryWeapon is Melee melee)
         {
             playerAnimationEvents.OnWeaponThrown -= ThrowWeaponAttack;
@@ -311,7 +317,11 @@ public class WeaponManager : MonoBehaviour
     // connected to secondarySlot event OnWeaponUnequipped
     private void UnequipSecondary()
     {
-        if (_secondaryType == WeaponType.Gun) ammoCounterText.gameObject.SetActive(false);
+        if (_secondaryWeapon is Gun gun)
+        {
+            _secondaryDragItem.AmmoCount = gun.BulletsRemaining;
+            ammoCounterText.gameObject.SetActive(false);
+        }
         if (_secondaryWeapon is Melee melee)
         {
             playerAnimationEvents.OnWeaponThrown -= ThrowWeaponAttack;

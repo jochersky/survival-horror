@@ -15,11 +15,13 @@ public class Item : MonoBehaviour, IInteractable
     
     [Header("Instance Values")]
     [SerializeField] private int count = 1;
+    [SerializeField] private int ammoCount = 0;
     
     private Container _container;
     
     // Getters and Setters
     public int Count { get { return count; } set { count = value; } }
+    public int  AmmoCount { get { return ammoCount; } set { ammoCount = value; } }
 
     public void FixedUpdate()
     {
@@ -40,7 +42,7 @@ public class Item : MonoBehaviour, IInteractable
     public void Interact()
     {
         // Find a spot to put the item into the inventory
-        bool foundSpot = InventoryManager.instance.playerInventoryContainerManager.FindSpaceForItem(draggableItemPrefab, count);
+        bool foundSpot = InventoryManager.instance.playerInventoryContainerManager.FindSpaceForItem(draggableItemPrefab, count, AmmoCount);
         if (foundSpot)
         {
             Destroy(transform.parent.gameObject);
