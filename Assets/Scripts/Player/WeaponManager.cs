@@ -461,10 +461,12 @@ public class WeaponManager : MonoBehaviour
                 if (di.Count <= amtToDecrement)
                 {
                     amtToDecrement -= di.Count;
+                    di.Count = 0;
                 }
                 else
                 {
                     di.Count -= amtToDecrement;
+                    amtToDecrement = 0;
                 }
                 if (amtToDecrement == 0) break;
             }
