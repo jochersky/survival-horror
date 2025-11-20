@@ -95,7 +95,9 @@ public class CameraLook : MonoBehaviour
     public void OnZoom(InputAction.CallbackContext context)
     {
         _isZooming = context.ReadValueAsButton();
-        SwitchCameraState(_isZooming ? CameraState.Zoom : CameraState.Regular);
+        bool weaponEquipped = WeaponManager.instance.weaponInHand;
+        
+        SwitchCameraState(weaponEquipped && _isZooming ? CameraState.Zoom : CameraState.Regular);
     }
 
     private void SwitchCameraState(CameraState newState)

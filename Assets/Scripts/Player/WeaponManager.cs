@@ -25,7 +25,7 @@ public class WeaponManager : MonoBehaviour
     private Item _secondaryItem;
     private WeaponType _primaryType;
     private WeaponType _secondaryType;
-    private Weapon _weaponInHand;
+    public Weapon weaponInHand;
     private Weapon _primaryWeapon;
     private Weapon _secondaryWeapon;
     private List<DraggableItem> _primaryWeaponAmmoItems;
@@ -89,8 +89,8 @@ public class WeaponManager : MonoBehaviour
 
         playerAnimationEvents.OnSwingFinished += () =>
         {
-            if (!_weaponInHand) return;
-            _weaponInHand.SwingDamage.Deactivate();
+            if (!weaponInHand) return;
+            weaponInHand.SwingDamage.Deactivate();
         };
     }
     
@@ -102,18 +102,18 @@ public class WeaponManager : MonoBehaviour
     public void OnAttack(InputAction.CallbackContext context)
     {
         _isPressingFire = context.ReadValueAsButton();
-        if (!_weaponInHand) return;
+        if (!weaponInHand) return;
 
         if (!_isZooming)
         {
-            _weaponInHand.SwingAttack();
+            weaponInHand.SwingAttack();
             return;
         } 
         
-        if (_weaponInHand is Gun gun)
+        if (weaponInHand is Gun gun)
         {
-            if (gun.BulletsRemaining > 0) _weaponInHand.AimAttack();
-            int ammoCount = _weaponInHand == _primaryWeapon ?  _primaryAmmoCount : _secondaryAmmoCount;
+            if (gun.BulletsRemaining > 0) weaponInHand.AimAttack();
+            int ammoCount = weaponInHand == _primaryWeapon ?  _primaryAmmoCount : _secondaryAmmoCount;
             ammoCounterText.text = gun.BulletsRemaining + " // " + ammoCount;
         }
         // melee weapons have AimAttack() called when animation event triggers
@@ -121,14 +121,14 @@ public class WeaponManager : MonoBehaviour
 
     private void ThrowWeaponAttack()
     {
-        if (_isZooming) _weaponInHand.AimAttack();
+        if (_isZooming) weaponInHand.AimAttack();
     }
 
     private void SwitchWeapon(InputAction.CallbackContext context)
     {
-        if (_weaponInHand == _primaryWeapon && _secondaryWeapon) SwitchToSecondary();
-        else if (_weaponInHand == _secondaryWeapon && _primaryWeapon) SwitchToPrimary();
-        else if (!_weaponInHand)
+        if (weaponInHand == _primaryWeapon && _secondaryWeapon) SwitchToSecondary();
+        else if (weaponInHand == _secondaryWeapon && _primaryWeapon) SwitchToPrimary();
+        else if (!weaponInHand)
         {
             if (_primaryWeapon) SwitchToPrimary();
             else SwitchToSecondary();
@@ -137,7 +137,7 @@ public class WeaponManager : MonoBehaviour
 
     private void SwitchToPrimary()
     {
-        _weaponInHand = _primaryWeapon;
+        weaponInHand = _primaryWeapon;
             
         if (primaryObj) SetTransform(primaryObj.transform, handTransform, _primaryItem);
         if (secondaryObj) SetTransform(secondaryObj.transform, backTransform, _secondaryItem);
@@ -159,7 +159,7 @@ public class WeaponManager : MonoBehaviour
 
     private void SwitchToSecondary()
     {
-        _weaponInHand = _secondaryWeapon;
+        weaponInHand = _secondaryWeapon;
             
         if (secondaryObj) SetTransform(secondaryObj.transform, handTransform, _secondaryItem);
         if (primaryObj) SetTransform(primaryObj.transform, backTransform, _primaryItem);
@@ -198,10 +198,10 @@ public class WeaponManager : MonoBehaviour
         GameObject prefab = dragItem.itemPrefab;
         primaryObj = Instantiate(prefab);
         Weapon w = primaryObj.GetComponent<Weapon>();
-        bool primaryInHand = _weaponInHand == _primaryWeapon;
+        bool primaryInHand = weaponInHand == _primaryWeapon;
         if (primaryInHand)
         {
-            _weaponInHand = w;
+            weaponInHand = w;
             if (_primaryType == WeaponType.Gun)
             {
                 OnGunWeaponEquipped?.Invoke();
@@ -250,10 +250,10 @@ public class WeaponManager : MonoBehaviour
         GameObject prefab = dragItem.itemPrefab;
         secondaryObj = Instantiate(prefab);
         Weapon w = secondaryObj.GetComponent<Weapon>();
-        bool primaryInHand = _weaponInHand == _primaryWeapon;
+        bool primaryInHand = weaponInHand == _primaryWeapon;
         if (!primaryInHand)
         {
-            _weaponInHand = w;
+            weaponInHand = w;
             if (_secondaryType == WeaponType.Gun)
             {
                 OnGunWeaponEquipped?.Invoke();
@@ -339,7 +339,7 @@ public class WeaponManager : MonoBehaviour
 
     public void UnequipThrownWeapon()
     {
-        if (_weaponInHand == _primaryWeapon)
+        if (weaponInHand == _primaryWeapon)
         {
             if (_primaryWeapon is Melee melee)
             {
@@ -356,7 +356,7 @@ public class WeaponManager : MonoBehaviour
             _primaryDragItem = null;
             _primaryWeapon = null;
         }
-        else if (_weaponInHand == _secondaryWeapon)
+        else if (weaponInHand == _secondaryWeapon)
         {
             if (_secondaryWeapon is Melee melee)
             {
@@ -374,7 +374,7 @@ public class WeaponManager : MonoBehaviour
             _secondaryWeapon = null;
         }
 
-        _weaponInHand = null;
+        weaponInHand = null;
     }
 
     public bool EquipThrownWeaponOnPickup(GameObject dragItemPrefab)

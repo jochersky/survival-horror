@@ -27,8 +27,10 @@ public class PlayerIdleState : PlayerBaseState
     
     Context.ApplyStopDrag();
 
-    if (Context.ZoomPressed) SwitchState(Dictionary.Zoom());
-    else if (Context.AttackPressed) SwitchState(Dictionary.Swing());
+    bool weaponEquipped = WeaponManager.instance.weaponInHand;
+    
+    if (weaponEquipped && Context.ZoomPressed) SwitchState(Dictionary.Zoom());
+    else if (weaponEquipped && Context.AttackPressed) SwitchState(Dictionary.Swing());
     else if (Context.MovePressed) SwitchState(Dictionary.Walk());
   }
 }
