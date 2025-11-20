@@ -28,6 +28,8 @@ public class PlayerShootState : PlayerBaseState
     {
         if (Context.Dead) SwitchState(Dictionary.Dead());
         
+        ApplyMeshRotation();
+        
         if (_shootEnded)
             SwitchState(Dictionary.Zoom());
     }
@@ -36,5 +38,10 @@ public class PlayerShootState : PlayerBaseState
     {
         _shootEnded = true;
         Context.Animator.SetTrigger(Context.EndedShootingHash);
+    }
+    
+    private void ApplyMeshRotation()
+    {
+        Context.PlayerMesh.transform.rotation = Context.RotatedOrientation.rotation;
     }
 }

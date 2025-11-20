@@ -4376,7 +4376,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3476399602193073146, guid: 9a25814408bc39f4c90b8d5044c7319e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.1151953
+      value: -0.46
       objectReference: {fileID: 0}
     - target: {fileID: 3476399602193073146, guid: 9a25814408bc39f4c90b8d5044c7319e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4417,6 +4417,10 @@ PrefabInstance:
     - target: {fileID: 4905017765088668362, guid: 9a25814408bc39f4c90b8d5044c7319e, type: 3}
       propertyPath: m_Name
       value: SmallGunItem (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8749640996600478517, guid: 9a25814408bc39f4c90b8d5044c7319e, type: 3}
+      propertyPath: ammoCount
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -18293,7 +18297,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58b5eeb9c1b34834db5262d8fa2a6351, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  rightHandWeaponDamage: {fileID: 0}
 --- !u!1001 &2111151648
 PrefabInstance:
   m_ObjectHideFlags: 0
