@@ -19,6 +19,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     [Header("Movement Properties")]
     [SerializeField] private float maxMoveSpeed = 1f;
+    [SerializeField] private float maxAimMoveSpeed = 1f;
     [SerializeField] private float moveAccel = 0.5f;
     [SerializeField] private float walkRotationSpeed = 8.0f;
     [SerializeField] private float stopDrag = 0.6f;
@@ -66,6 +67,7 @@ public class PlayerStateMachine : MonoBehaviour
     public PlayerStateDictionary States { get { return _states; } set { _states = value; } }
     public float MoveAccel => moveAccel;
     public float MaxMoveSpeed => maxMoveSpeed;
+    public float MaxAimMoveSpeed => maxAimMoveSpeed;
     public float WalkRotationSpeed => walkRotationSpeed;
     public float StopDrag => stopDrag;
     public float Gravity => gravity;

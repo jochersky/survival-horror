@@ -153,13 +153,12 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         InventoryManager.instance.SpawnItem(itemPrefab, Count, AmmoCount);
         Count = 0;
-        containerManager.DropItemWithName(itemData.itemName);
+        containerManager.UpdateItemWithName(itemData.itemName);
 
         if (inventorySlot)
         {
             RemoveItemFromGrid();
         }
-
         if (weaponSlot)
         {
             weaponSlot.UnequipWeaponFromSlot();

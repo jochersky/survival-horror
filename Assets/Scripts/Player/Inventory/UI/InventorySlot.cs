@@ -30,17 +30,43 @@ public class InventorySlot : MonoBehaviour, IDropHandler
 
     public void OnDrop(PointerEventData eventData)
     {
-        // item dropped on the inventory slot
-        GameObject dropped = eventData.pointerDrag;
-        MoveToEmptySlot(dropped);
-    }
-
-    private void MoveToEmptySlot(GameObject dropped)
-    {
-        DraggableItem draggableItem = dropped.GetComponent<DraggableItem>();
-        draggableItem.parentAfterDrag = transform;
-        draggableItem.containerManager = ContainerManager;
-        draggableItem.inventorySlot = this;
+        if (eventData.pointerDrag.TryGetComponent<DraggableItem>(out DraggableItem droppedItem))
+        {
+            // item already occupies this inventory slot
+            if (item)
+            {
+                string curItemName = item.itemData.itemName;
+                string dropItemName = droppedItem.itemData.itemName;
+                int curItemCount = item.Count;
+                int dropItemCount = droppedItem.Count;
+                
+                // combine the two stacks
+                if (dropItemName == curItemName)
+                {
+                    int maxCount = item.itemData.maxCount;
+                    int amt = curItemCount + dropItemCount;
+                    if (amt <= maxCount)
+                    {
+                        item.Count += dropItemCount;
+                        droppedItem.Count = 0;
+                    }
+                    else
+                    {
+                        int amtAdded = item.itemData.maxCount - item.Count;
+                        item.Count = maxCount;
+                        droppedItem.Count -= amtAdded;
+                    }
+                }
+                // TODO: add item swapping between items of the same size but different names
+            }
+            // nothing in this slot, assign item to this inventory slot
+            else
+            {
+                droppedItem.parentAfterDrag = transform;
+                droppedItem.containerManager = ContainerManager;
+                droppedItem.inventorySlot = this;
+            }
+        }
     }
 
     public void ToggleImage(bool visible)
@@ -48,5 +74,3 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         image.enabled = visible;
     }
 }
-
-

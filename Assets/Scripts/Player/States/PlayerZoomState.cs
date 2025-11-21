@@ -39,7 +39,7 @@ public class PlayerZoomState : PlayerBaseState
         Vector3 rotatedRightDir = Quaternion.AngleAxis(7.5f, Context.Orientation.transform.up) * Context.Orientation.transform.right;
         Vector3 moveDir = rotatedForwardDir * Context.MoveInput.y + rotatedRightDir * Context.MoveInput.x;
         Context.CurrentHorizontalSpeed += Context.MoveAccel * Time.deltaTime;
-        Context.CurrentHorizontalSpeed = Mathf.Min(Context.CurrentHorizontalSpeed, Context.MaxMoveSpeed);
+        Context.CurrentHorizontalSpeed = Mathf.Min(Context.CurrentHorizontalSpeed, Context.MaxMoveSpeed / Context.MaxAimMoveSpeed);
         Context.MoveVelocity = moveDir * Context.CurrentHorizontalSpeed;
     }
 

@@ -288,7 +288,7 @@ public class ContainerManager : MonoBehaviour
         return draggableItems;
     }
 
-    public void DropItemWithName(string itemName)
+    public void UpdateItemWithName(string itemName)
     {
         OnStackableItemCountsUpdated?.Invoke(itemName);
     }
