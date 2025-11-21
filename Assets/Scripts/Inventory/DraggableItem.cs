@@ -27,6 +27,8 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     private Vector2 _initialRectPos;
     private Image _image;
     [SerializeField] private TextMeshProUGUI _countLabel;
+    [SerializeField] private GameObject ammoCountLabel;
+    [SerializeField] private TextMeshProUGUI ammoCountText;
 
     private GameObject equippedItemInst;
     
@@ -52,7 +54,18 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             }
         }
     }
-    public int  AmmoCount { get { return ammoCount; } set { ammoCount = value; } }
+
+    public int AmmoCount
+    {
+        get => ammoCount;
+        set
+        {
+            ammoCount = value;
+            if (!ammoCountLabel) return;
+            ammoCountLabel.SetActive(value > 0);
+            ammoCountText.text = ammoCount.ToString();
+        }
+    }
     
     public RectTransform RectTransform => _rectTransform;
     public Vector2 InitialRectPos => _initialRectPos;
@@ -66,6 +79,11 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         _canvas = InventoryManager.instance.canvas;
         
         if (_countLabel) _countLabel.text = count.ToString();
+        if (ammoCountLabel && AmmoCount > 0)
+        {
+            ammoCountLabel.SetActive(true);
+            ammoCountText.text = ammoCount.ToString();
+        }
     }
     
     public void OnBeginDrag(PointerEventData eventData)

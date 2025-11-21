@@ -71,7 +71,6 @@ public class WeaponManager : MonoBehaviour
         m_ZoomAction.canceled += OnZoom;
         m_AttackAction = _playerActions.FindAction("Attack");
         m_AttackAction.started += OnAttack;
-        m_AttackAction.canceled += OnAttack;
         
         // subscribe to events
         primarySlot.OnWeaponEquipped += EquipPrimary;
@@ -112,9 +111,15 @@ public class WeaponManager : MonoBehaviour
         
         if (weaponInHand is Gun gun)
         {
-            if (gun.BulletsRemaining > 0) weaponInHand.AimAttack();
+            if (gun.BulletsRemaining > 0)
+            {
+                weaponInHand.AimAttack();
+                if (weaponInHand == _primaryWeapon) _primaryDragItem.AmmoCount--;
+                else _secondaryDragItem.AmmoCount--;
+            }
             int ammoCount = weaponInHand == _primaryWeapon ?  _primaryAmmoCount : _secondaryAmmoCount;
             ammoCounterText.text = gun.BulletsRemaining + " // " + ammoCount;
+            
         }
         // melee weapons have AimAttack() called when animation event triggers
     }
@@ -470,6 +475,10 @@ public class WeaponManager : MonoBehaviour
                 }
                 if (amtToDecrement == 0) break;
             }
+
+            if (numAmmo > 0)
+                _primaryDragItem.AmmoCount += numAmmo;
+            
             return numAmmo;
         }
         if (gun == _secondaryWeapon)
@@ -501,6 +510,10 @@ public class WeaponManager : MonoBehaviour
                 }
                 if (amtToDecrement == 0) break;
             }
+            
+            if (numAmmo > 0)
+                _secondaryDragItem.AmmoCount += numAmmo;
+            
             return numAmmo;
         }
         
