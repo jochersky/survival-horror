@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(RectTransform)), RequireComponent(typeof(Image))]
-public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
+public class DraggableItem : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [Header("References")]
     public ItemData itemData;
@@ -28,6 +28,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     private Image _image;
     [SerializeField] private TextMeshProUGUI _countLabel;
     [SerializeField] private TextMeshProUGUI ammoCountText;
+    [SerializeField] private GameObject ammoTypePrefab;
     
     [Header("Properties")]
     [SerializeField] private string itemTooltipString;
@@ -68,8 +69,13 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         }
     }
     
+    public GameObject AmmoTypePrefab => ammoTypePrefab;
+    
     public RectTransform RectTransform => _rectTransform;
     public Vector2 InitialRectPos => _initialRectPos;
+    
+    public delegate void AmmoCountChanged(int ammoCount, DraggableItem dragItem);
+    public event AmmoCountChanged OnAmmoCountChanged;
     
     private void Start()
     {
@@ -81,6 +87,20 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         
         if (_countLabel) _countLabel.text = count.ToString();
         if (ammoCountText) ammoCountText.text = ammoCount.ToString();
+    }
+    
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (eventData.button == PointerEventData.InputButton.Left) return;
+
+        if (itemData.itemType == ItemType.Weapon)
+        {
+            if (containerManager.FindSpaceForItem(AmmoTypePrefab, AmmoCount, 0))
+            {
+                AmmoCount = 0;
+                OnAmmoCountChanged?.Invoke(AmmoCount, this);
+            }
+        }
     }
     
     public void OnBeginDrag(PointerEventData eventData)

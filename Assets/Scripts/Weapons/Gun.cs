@@ -33,8 +33,7 @@ public class Gun : Weapon
     private LayerMask _mask;
     
     // getters and setters
-    public int BulletsRemaining { get { return _bulletsRemaining; } set { _bulletsRemaining = value; }
-    }
+    public int BulletsRemaining { get { return _bulletsRemaining; } set { _bulletsRemaining = value; } }
 
     public delegate void ReloadComplete(Gun gun);
     public event ReloadComplete OnReloadComplete;

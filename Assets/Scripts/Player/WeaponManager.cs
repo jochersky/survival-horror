@@ -232,6 +232,7 @@ public class WeaponManager : MonoBehaviour
             ammoCounterText.text = gun.BulletsRemaining +  " // " + _primaryAmmoCount;
             gun.OnReloadComplete += UpdateBulletsRemaining;
             gun.OnFireComplete += UpdateBulletsRemaining;
+            _primaryDragItem.OnAmmoCountChanged += UpdateMagazineBulletCount;
         }
         else if (_primaryWeapon is Melee melee)
         {
@@ -284,6 +285,7 @@ public class WeaponManager : MonoBehaviour
             ammoCounterText.text = gun.BulletsRemaining +  " // " + _secondaryAmmoCount;
             gun.OnReloadComplete += UpdateBulletsRemaining;
             gun.OnFireComplete += UpdateBulletsRemaining;
+            _primaryDragItem.OnAmmoCountChanged += UpdateMagazineBulletCount;
         }
         else if (_secondaryWeapon is Melee melee)
         {
@@ -303,6 +305,7 @@ public class WeaponManager : MonoBehaviour
         {
             _primaryDragItem.AmmoCount = gun.BulletsRemaining;
             ammoCounterText.gameObject.SetActive(false);
+            _primaryDragItem.OnAmmoCountChanged -= UpdateMagazineBulletCount;
         }
         else if (_primaryWeapon is Melee melee)
         {
@@ -326,6 +329,7 @@ public class WeaponManager : MonoBehaviour
         {
             _secondaryDragItem.AmmoCount = gun.BulletsRemaining;
             ammoCounterText.gameObject.SetActive(false);
+            _secondaryDragItem.OnAmmoCountChanged -= UpdateMagazineBulletCount;
         }
         if (_secondaryWeapon is Melee melee)
         {
@@ -525,5 +529,19 @@ public class WeaponManager : MonoBehaviour
         ammoCounterText.text = gun.BulletsRemaining + " // ";
         if (gun == _primaryWeapon) ammoCounterText.text += _primaryAmmoCount;
         else if (gun == _secondaryWeapon) ammoCounterText.text += _secondaryAmmoCount;
+    }
+
+    private void UpdateMagazineBulletCount(int ammoCount, DraggableItem dragItem)
+    {
+        if (dragItem == _primaryDragItem && _primaryWeapon is Gun priGun)
+        {
+            priGun.BulletsRemaining = ammoCount;
+            UpdateBulletsRemaining(priGun);
+        } 
+        else if (dragItem == _secondaryDragItem && _secondaryWeapon is Gun secGun)
+        {
+            secGun.BulletsRemaining = ammoCount;
+            UpdateBulletsRemaining(secGun);
+        }
     }
 }
