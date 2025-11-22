@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(RectTransform)), RequireComponent(typeof(Image))]
-public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [Header("References")]
     public ItemData itemData;
@@ -27,10 +27,10 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     private Vector2 _initialRectPos;
     private Image _image;
     [SerializeField] private TextMeshProUGUI _countLabel;
-    [SerializeField] private GameObject ammoCountLabel;
     [SerializeField] private TextMeshProUGUI ammoCountText;
-
-    private GameObject equippedItemInst;
+    
+    [Header("Properties")]
+    [SerializeField] private string itemTooltipString;
     
     [Header("Instance Values")]
     [SerializeField] private int count = 1;
@@ -61,9 +61,10 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         set
         {
             ammoCount = value;
-            if (!ammoCountLabel) return;
-            ammoCountLabel.SetActive(value > 0);
-            ammoCountText.text = ammoCount.ToString();
+            if (ammoCountText)
+            {
+                ammoCountText.text = ammoCount.ToString();
+            }
         }
     }
     
@@ -79,11 +80,7 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         _canvas = InventoryManager.instance.canvas;
         
         if (_countLabel) _countLabel.text = count.ToString();
-        if (ammoCountLabel && AmmoCount > 0)
-        {
-            ammoCountLabel.SetActive(true);
-            ammoCountText.text = ammoCount.ToString();
-        }
+        if (ammoCountText) ammoCountText.text = ammoCount.ToString();
     }
     
     public void OnBeginDrag(PointerEventData eventData)
@@ -161,6 +158,16 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             SetTransformToWeaponSlot();
         }
     }
+    
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        InventoryManager.instance.UpdateTooltip(itemTooltipString);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        InventoryManager.instance.UpdateTooltip("");
+    }
 
     public GridItem CreateGridItem()
     {
@@ -169,6 +176,8 @@ public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void DropItem()
     {
+        if (!itemPrefab) return;
+        
         InventoryManager.instance.SpawnItem(itemPrefab, Count, AmmoCount);
         Count = 0;
         containerManager.UpdateItemWithName(itemData.itemName);

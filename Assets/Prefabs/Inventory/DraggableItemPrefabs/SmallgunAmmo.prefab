@@ -324,6 +324,10 @@ PrefabInstance:
       propertyPath: _countLabel
       value: 
       objectReference: {fileID: 1068071820766108431}
+    - target: {fileID: 1956116054405657726, guid: 6fdd3a7d2c7da06409842605f5f7be1d, type: 3}
+      propertyPath: itemTooltipString
+      value: Ammo for small gun type weapons
+      objectReference: {fileID: 0}
     - target: {fileID: 3726304408527748172, guid: 6fdd3a7d2c7da06409842605f5f7be1d, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
