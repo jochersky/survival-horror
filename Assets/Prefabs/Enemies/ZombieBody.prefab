@@ -349,6 +349,10 @@ MonoBehaviour:
   damageData: {fileID: 11400000, guid: 431237d8fe9dcd847ba4af0782c4e93f, type: 2}
   hitbox: {fileID: 5242768608659389845}
   followTransform: {fileID: 8145935725597156511}
+  health: {fileID: 582305888811304448}
+  deactivateOnCollision: 0
+  deactivateOnTrigger: 0
+  deactivateOnDeath: 1
 --- !u!135 &5242768608659389845
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -366,7 +370,7 @@ SphereCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Radius: 0.14
   m_Center: {x: 0, y: 0, z: 0}

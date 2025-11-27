@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Damage : MonoBehaviour
@@ -6,13 +7,20 @@ public class Damage : MonoBehaviour
     [SerializeField] private DamageData damageData;
     [SerializeField] private Collider hitbox;
     [SerializeField] private Transform followTransform;
+    [SerializeField] private Health health;
     
     [Header("Properties")]
     [SerializeField] private bool deactivateOnCollision = false;
     [SerializeField] private bool deactivateOnTrigger = false;
+    [SerializeField] private bool deactivateOnDeath = false;
     
     public float DamageAmt => damageData.damageAmt;
-    
+
+    private void Start()
+    {
+        if (deactivateOnDeath) health.OnDeath += Deactivate;
+    }
+
     private void Update()
     {
         if (followTransform)

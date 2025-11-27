@@ -162,6 +162,7 @@ public class ZombieStateMachine : MonoBehaviour
     private void SetDead()
     {
         Dead = true;
+        _characterController.enabled = false;
     }
 
     public IEnumerator LookingAround()
