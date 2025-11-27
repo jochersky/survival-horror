@@ -41,7 +41,7 @@ public class Melee : Weapon
         
         // point the direction of the vector slightly up before applying throw force
         Vector3 throwVector = (throwingDirection + (throwPoint.up * 0.1f)).normalized * maxThrowForce;
-        Vector3 spinVector = new Vector3(0, 0, -1) * spinSpeed;
+        Vector3 spinVector = Vector3.back * spinSpeed;
         rb.AddForce(throwVector, ForceMode.Impulse);
         rb.AddRelativeTorque(spinVector, ForceMode.Impulse);
         
