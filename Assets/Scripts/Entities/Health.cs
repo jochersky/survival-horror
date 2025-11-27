@@ -7,7 +7,7 @@ public class Health : MonoBehaviour
 {
     [SerializeField] private float maxHealth = 100f;
     [SerializeField] private float invulnerabilityTime = 0.5f;
-    // [SerializeField] private Collider[] colliders;
+    [SerializeField] private Hurtbox[] hurtboxes;
     
     private float _currentHealth;
     private bool _isInvulnerable;
@@ -24,21 +24,30 @@ public class Health : MonoBehaviour
         _currentHealth = maxHealth;
     }
 
-    private void OnCollisionEnter(Collision other)
+    private void Start()
     {
-        if (other.collider.TryGetComponent(out Damage damage))
+        if (hurtboxes.Length > 0)
         {
-            TakeDamage(damage.DamageAmt);
+            foreach (Hurtbox h in hurtboxes)
+                h.OnDamageTaken += TakeDamage;
         }
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.TryGetComponent(out Damage damage))
-        {
-            TakeDamage(damage.DamageAmt);
-        }
-    }
+    // private void OnCollisionEnter(Collision other)
+    // {
+    //     if (other.collider.TryGetComponent(out Damage damage))
+    //     {
+    //         TakeDamage(damage.DamageAmt);
+    //     }
+    // }
+    //
+    // private void OnTriggerEnter(Collider other)
+    // {
+    //     if (other.TryGetComponent(out Damage damage))
+    //     {
+    //         TakeDamage(damage.DamageAmt);
+    //     }
+    // }
 
     public void Heal(float amount)
     {

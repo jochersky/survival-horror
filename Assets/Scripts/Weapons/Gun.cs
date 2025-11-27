@@ -87,8 +87,8 @@ public class Gun : Weapon
 
         if (Physics.Raycast(projectileSpawners[0].transform.position, firingDirection, out RaycastHit hit, maxBulletDistance, _mask))
         {
-            if (hit.transform.TryGetComponent(out Health health))
-                health.TakeDamage(damage);
+            if (hit.transform.TryGetComponent(out Hurtbox hurtbox))
+                hurtbox.TakeDamage(damage);
                 
             // place slightly inside of object so that decal doesn't flicker
             Vector3 pos = hit.point - hit.normal * 0.1f;

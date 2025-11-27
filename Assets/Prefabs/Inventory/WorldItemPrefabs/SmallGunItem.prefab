@@ -205,8 +205,10 @@ MonoBehaviour:
   damageData: {fileID: 11400000, guid: 87d175dd04cad5442a194b2eea137c6a, type: 2}
   hitbox: {fileID: 1842046154265474640}
   followTransform: {fileID: 5373155062018053976}
+  health: {fileID: 0}
   deactivateOnCollision: 0
   deactivateOnTrigger: 0
+  deactivateOnDeath: 0
 --- !u!136 &1842046154265474640
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -526,7 +528,7 @@ MonoBehaviour:
   projectileSpawners:
   - {fileID: 3065275324074170651}
   projectileDecal: {fileID: 6124696709512704395, guid: 6e6dadf324f0df74faceb6f992933d73, type: 3}
-  damage: 35
+  damage: 20
   maxMagazineSize: 8
   reloadTime: 2
   fireRate: 0.25
