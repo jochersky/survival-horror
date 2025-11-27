@@ -67,26 +67,26 @@ public class Interactor : MonoBehaviour
 
     private void InteractWithObject()
     {
-        Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 5f, interactionLayer);
+        Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 5f, interactionLayer, QueryTriggerInteraction.UseGlobal);
         
         cursor.SetActive(hit.transform);
         if (!hit.transform) return;
         
         // change cursor to interactable icon
-        if (hit.transform.TryGetComponent<Door>(out Door door))
+        if (hit.collider.TryGetComponent<Door>(out Door door))
         {
             _crosshairImage.texture = door.locked ? doorLockedTexture: doorUnlockedTexture;
         } 
-        else if (hit.transform.TryGetComponent<Container>(out Container container))
+        else if (hit.collider.TryGetComponent<Container>(out Container container))
         {
             _crosshairImage.texture = openHandTexture;
         }
-        else if (hit.transform.TryGetComponent<Item>(out Item item))
+        else if (hit.collider.TryGetComponent<Item>(out Item item))
         {
             _crosshairImage.texture = openHandTexture;
         }
 
-        if (_isInteracting && hit.transform && hit.transform.TryGetComponent(out IInteractable interactable))
+        if (_isInteracting && hit.collider && hit.collider.TryGetComponent(out IInteractable interactable))
         {
             interactable.Interact();
             _isInteracting = false;

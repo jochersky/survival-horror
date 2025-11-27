@@ -34,19 +34,17 @@ public class Damage : MonoBehaviour
 
     public void OnCollisionEnter(Collision other)
     {
-        if (deactivateOnCollision)
-            Deactivate();
-        
         if (other.transform.TryGetComponent(out Health health))
             health.TakeDamage(damageData.damageAmt);
+        else if (deactivateOnCollision)
+            Deactivate();
     }
     
     public void OnTriggerEnter(Collider other)
     {
-        if (deactivateOnTrigger)
-            Deactivate();
-        
         if (other.transform.TryGetComponent(out Health health))
             health.TakeDamage(damageData.damageAmt);
+        else if (deactivateOnTrigger)
+            Deactivate();
     }
 }

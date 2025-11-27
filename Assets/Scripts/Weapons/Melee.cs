@@ -14,7 +14,7 @@ public class Melee : Weapon
     [Header("Melee Properties")]
     [SerializeField] private float maxThrowDistance = 20f;
     [SerializeField] private float maxThrowForce = 120f;
-    [SerializeField] private float spinSpeed = 6f;
+    [SerializeField] private float spinSpeed = 1f;
     
     private bool _isThrowing;
 
@@ -36,11 +36,14 @@ public class Melee : Weapon
         WeaponManager.instance.UnequipThrownWeapon();
         
         Vector3 throwingDirection = (_cam.transform.forward * maxThrowDistance - throwPoint.forward).normalized;
+        if (Physics.Raycast(_cam.transform.position, _cam.transform.forward, out RaycastHit camHit, maxThrowDistance, _mask))
+            throwingDirection = (camHit.point - throwPoint.position).normalized;
+        
         // point the direction of the vector slightly up before applying throw force
         Vector3 throwVector = (throwingDirection + (throwPoint.up * 0.1f)).normalized * maxThrowForce;
-        
+        Vector3 spinVector = new Vector3(0, 0, -1) * spinSpeed;
         rb.AddForce(throwVector, ForceMode.Impulse);
-        rb.AddRelativeTorque(-throwPoint.right * spinSpeed, ForceMode.Impulse);
+        rb.AddRelativeTorque(spinVector, ForceMode.Impulse);
         
         throwDamage.Activate();
     }

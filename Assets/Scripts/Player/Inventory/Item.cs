@@ -5,13 +5,11 @@ public class Item : MonoBehaviour, IInteractable
 {
     [Header("References")]
     [SerializeField] private Transform mainTransform;
-    [SerializeField] private Transform rbFollowTransform;
     [SerializeField] private Transform handTransform;
     [SerializeField] private Transform backTransform;
     [SerializeField] private Transform attackTransform;
     [SerializeField] private Rigidbody rb;
     [SerializeField] private GameObject draggableItemPrefab;
-    [SerializeField] private ItemData itemData;
     
     [Header("Instance Values")]
     [SerializeField] private int count = 1;
@@ -22,15 +20,6 @@ public class Item : MonoBehaviour, IInteractable
     // Getters and Setters
     public int Count { get { return count; } set { count = value; } }
     public int  AmmoCount { get { return ammoCount; } set { ammoCount = value; } }
-
-    public void FixedUpdate()
-    {
-        if (rbFollowTransform)
-        {
-            transform.position = rbFollowTransform.position;
-            transform.rotation = rbFollowTransform.rotation;
-        }
-    }
 
     public void ChangeContainer(Container newContainer)
     {
