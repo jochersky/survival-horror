@@ -30,6 +30,7 @@ public class PlayerStateMachine : MonoBehaviour
     private bool _movePressed;
     private bool _zoomPressed;
     private bool _attackPressed;
+    private bool _reloadPressed;
     private Vector3 _moveVelocity;
     private Vector3 _verticalVelocity;
     private float _currentHorizontalSpeed;
@@ -45,6 +46,7 @@ public class PlayerStateMachine : MonoBehaviour
     private InputAction m_MoveAction;
     private InputAction m_ZoomAction;
     private InputAction m_AttackAction;
+    private InputAction m_ReloadAction;
     
     // variables to store optimized setter/getter parameter IDs
     private int _isWalkingHash;
@@ -53,6 +55,8 @@ public class PlayerStateMachine : MonoBehaviour
     private int _endSwingHash;
     private int _startedShootingHash;
     private int _endedShootingHash;
+    private int _startReloadHash;
+    private int _endReloadHash;
     private int _startThrowHash;
     private int _endThrowHash;
     private int _isDeadHash;
@@ -74,6 +78,7 @@ public class PlayerStateMachine : MonoBehaviour
     public bool MovePressed { get { return _movePressed; } set { _movePressed = value; } }
     public bool ZoomPressed { get { return _zoomPressed; } set { _zoomPressed = value; } }
     public bool AttackPressed { get { return _attackPressed; } set { _attackPressed = value; } }
+    public bool ReloadPressed { get { return _reloadPressed; } set { _reloadPressed = value; } }
     public Vector2 MoveInput { get { return _moveInput; } }
     public float MoveVelocityX { get => _moveVelocity.x; set => _moveVelocity.x = value; }
     public float MoveVelocityY { get => _moveVelocity.y; set => _moveVelocity.y = value; }
@@ -91,6 +96,8 @@ public class PlayerStateMachine : MonoBehaviour
     public int EndSwingHash => _endSwingHash;
     public int StartedShootingHash => _startedShootingHash;
     public int EndedShootingHash => _endedShootingHash;
+    public int StartReloadHash => _startReloadHash;
+    public int EndReloadHash => _endReloadHash;
     public int StartThrowHash => _startThrowHash;
     public int EndThrowHash => _endThrowHash;
     public int IsDeadHash => _isDeadHash;
@@ -110,6 +117,7 @@ public class PlayerStateMachine : MonoBehaviour
         m_MoveAction = _playerActions.FindAction("Move");
         m_ZoomAction = _playerActions.FindAction("Zoom");
         m_AttackAction = _playerActions.FindAction("Attack");
+        m_ReloadAction = _playerActions.FindAction("Reload");
         m_MoveAction.started += OnMove;
         m_MoveAction.performed += OnMove;
         m_MoveAction.canceled += OnMove;
@@ -119,6 +127,8 @@ public class PlayerStateMachine : MonoBehaviour
         m_AttackAction.started += OnAttack;
         m_AttackAction.performed += OnAttack;
         m_AttackAction.canceled += OnAttack;
+        m_ReloadAction.started += OnReload;
+        m_ReloadAction.canceled += OnReload;
         
         // connect health events
         health.OnDeath += () => _dead = true;
@@ -134,6 +144,8 @@ public class PlayerStateMachine : MonoBehaviour
         _endSwingHash = Animator.StringToHash("EndSwing");
         _startedShootingHash = Animator.StringToHash("StartedShooting");
         _endedShootingHash = Animator.StringToHash("EndedShooting");
+        _startReloadHash = Animator.StringToHash("StartReload");
+        _endReloadHash = Animator.StringToHash("EndReload");
         _startThrowHash = Animator.StringToHash("StartThrow");
         _endThrowHash = Animator.StringToHash("EndThrow");
         _isDeadHash = Animator.StringToHash("isDead");
@@ -177,6 +189,11 @@ public class PlayerStateMachine : MonoBehaviour
     public void OnAttack(InputAction.CallbackContext context)
     {
         AttackPressed = context.ReadValueAsButton();
+    }
+
+    public void OnReload(InputAction.CallbackContext context)
+    {
+        ReloadPressed = context.ReadValueAsButton();
     }
 
     public void ApplyStopDrag()

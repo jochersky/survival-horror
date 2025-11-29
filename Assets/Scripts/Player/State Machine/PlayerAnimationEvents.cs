@@ -8,6 +8,9 @@ public class PlayerAnimationEvents : MonoBehaviour
     public event SwingFinished OnSwingFinished;
     public delegate void ShootFinished();
     public event SwingFinished OnShootFinished;
+
+    public delegate void ReloadFinished();
+    public event ReloadFinished OnReloadFinished;
     public delegate void WeaponThrown();
     public event WeaponThrown OnWeaponThrown;
 
@@ -24,6 +27,11 @@ public class PlayerAnimationEvents : MonoBehaviour
     public void ShootEnded()
     {
         OnShootFinished?.Invoke();
+    }
+
+    public void ReloadEnded()
+    {
+        OnReloadFinished?.Invoke();
     }
 
     public void ThrowMeleeWeapon()
