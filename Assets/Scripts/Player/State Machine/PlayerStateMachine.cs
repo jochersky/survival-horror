@@ -128,6 +128,7 @@ public class PlayerStateMachine : MonoBehaviour
         m_AttackAction.performed += OnAttack;
         m_AttackAction.canceled += OnAttack;
         m_ReloadAction.started += OnReload;
+        m_ReloadAction.performed += OnReload;
         m_ReloadAction.canceled += OnReload;
         
         // connect health events

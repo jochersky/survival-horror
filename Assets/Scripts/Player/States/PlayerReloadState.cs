@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class PlayerReloadState : PlayerBaseState
 {
-    private bool _reloadEnded = false;
     public PlayerReloadState(PlayerStateMachine currentContext, PlayerStateDictionary playerStateDictionary)
         : base(currentContext, playerStateDictionary)
     {
@@ -12,7 +11,7 @@ public class PlayerReloadState : PlayerBaseState
     public override void EnterState()
     {
         Context.Animator.SetTrigger(Context.StartReloadHash);
-        _reloadEnded = false;
+        Context.CurrentHorizontalSpeed = 0;
     }
 
     public override void ExitState()
@@ -26,21 +25,16 @@ public class PlayerReloadState : PlayerBaseState
     public override void UpdateState()
     {
         if (Context.Dead) SwitchState(Dictionary.Dead());
-        
-        ApplyMeshRotation();
-        
-        if (_reloadEnded)
-            SwitchState(Dictionary.Idle());
+
+        Context.MoveVelocity *= Context.StopDrag;
     }
 
     private void ReloadFinished()
     {
-        _reloadEnded = true;
         Context.Animator.SetTrigger(Context.EndReloadHash);
-    }
-    
-    private void ApplyMeshRotation()
-    {
-        Context.PlayerMesh.transform.rotation = Context.RotatedOrientation.rotation;
+        
+        if (Context.ZoomPressed) SwitchState(Dictionary.Zoom());
+        else if (Context.MovePressed) SwitchState(Dictionary.Walk());
+        else SwitchState(Dictionary.Idle());
     }
 }

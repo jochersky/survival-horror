@@ -32,5 +32,6 @@ public class PlayerIdleState : PlayerBaseState
     if (weaponEquipped && Context.ZoomPressed) SwitchState(Dictionary.Zoom());
     else if (weaponEquipped && Context.AttackPressed) SwitchState(Dictionary.Swing());
     else if (Context.MovePressed) SwitchState(Dictionary.Walk());
+    else if (Context.GunWeaponEquipped && Context.ReloadPressed) SwitchState(Dictionary.Reload());
   }
 }
