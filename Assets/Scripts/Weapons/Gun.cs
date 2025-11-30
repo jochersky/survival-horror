@@ -8,6 +8,7 @@ public class Gun : Weapon
     [SerializeField] private InputActionAsset actions;
     [SerializeField] private Transform[] projectileSpawners;
     [SerializeField] private GameObject projectileDecal;
+    [SerializeField] private TrailRenderer bulletTrail;
     // must be assigned when the prefab has already been instanced
     private Camera _cam;
     private InputActionMap _playerActions;
@@ -18,6 +19,7 @@ public class Gun : Weapon
     [SerializeField] private float reloadTime = 2f;
     [SerializeField] private float fireRate = 0.25f;
     [SerializeField] private float maxBulletDistance = 100f;
+    [SerializeField] private float bulletSpeed = 100f;
     
     // input actions
     private InputAction m_ReloadAction;
@@ -84,17 +86,25 @@ public class Gun : Weapon
 
         if (Physics.Raycast(_cam.transform.position, _cam.transform.forward, out RaycastHit camHit, maxBulletDistance, _mask))
             firingDirection = camHit.point - projectileSpawners[0].transform.position;
-
+        
         if (Physics.Raycast(projectileSpawners[0].transform.position, firingDirection, out RaycastHit hit, maxBulletDistance, _mask))
         {
-            if (hit.transform.TryGetComponent(out Hurtbox hurtbox))
-                hurtbox.TakeDamage(damage);
-                
+            TrailRenderer trail = Instantiate(bulletTrail, projectileSpawners[0].position, Quaternion.identity);
+            StartCoroutine(SpawnTrail(trail, hit.point));
+            
             // place slightly inside of object so that decal doesn't flicker
             Vector3 pos = hit.point - hit.normal * 0.1f;
             Instantiate(projectileDecal, pos, Quaternion.LookRotation(hit.normal), hit.transform);
+            
+            if (hit.transform.TryGetComponent(out Hurtbox hurtbox))
+                hurtbox.TakeDamage(damage);
         }
-
+        else
+        {
+            TrailRenderer trail = Instantiate(bulletTrail, projectileSpawners[0].position, Quaternion.identity);
+            StartCoroutine(SpawnTrail(trail, firingDirection * maxBulletDistance));
+        }
+    
         _fire = StartCoroutine(Fire());
     }
     
@@ -127,5 +137,20 @@ public class Gun : Weapon
         _bulletsRemaining--;
         OnFireComplete?.Invoke(this);
         _isFiring = false;
+    }
+
+    private IEnumerator SpawnTrail(TrailRenderer tr, Vector3 target)
+    {
+        Vector3 startPos = tr.transform.position;
+        float distance = Vector3.Distance(startPos, target);
+        float remainingDistance = distance;
+        while (remainingDistance > 0)
+        {
+            tr.transform.position = Vector3.Lerp(startPos, target, 1 - (remainingDistance / distance));
+            remainingDistance -= bulletSpeed * Time.deltaTime;
+            yield return null;
+        }
+        tr.transform.position = target;
+        Destroy(tr.gameObject, tr.time);
     }
 }

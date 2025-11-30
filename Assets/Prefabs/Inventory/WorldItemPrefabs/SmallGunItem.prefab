@@ -528,11 +528,13 @@ MonoBehaviour:
   projectileSpawners:
   - {fileID: 3065275324074170651}
   projectileDecal: {fileID: 6124696709512704395, guid: 6e6dadf324f0df74faceb6f992933d73, type: 3}
+  bulletTrail: {fileID: 2695017451168390718, guid: ea22453ec65801b4aa0ebc5f6bf33689, type: 3}
   damage: 20
   maxMagazineSize: 8
   reloadTime: 2
   fireRate: 0.25
   maxBulletDistance: 100
+  bulletSpeed: 100
 --- !u!54 &9208184985427631668
 Rigidbody:
   m_ObjectHideFlags: 0
