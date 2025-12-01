@@ -47,9 +47,9 @@ public class WeaponManager : MonoBehaviour
     private InputAction m_ZoomAction;
     private InputAction m_AttackAction;
     
-    public delegate void MeleeWeaponEquipped();
+    public delegate void MeleeWeaponEquipped(Melee melee);
     public event MeleeWeaponEquipped OnMeleeWeaponEquipped;
-    public delegate void GunWeaponEquipped();
+    public delegate void GunWeaponEquipped(Gun gun);
     public event GunWeaponEquipped OnGunWeaponEquipped;
     
     // TODO: create event to fire when a new weapon is in use and check whether it is a melee or gun type
@@ -147,19 +147,17 @@ public class WeaponManager : MonoBehaviour
         if (primaryObj) SetTransform(primaryObj.transform, handTransform, _primaryItem);
         if (secondaryObj) SetTransform(secondaryObj.transform, backTransform, _secondaryItem);
 
-        if (_primaryType == WeaponType.Gun)
+        if (_primaryWeapon is Gun gun)
         {
-            OnGunWeaponEquipped?.Invoke();
+            ammoCounterText.text = gun.BulletsRemaining + " // " + _primaryAmmoCount;
+            OnGunWeaponEquipped?.Invoke(gun);
             ammoCounterText.gameObject.SetActive(true);
         }
-        else if (_primaryType == WeaponType.Melee)
+        else if (_primaryWeapon is Melee melee)
         { 
-            OnMeleeWeaponEquipped?.Invoke();
+            OnMeleeWeaponEquipped?.Invoke(melee);
             ammoCounterText.gameObject.SetActive(false);
         }
-        
-        if (_primaryWeapon is Gun gun)
-            ammoCounterText.text = gun.BulletsRemaining + " // " + _primaryAmmoCount;
     }
 
     private void SwitchToSecondary()
@@ -169,19 +167,17 @@ public class WeaponManager : MonoBehaviour
         if (secondaryObj) SetTransform(secondaryObj.transform, handTransform, _secondaryItem);
         if (primaryObj) SetTransform(primaryObj.transform, backTransform, _primaryItem);
 
-        if (_secondaryType == WeaponType.Gun)
+        if (_secondaryWeapon is Gun gun)
         {
-            OnGunWeaponEquipped?.Invoke();
+            ammoCounterText.text = gun.BulletsRemaining + " // " + _secondaryAmmoCount;
+            OnGunWeaponEquipped?.Invoke(gun);
             ammoCounterText.gameObject.SetActive(true);
         }
-        else if (_secondaryType == WeaponType.Melee)
+        else if (_secondaryWeapon is Melee melee)
         {
-            OnMeleeWeaponEquipped?.Invoke();
+            OnMeleeWeaponEquipped?.Invoke(melee);
             ammoCounterText.gameObject.SetActive(false);
         }
-        
-        if (_secondaryWeapon is Gun gun)
-            ammoCounterText.text = gun.BulletsRemaining + " // " + _secondaryAmmoCount;
     }
 
     private void SetTransform(Transform t, Transform weaponTransform, Item item)
@@ -203,21 +199,7 @@ public class WeaponManager : MonoBehaviour
         GameObject prefab = dragItem.itemPrefab;
         primaryObj = Instantiate(prefab);
         Weapon w = primaryObj.GetComponent<Weapon>();
-        bool primaryInHand = weaponInHand == _primaryWeapon;
-        if (primaryInHand)
-        {
-            weaponInHand = w;
-            if (_primaryType == WeaponType.Gun)
-            {
-                OnGunWeaponEquipped?.Invoke();
-                ammoCounterText.gameObject.SetActive(true);
-            }
-            else if (_primaryType == WeaponType.Melee)
-            {
-                OnMeleeWeaponEquipped?.Invoke();
-                ammoCounterText.gameObject.SetActive(false);
-            }
-        }
+        if (weaponInHand == _primaryWeapon) weaponInHand = w;
         _primaryWeapon = w;
         _primaryItem = primaryObj.GetComponentInChildren<Item>();
         
@@ -230,18 +212,24 @@ public class WeaponManager : MonoBehaviour
             gun.BulletsRemaining = _primaryDragItem.AmmoCount;
             _primaryAmmoCount = CountAmmo(_primaryWeaponAmmoItems);
             ammoCounterText.text = gun.BulletsRemaining +  " // " + _primaryAmmoCount;
+            OnGunWeaponEquipped?.Invoke(gun);
+            ammoCounterText.gameObject.SetActive(true);
             gun.OnReloadComplete += UpdateBulletsRemaining;
             gun.OnFireComplete += UpdateBulletsRemaining;
             _primaryDragItem.OnAmmoCountChanged += UpdateMagazineBulletCount;
+
+            if (weaponInHand == _primaryWeapon) playerAnimationEvents.OnReloadFinished += gun.ReloadGun;
         }
         else if (_primaryWeapon is Melee melee)
         {
+            OnMeleeWeaponEquipped?.Invoke(melee);
+            ammoCounterText.gameObject.SetActive(false);
             playerAnimationEvents.OnWeaponThrown += ThrowWeaponAttack;
         }
         playerAnimationEvents.OnSwingBegin += _primaryItem.MoveToAttack;
         playerAnimationEvents.OnSwingFinished += _primaryItem.MoveToHand;
         
-        SetTransform(primaryObj.transform, primaryInHand ? handTransform : backTransform, _primaryItem);
+        SetTransform(primaryObj.transform, weaponInHand == _primaryWeapon ? handTransform : backTransform, _primaryItem);
         _primaryItem.Equip();
     }
 
@@ -256,21 +244,7 @@ public class WeaponManager : MonoBehaviour
         GameObject prefab = dragItem.itemPrefab;
         secondaryObj = Instantiate(prefab);
         Weapon w = secondaryObj.GetComponent<Weapon>();
-        bool primaryInHand = weaponInHand == _primaryWeapon;
-        if (!primaryInHand)
-        {
-            weaponInHand = w;
-            if (_secondaryType == WeaponType.Gun)
-            {
-                OnGunWeaponEquipped?.Invoke();
-                ammoCounterText.gameObject.SetActive(true);
-            }
-            else if (_secondaryType == WeaponType.Melee)
-            {
-                OnMeleeWeaponEquipped?.Invoke();
-                ammoCounterText.gameObject.SetActive(false);
-            }
-        }
+        if (weaponInHand != _primaryWeapon) weaponInHand = w;
         _secondaryWeapon = w;
         _secondaryItem = secondaryObj.GetComponentInChildren<Item>();
         
@@ -283,18 +257,24 @@ public class WeaponManager : MonoBehaviour
             gun.BulletsRemaining = _secondaryDragItem.AmmoCount;
             _secondaryAmmoCount = CountAmmo(_secondaryWeaponAmmoItems);
             ammoCounterText.text = gun.BulletsRemaining +  " // " + _secondaryAmmoCount;
+            OnGunWeaponEquipped?.Invoke(gun);
+            ammoCounterText.gameObject.SetActive(true);
             gun.OnReloadComplete += UpdateBulletsRemaining;
             gun.OnFireComplete += UpdateBulletsRemaining;
             _primaryDragItem.OnAmmoCountChanged += UpdateMagazineBulletCount;
+            
+            if (weaponInHand == _secondaryWeapon) playerAnimationEvents.OnReloadFinished += gun.ReloadGun;
         }
         else if (_secondaryWeapon is Melee melee)
         {
+            OnMeleeWeaponEquipped?.Invoke(melee);
+            ammoCounterText.gameObject.SetActive(false);
             playerAnimationEvents.OnWeaponThrown += ThrowWeaponAttack;
         }
         playerAnimationEvents.OnSwingBegin += _secondaryItem.MoveToAttack;
         playerAnimationEvents.OnSwingFinished += _secondaryItem.MoveToHand;
 
-        SetTransform(secondaryObj.transform, !primaryInHand ? handTransform : backTransform, _secondaryItem);
+        SetTransform(secondaryObj.transform, weaponInHand != _primaryWeapon ? handTransform : backTransform, _secondaryItem);
         _secondaryItem.Equip();
     }
 
@@ -522,6 +502,13 @@ public class WeaponManager : MonoBehaviour
         }
         
         return 0;
+    }
+
+    public int AmmoCount()
+    {
+        if (weaponInHand == _primaryWeapon) return _primaryAmmoCount;
+        if (weaponInHand == _secondaryWeapon) return _secondaryAmmoCount;
+        return -1;
     }
 
     private void UpdateBulletsRemaining(Gun gun)

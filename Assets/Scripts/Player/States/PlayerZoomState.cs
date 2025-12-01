@@ -31,7 +31,11 @@ public class PlayerZoomState : PlayerBaseState
         
         if (Context.AttackPressed) SwitchState(Context.GunWeaponEquipped ? Dictionary.Shoot() : Dictionary.Throw());
         else if (!Context.ZoomPressed) SwitchState(Context.MovePressed ? Dictionary.Walk() : Dictionary.Idle());
-        else if (Context.ReloadPressed) SwitchState(Dictionary.Reload());
+        else if (Context.GunWeaponEquipped && Context.ReloadRequested)
+        {
+            Context.ReloadRequested = false;
+            SwitchState(Dictionary.Reload());
+        }
     }
 
     private void ApplyMoveVelocity()

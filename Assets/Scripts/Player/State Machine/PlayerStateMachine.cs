@@ -37,6 +37,7 @@ public class PlayerStateMachine : MonoBehaviour
     private bool _dead;
     private bool _meleeWeaponEquipped = false;
     private bool _gunWeaponEquipped = false;
+    private bool _reloadRequested = false;
 
     // State Variables
     private PlayerBaseState _currentState;
@@ -90,6 +91,7 @@ public class PlayerStateMachine : MonoBehaviour
     public bool Dead => _dead;
     public bool MeleeWeaponEquipped { get { return _meleeWeaponEquipped; } set { _meleeWeaponEquipped = value; } }
     public bool GunWeaponEquipped { get { return _gunWeaponEquipped; } set { _gunWeaponEquipped = value; } }
+    public bool ReloadRequested { get { return _reloadRequested; } set { _reloadRequested = value; } }
     public int IsWalkingHash => _isWalkingHash;
     public int IsZoomingHash => _isZoomingHash;
     public int StartSwingHash => _startSwingHash;
@@ -135,8 +137,8 @@ public class PlayerStateMachine : MonoBehaviour
         health.OnDeath += () => _dead = true;
         
         // connect player events
-        weaponManager.OnMeleeWeaponEquipped += () => { _meleeWeaponEquipped = true; _gunWeaponEquipped = false; };
-        weaponManager.OnGunWeaponEquipped += () => { _gunWeaponEquipped = true; _meleeWeaponEquipped = false; };
+        weaponManager.OnMeleeWeaponEquipped += EquipMelee;
+        weaponManager.OnGunWeaponEquipped += EquipGun;
         
         // set the parameter hash references
         _isWalkingHash = Animator.StringToHash("isWalking");
@@ -201,5 +203,19 @@ public class PlayerStateMachine : MonoBehaviour
     {
         MoveVelocityX *= StopDrag;
         MoveVelocityY *= StopDrag;
+    }
+
+    private void EquipGun(Gun gun)
+    {
+        _gunWeaponEquipped = true;
+        _meleeWeaponEquipped = false;
+
+        gun.OnRequestReload += () => { _reloadRequested = true; };
+    }
+
+    private void EquipMelee(Melee melee)
+    {
+        _meleeWeaponEquipped = true;
+        _gunWeaponEquipped = false;
     }
 }
