@@ -2,17 +2,17 @@ using UnityEngine;
 
 public class PlayerShootState : PlayerBaseState
 {
-    private bool _shootEnded = false;
+    private bool _fireEnded = false;
     
     public PlayerShootState(PlayerStateMachine currentContext, PlayerStateDictionary playerStateDictionary)
         : base(currentContext, playerStateDictionary)
     {
-        Context.PlayerAnimationEvents.OnShootFinished += ShootEnded;
+        Context.PlayerAnimationEvents.OnFireFinished += FireEnded;
     }
     
     public override void EnterState()
     {
-        _shootEnded = false;
+        _fireEnded = false;
         Context.Animator.SetTrigger(Context.StartedShootingHash);
         Context.CurrentHorizontalSpeed = 0;
     }
@@ -32,13 +32,13 @@ public class PlayerShootState : PlayerBaseState
         ApplyMeshRotation();
         Context.ApplyStopDrag();
         
-        if (_shootEnded)
+        if (_fireEnded)
             SwitchState(Dictionary.Zoom());
     }
 
-    private void ShootEnded()
+    private void FireEnded()
     {
-        _shootEnded = true;
+        _fireEnded = true;
         Context.Animator.SetTrigger(Context.EndedShootingHash);
     }
     

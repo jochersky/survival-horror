@@ -150,17 +150,26 @@ public class WeaponManager : MonoBehaviour
         {
             if (primaryObj) SetTransform(primaryObj.transform, handTransform, _primaryItem);
             if (secondaryObj) SetTransform(secondaryObj.transform, backTransform, _secondaryItem);
-            if (_secondaryWeapon is Gun g) playerAnimationEvents.OnReloadFinished -= g.ReloadGun;
+            if (_secondaryWeapon is Gun g)
+            {
+                playerAnimationEvents.OnFireBegin -= g.FireGun;
+                playerAnimationEvents.OnReloadFinished -= g.ReloadGun;
+            }
         }
         else if (w == _secondaryWeapon)
         {
             if (secondaryObj) SetTransform(secondaryObj.transform, handTransform, _secondaryItem);
             if (primaryObj) SetTransform(primaryObj.transform, backTransform, _primaryItem);
-            if (_primaryWeapon is Gun g) playerAnimationEvents.OnReloadFinished -= g.ReloadGun;
+            if (_primaryWeapon is Gun g)
+            {
+                playerAnimationEvents.OnFireBegin -= g.FireGun;
+                playerAnimationEvents.OnReloadFinished -= g.ReloadGun;
+            }
         }
         
         if (w is Gun gun)
         {
+            playerAnimationEvents.OnFireBegin += gun.FireGun;
             playerAnimationEvents.OnReloadFinished += gun.ReloadGun;
             int ammoCount = w == _primaryWeapon ? _primaryAmmoCount : _secondaryAmmoCount;
             ammoCounterText.text = gun.BulletsRemaining + " // " + ammoCount;
@@ -231,6 +240,7 @@ public class WeaponManager : MonoBehaviour
             if (weaponInHand == w)
             {
                 OnGunWeaponEquipped?.Invoke(gun);
+                playerAnimationEvents.OnFireBegin += gun.FireGun;
                 playerAnimationEvents.OnReloadFinished += gun.ReloadGun;
                 ammoCounterText.text = gun.BulletsRemaining +  " // " + (w == _primaryWeapon ? _primaryAmmoCount : _secondaryAmmoCount);
                 ammoCounterText.gameObject.SetActive(true);

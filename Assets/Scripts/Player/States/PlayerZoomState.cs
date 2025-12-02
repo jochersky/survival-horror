@@ -28,8 +28,12 @@ public class PlayerZoomState : PlayerBaseState
         
         ApplyMeshRotation();
         ApplyMoveVelocity();
-        
-        if (Context.AttackPressed) SwitchState(Context.GunWeaponEquipped ? Dictionary.Shoot() : Dictionary.Throw());
+
+        if (Context.AttackPressed && Context.AimAttackRequested)
+        {
+            Context.AimAttackRequested = false;
+            SwitchState(Context.GunWeaponEquipped ? Dictionary.Shoot() : Dictionary.Throw());
+        }
         else if (!Context.ZoomPressed) SwitchState(Context.MovePressed ? Dictionary.Walk() : Dictionary.Idle());
         else if (Context.GunWeaponEquipped && Context.ReloadRequested)
         {

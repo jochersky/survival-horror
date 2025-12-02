@@ -6,9 +6,11 @@ public class PlayerAnimationEvents : MonoBehaviour
     public event SwingBegin OnSwingBegin;
     public delegate void SwingFinished();
     public event SwingFinished OnSwingFinished;
-    public delegate void ShootFinished();
-    public event SwingFinished OnShootFinished;
 
+    public delegate void FireBegin();
+    public event FireBegin OnFireBegin;
+    public delegate void FireFinished();
+    public event FireFinished OnFireFinished;
     public delegate void ReloadFinished();
     public event ReloadFinished OnReloadFinished;
     public delegate void WeaponThrown();
@@ -24,9 +26,14 @@ public class PlayerAnimationEvents : MonoBehaviour
         OnSwingFinished?.Invoke();
     }
 
-    public void ShootEnded()
+    public void FireStarted()
     {
-        OnShootFinished?.Invoke();
+        OnFireBegin?.Invoke();
+    } 
+
+    public void FireEnded()
+    {
+        OnFireFinished?.Invoke();
     }
 
     public void ReloadEnded()

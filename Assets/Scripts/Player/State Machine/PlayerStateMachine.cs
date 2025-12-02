@@ -37,6 +37,7 @@ public class PlayerStateMachine : MonoBehaviour
     private bool _dead;
     private bool _meleeWeaponEquipped = false;
     private bool _gunWeaponEquipped = false;
+    private bool _aimAttackRequested = false;
     private bool _reloadRequested = false;
 
     // State Variables
@@ -91,6 +92,7 @@ public class PlayerStateMachine : MonoBehaviour
     public bool Dead => _dead;
     public bool MeleeWeaponEquipped { get { return _meleeWeaponEquipped; } set { _meleeWeaponEquipped = value; } }
     public bool GunWeaponEquipped { get { return _gunWeaponEquipped; } set { _gunWeaponEquipped = value; } }
+    public bool AimAttackRequested { get { return _aimAttackRequested; } set { _aimAttackRequested = value; } }
     public bool ReloadRequested { get { return _reloadRequested; } set { _reloadRequested = value; } }
     public int IsWalkingHash => _isWalkingHash;
     public int IsZoomingHash => _isZoomingHash;
@@ -211,6 +213,7 @@ public class PlayerStateMachine : MonoBehaviour
         _meleeWeaponEquipped = false;
 
         gun.OnRequestReload += () => { _reloadRequested = true; };
+        gun.OnRequestFire += () => { _aimAttackRequested = true; };
     }
 
     private void EquipMelee(Melee melee)

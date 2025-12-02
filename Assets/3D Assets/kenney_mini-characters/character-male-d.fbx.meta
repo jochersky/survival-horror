@@ -31,11 +31,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: static
-      takeName: static
+      name: holding-right-shoot (1)
+      takeName: holding-right-shoot
       internalID: -5531000884711269149
       firstFrame: 0
-      lastFrame: 6
+      lastFrame: 12
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -520,7 +520,14 @@ ModelImporter:
       curves: []
       events:
       - time: 0.9994644
-        functionName: ShootEnded
+        functionName: FireEnded
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0
+        functionName: FireStarted
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0

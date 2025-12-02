@@ -30,18 +30,21 @@ public class Gun : Weapon
     private Coroutine _reload;
     private bool _isReloading;
     private Coroutine _fire;
-    private bool _isFiring;
+    private bool _isFiring = false;
 
     private LayerMask _mask;
     
     // getters and setters
     public int BulletsRemaining { get { return _bulletsRemaining; } set { _bulletsRemaining = value; } }
 
+    public delegate void RequestReload();
+    public event RequestReload OnRequestReload;
+    
     public delegate void ReloadComplete(Gun gun);
     public event ReloadComplete OnReloadComplete;
 
-    public delegate void RequestReload();
-    public event RequestReload OnRequestReload;
+    public delegate void RequestFire();
+    public event RequestFire OnRequestFire;
 
     public delegate void FireComplete(Gun gun);
     public event FireComplete OnFireComplete;
@@ -68,16 +71,22 @@ public class Gun : Weapon
 
     public override void AimAttack()
     {
-        if(!_isFiring) ShootGun();
+        TryFire();
     }
-
-    private void ShootGun()
+    
+    private void TryFire()
     {
         if (_isReloading || _isFiring) return;
         
         // reload if trying to fire and there are bullets to reload with
         if (_bulletsRemaining <= 0) TryReload();
         
+        // request a fire from the player state machine
+        OnRequestFire?.Invoke();
+    }
+
+    public void FireGun()
+    {
         Vector3 firingDirection = (_cam.transform.forward - projectileSpawners[0].transform.forward).normalized;
 
         if (Physics.Raycast(_cam.transform.position, _cam.transform.forward, out RaycastHit camHit, maxBulletDistance, _mask))
@@ -99,8 +108,8 @@ public class Gun : Weapon
             TrailRenderer trail = Instantiate(bulletTrail, projectileSpawners[0].position, Quaternion.identity);
             StartCoroutine(SpawnTrail(trail, firingDirection * maxBulletDistance));
         }
-    
-        _fire = StartCoroutine(Fire());
+
+        _bulletsRemaining--;
     }
 
     private void TryReload()
@@ -120,21 +129,21 @@ public class Gun : Weapon
         OnReloadComplete?.Invoke(this);
     }
 
-    private IEnumerator Fire()
-    {
-        _isFiring = true;
-        
-        float timer = 0;
-        while (timer < fireRate)
-        {
-            timer += Time.deltaTime;
-            yield return null;
-        }
-        
-        _bulletsRemaining--;
-        OnFireComplete?.Invoke(this);
-        _isFiring = false;
-    }
+    // private IEnumerator Fire()
+    // {
+    //     _isFiring = true;
+    //     
+    //     float timer = 0;
+    //     while (timer < fireRate)
+    //     {
+    //         timer += Time.deltaTime;
+    //         yield return null;
+    //     }
+    //     
+    //     _bulletsRemaining--;
+    //     OnFireComplete?.Invoke(this);
+    //     _isFiring = false;
+    // }
 
     private IEnumerator SpawnTrail(TrailRenderer tr, Vector3 target)
     {
