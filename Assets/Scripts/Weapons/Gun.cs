@@ -63,19 +63,7 @@ public class Gun : Weapon
     public void OnReload(InputAction.CallbackContext context)
     {
         if (_isReloading || _bulletsRemaining == maxMagazineSize) return;
-        
-        // TODO: check that we can go into the reload state, then check that we have ammo to reload with, add ammo to gun when animation event fired
-        
-        // check we can even reload in the first place: have bullets missing and bullets to reload with in inventory
-        if (_bulletsRemaining == maxMagazineSize || WeaponManager.instance.AmmoCount() == 0) return;
-        
-        // request a reload from player state machine
-        OnRequestReload?.Invoke();
-        
-        // TODO: remove lines below later
-        int amt = WeaponManager.instance.GetAmmoAmount(this, maxMagazineSize - _bulletsRemaining);
-        if (amt == 0) return;
-        // _reload = StartCoroutine(Reload(_bulletsRemaining + amt));
+        TryReload();
     }
 
     public override void AimAttack()
@@ -86,19 +74,9 @@ public class Gun : Weapon
     private void ShootGun()
     {
         if (_isReloading || _isFiring) return;
-        // reload if trying to fire and there are bullets to reload with
-        if (_bulletsRemaining <= 0)
-        {
-            // check we can even reload in the first place: have bullets missing and bullets to reload with in inventory
-            if (_bulletsRemaining == maxMagazineSize || WeaponManager.instance.AmmoCount() == 0) return;
         
-            // request a reload from player state machine
-            OnRequestReload?.Invoke();
-            
-            // int amt = WeaponManager.instance.GetAmmoAmount(this, maxMagazineSize - _bulletsRemaining);
-            // if (amt == 0) return;
-            // _reload = StartCoroutine(Reload(_bulletsRemaining + amt));
-        }
+        // reload if trying to fire and there are bullets to reload with
+        if (_bulletsRemaining <= 0) TryReload();
         
         Vector3 firingDirection = (_cam.transform.forward - projectileSpawners[0].transform.forward).normalized;
 
@@ -114,8 +92,7 @@ public class Gun : Weapon
             Vector3 pos = hit.point - hit.normal * 0.1f;
             Instantiate(projectileDecal, pos, Quaternion.LookRotation(hit.normal), hit.transform);
             
-            if (hit.transform.TryGetComponent(out Hurtbox hurtbox))
-                hurtbox.TakeDamage(damage);
+            if (hit.transform.TryGetComponent(out Hurtbox hurtbox)) hurtbox.TakeDamage(damage);
         }
         else
         {
@@ -126,28 +103,22 @@ public class Gun : Weapon
         _fire = StartCoroutine(Fire());
     }
 
+    private void TryReload()
+    {
+        // check we can even reload in the first place: have bullets missing and bullets to reload with in inventory
+        if (_bulletsRemaining == maxMagazineSize || WeaponManager.instance.AmmoCount() == 0) return;
+        
+        // request a reload from player state machine
+        OnRequestReload?.Invoke();
+    }
+    
     public void ReloadGun()
     {
-        int amt = WeaponManager.instance.GetAmmoAmount(this, maxMagazineSize - _bulletsRemaining);
+        int amt = WeaponManager.instance.GetAmmoAmount(this, maxMagazineSize);
         if (amt == 0) return;
         _bulletsRemaining = amt;
         OnReloadComplete?.Invoke(this);
     }
-    
-    // private IEnumerator Reload(int amt)
-    // {
-    //     _isReloading = true;
-    //     
-    //     float timer = 0;
-    //     while (timer < reloadTime)
-    //     {
-    //         timer += Time.deltaTime;
-    //         yield return null;
-    //     }
-    //     _bulletsRemaining = amt;
-    //     OnReloadComplete?.Invoke(this);
-    //     _isReloading = false;
-    // }
 
     private IEnumerator Fire()
     {

@@ -7,10 +7,10 @@ public class WeaponSlot : MonoBehaviour, IDropHandler
 {
     [HideInInspector] public DraggableItem item;
     
-    public delegate void WeaponEquipped(DraggableItem di);
+    public delegate void WeaponEquipped(DraggableItem di, WeaponSlot w);
     public event WeaponEquipped OnWeaponEquipped;
 
-    public delegate void WeaponUnequipped();
+    public delegate void WeaponUnequipped(WeaponSlot w);
     public event WeaponUnequipped OnWeaponUnequipped;
     
     private void Awake()
@@ -41,11 +41,11 @@ public class WeaponSlot : MonoBehaviour, IDropHandler
         item.parentAfterDrag = transform;
         item.weaponSlot = this;
         item.inventorySlot = null;
-        OnWeaponEquipped?.Invoke(item);
+        OnWeaponEquipped?.Invoke(item,this);
     }
 
     public void UnequipWeaponFromSlot()
     {
-        OnWeaponUnequipped?.Invoke();
+        OnWeaponUnequipped?.Invoke(this);
     }
 }
