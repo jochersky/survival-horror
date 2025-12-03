@@ -28,7 +28,7 @@ public class Gun : Weapon
     private int _bulletsRemaining;
     
     private Coroutine _reload;
-    private bool _isReloading;
+    private bool _isReloading = false;
     private Coroutine _fire;
     private bool _isFiring = false;
 
@@ -39,13 +39,10 @@ public class Gun : Weapon
 
     public delegate void RequestReload();
     public event RequestReload OnRequestReload;
-    
     public delegate void ReloadComplete(Gun gun);
     public event ReloadComplete OnReloadComplete;
-
     public delegate void RequestFire();
     public event RequestFire OnRequestFire;
-
     public delegate void FireComplete(Gun gun);
     public event FireComplete OnFireComplete;
 
@@ -65,7 +62,6 @@ public class Gun : Weapon
 
     public void OnReload(InputAction.CallbackContext context)
     {
-        if (_isReloading || _bulletsRemaining == maxMagazineSize) return;
         TryReload();
     }
 
@@ -80,6 +76,8 @@ public class Gun : Weapon
         
         // reload if trying to fire and there are bullets to reload with
         if (_bulletsRemaining <= 0) TryReload();
+        
+        _isFiring = true;
         
         // request a fire from the player state machine
         OnRequestFire?.Invoke();
@@ -108,14 +106,17 @@ public class Gun : Weapon
             TrailRenderer trail = Instantiate(bulletTrail, projectileSpawners[0].position, Quaternion.identity);
             StartCoroutine(SpawnTrail(trail, firingDirection * maxBulletDistance));
         }
-
+        
+        _isFiring = false;
         _bulletsRemaining--;
+        OnFireComplete?.Invoke(this);
     }
 
     private void TryReload()
     {
-        // check we can even reload in the first place: have bullets missing and bullets to reload with in inventory
-        if (_bulletsRemaining == maxMagazineSize || WeaponManager.instance.AmmoCount() == 0) return;
+        if (_isReloading || _bulletsRemaining == maxMagazineSize || WeaponManager.Instance.AmmoCount() == 0) return;
+        
+        _isReloading = true;
         
         // request a reload from player state machine
         OnRequestReload?.Invoke();
@@ -123,27 +124,12 @@ public class Gun : Weapon
     
     public void ReloadGun()
     {
-        int amt = WeaponManager.instance.GetAmmoAmount(this, maxMagazineSize);
+        int amt = WeaponManager.Instance.GetAmmoAmount(this, maxMagazineSize);
         if (amt == 0) return;
+        _isReloading = false;
         _bulletsRemaining = amt;
         OnReloadComplete?.Invoke(this);
     }
-
-    // private IEnumerator Fire()
-    // {
-    //     _isFiring = true;
-    //     
-    //     float timer = 0;
-    //     while (timer < fireRate)
-    //     {
-    //         timer += Time.deltaTime;
-    //         yield return null;
-    //     }
-    //     
-    //     _bulletsRemaining--;
-    //     OnFireComplete?.Invoke(this);
-    //     _isFiring = false;
-    // }
 
     private IEnumerator SpawnTrail(TrailRenderer tr, Vector3 target)
     {

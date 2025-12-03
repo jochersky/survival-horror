@@ -17,10 +17,10 @@ public class Interactor : MonoBehaviour
     
     // input actions
     private InputAction m_InteractAction;
-    private InputAction m_ZoomAction;
+    private InputAction m_AimAction;
     
     private bool _isInteracting;
-    private bool _isZooming;
+    private bool _isAiming;
     
     void Awake()
     {
@@ -30,9 +30,9 @@ public class Interactor : MonoBehaviour
         m_InteractAction = actions.FindAction("Interact");
         m_InteractAction.started += OnInteract;
         m_InteractAction.canceled += OnInteract;
-        m_ZoomAction = actions.FindAction("Zoom");
-        m_ZoomAction.started += OnZoom;
-        m_ZoomAction.canceled += OnZoom;
+        m_AimAction = actions.FindAction("Aim");
+        m_AimAction.started += OnAim;
+        m_AimAction.canceled += OnAim;
     }
 
     void Start()
@@ -61,8 +61,8 @@ public class Interactor : MonoBehaviour
 
     private bool CanInteract()
     {
-        if (_isZooming) _crosshairImage.texture = crosshairTexture;
-        return !_isZooming;
+        if (_isAiming) _crosshairImage.texture = crosshairTexture;
+        return !_isAiming;
     }
 
     private void InteractWithObject()
@@ -98,8 +98,8 @@ public class Interactor : MonoBehaviour
         _isInteracting = context.ReadValueAsButton();
     }
 
-    public void OnZoom(InputAction.CallbackContext context)
+    public void OnAim(InputAction.CallbackContext context)
     {
-        _isZooming = context.ReadValueAsButton();
+        _isAiming = context.ReadValueAsButton();
     }
 }

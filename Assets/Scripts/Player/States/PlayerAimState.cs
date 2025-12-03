@@ -1,15 +1,15 @@
 using System;
 using UnityEngine;
 
-public class PlayerZoomState : PlayerBaseState
+public class PlayerAimState : PlayerBaseState
 {
-    public PlayerZoomState(PlayerStateMachine currentContext, PlayerStateDictionary playerStateDictionary)
+    public PlayerAimState(PlayerStateMachine currentContext, PlayerStateDictionary playerStateDictionary)
         : base(currentContext, playerStateDictionary) { }
 
     public override void EnterState()
     {
         Context.Animator.SetBool(Context.IsWalkingHash, false);
-        Context.Animator.SetBool(Context.IsZoomingHash, true);
+        Context.Animator.SetBool(Context.IsAimingHash, true);
     }
 
     public override void ExitState()
@@ -29,12 +29,13 @@ public class PlayerZoomState : PlayerBaseState
         ApplyMeshRotation();
         ApplyMoveVelocity();
 
-        if (Context.AttackPressed && Context.AimAttackRequested)
+        if (Context.AttackPressed && Context.GunWeaponEquipped && Context.AimAttackRequested)
         {
             Context.AimAttackRequested = false;
-            SwitchState(Context.GunWeaponEquipped ? Dictionary.Shoot() : Dictionary.Throw());
+            SwitchState(Dictionary.Shoot());
         }
-        else if (!Context.ZoomPressed) SwitchState(Context.MovePressed ? Dictionary.Walk() : Dictionary.Idle());
+        else if (Context.AttackPressed && Context.MeleeWeaponEquipped) SwitchState(Dictionary.Throw());
+        else if (!Context.AimPressed) SwitchState(Context.MovePressed ? Dictionary.Walk() : Dictionary.Idle());
         else if (Context.GunWeaponEquipped && Context.ReloadRequested)
         {
             Context.ReloadRequested = false;
@@ -48,7 +49,7 @@ public class PlayerZoomState : PlayerBaseState
         Vector3 rotatedRightDir = Quaternion.AngleAxis(7.5f, Context.Orientation.transform.up) * Context.Orientation.transform.right;
         Vector3 moveDir = rotatedForwardDir * Context.MoveInput.y + rotatedRightDir * Context.MoveInput.x;
         Context.CurrentHorizontalSpeed += Context.MoveAccel * Time.deltaTime;
-        Context.CurrentHorizontalSpeed = Mathf.Min(Context.CurrentHorizontalSpeed, Context.MaxMoveSpeed / Context.MaxAimMoveSpeed);
+        Context.CurrentHorizontalSpeed = Mathf.Min(Context.CurrentHorizontalSpeed, Context.MaxAimMoveSpeed);
         Context.MoveVelocity = moveDir * Context.CurrentHorizontalSpeed;
     }
 

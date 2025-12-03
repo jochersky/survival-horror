@@ -33,7 +33,7 @@ public class Melee : Weapon
     {
         transform.SetParent(InventoryManager.instance.transform);
         item.Unequip();
-        WeaponManager.instance.UnequipThrownWeapon();
+        WeaponManager.Instance.UnequipThrownWeapon();
         
         Vector3 throwingDirection = (_cam.transform.forward * maxThrowDistance - throwPoint.forward).normalized;
         if (Physics.Raycast(_cam.transform.position, _cam.transform.forward, out RaycastHit camHit, maxThrowDistance, _mask))

@@ -12327,7 +12327,7 @@ MonoBehaviour:
   playerMoveOrientation: {fileID: 1521349118}
   health: {fileID: 1485665876}
   regularCam: {fileID: 250032917}
-  zoomCam: {fileID: 1371779887}
+  aimCam: {fileID: 1371779887}
   crosshair: {fileID: 952771269}
   currentState: 0
 --- !u!114 &1311781957
@@ -13093,7 +13093,7 @@ GameObject:
   - component: {fileID: 1371779889}
   - component: {fileID: 1371779888}
   m_Layer: 0
-  m_Name: ZoomCam
+  m_Name: AimCam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14348,8 +14348,10 @@ MonoBehaviour:
   secondaryObj: {fileID: 0}
   ammoCounterText: {fileID: 691408348}
   weaponInHand: {fileID: 0}
+  _primaryWeapon: {fileID: 0}
+  _secondaryWeapon: {fileID: 0}
   lastThrownWeaponName: 
-  _isZooming: 0
+  _isAiming: 0
   _isPressingFire: 0
 --- !u!1 &1503403020
 GameObject:
@@ -17930,6 +17932,7 @@ MonoBehaviour:
   health: {fileID: 1485665876}
   maxMoveSpeed: 2
   maxAimMoveSpeed: 1
+  maxReloadMoveSpeed: 1
   moveAccel: 3
   walkRotationSpeed: 8
   stopDrag: 0.9
@@ -21617,63 +21620,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2d9cd21847ec3d3428f18ebfa6657a0d, type: 3}
---- !u!1001 &8317534364731593343
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 3997099859440520223, guid: ea22453ec65801b4aa0ebc5f6bf33689, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 1.34604
-      objectReference: {fileID: 0}
-    - target: {fileID: 3997099859440520223, guid: ea22453ec65801b4aa0ebc5f6bf33689, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.06
-      objectReference: {fileID: 0}
-    - target: {fileID: 3997099859440520223, guid: ea22453ec65801b4aa0ebc5f6bf33689, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -5.96747
-      objectReference: {fileID: 0}
-    - target: {fileID: 3997099859440520223, guid: ea22453ec65801b4aa0ebc5f6bf33689, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3997099859440520223, guid: ea22453ec65801b4aa0ebc5f6bf33689, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3997099859440520223, guid: ea22453ec65801b4aa0ebc5f6bf33689, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3997099859440520223, guid: ea22453ec65801b4aa0ebc5f6bf33689, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3997099859440520223, guid: ea22453ec65801b4aa0ebc5f6bf33689, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3997099859440520223, guid: ea22453ec65801b4aa0ebc5f6bf33689, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3997099859440520223, guid: ea22453ec65801b4aa0ebc5f6bf33689, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9050427892982601651, guid: ea22453ec65801b4aa0ebc5f6bf33689, type: 3}
-      propertyPath: m_Name
-      value: BulletTrail
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: ea22453ec65801b4aa0ebc5f6bf33689, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -21702,4 +21648,3 @@ SceneRoots:
   - {fileID: 2102266409}
   - {fileID: 195192775}
   - {fileID: 692106756}
-  - {fileID: 8317534364731593343}

@@ -11,7 +11,6 @@ public class PlayerReloadState : PlayerBaseState
     public override void EnterState()
     {
         Context.Animator.SetTrigger(Context.StartReloadHash);
-        Context.CurrentHorizontalSpeed = 0;
     }
 
     public override void ExitState()
@@ -26,15 +25,33 @@ public class PlayerReloadState : PlayerBaseState
     {
         if (Context.Dead) SwitchState(Dictionary.Dead());
 
-        Context.MoveVelocity *= Context.StopDrag;
+        ApplyMoveVelocity();
+        if (!Context.AimPressed) ApplyMeshRotation();
     }
 
     private void ReloadFinished()
     {
         Context.Animator.SetTrigger(Context.EndReloadHash);
         
-        if (Context.ZoomPressed) SwitchState(Dictionary.Zoom());
+        if (Context.AimPressed) SwitchState(Dictionary.Aim());
         else if (Context.MovePressed) SwitchState(Dictionary.Walk());
         else SwitchState(Dictionary.Idle());
+    }
+    
+    private void ApplyMoveVelocity()
+    {
+        Vector3 moveDir = Context.ForwardDir * Context.MoveInput.y + Context.RightDir * Context.MoveInput.x;
+        Context.CurrentHorizontalSpeed += Context.MoveAccel * Time.deltaTime;
+        Context.CurrentHorizontalSpeed = Mathf.Min(Context.CurrentHorizontalSpeed, Context.MaxReloadMoveSpeed);
+        Context.MoveVelocity = moveDir * Context.CurrentHorizontalSpeed;
+    }
+    
+    private void ApplyMeshRotation()
+    {
+        Vector3 moveDir = Context.ForwardDir * Context.MoveInput.y + Context.RightDir * Context.MoveInput.x;
+        Vector3 targetVector = (moveDir + Context.PlayerMesh.transform.position) - Context.PlayerMesh.transform.position;
+        float rotSpeed = Context.WalkRotationSpeed * Time.deltaTime;
+        Vector3 newDir = Vector3.RotateTowards(Context.PlayerMesh.transform.forward, targetVector, rotSpeed, 0);
+        Context.PlayerMesh.transform.rotation = Quaternion.LookRotation(newDir);
     }
 }

@@ -81,8 +81,8 @@ public class ContainerManager : MonoBehaviour
             bool stackable = dragItem.itemData.maxCount > 1;
             
             // Thrown weapon re-equip handling
-            bool matchingWeapon = dragItem.itemData.itemName == WeaponManager.instance.lastThrownWeaponName;
-            if (matchingWeapon && WeaponManager.instance.EquipThrownWeaponOnPickup(dragItemPrefab))
+            bool matchingWeapon = dragItem.itemData.itemName == WeaponManager.Instance.lastThrownWeaponName;
+            if (matchingWeapon && WeaponManager.Instance.EquipThrownWeaponOnPickup(dragItemPrefab))
             {
                 return true;
             }

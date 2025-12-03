@@ -9,7 +9,7 @@ public class PlayerIdleState : PlayerBaseState
     public override void EnterState()
     {
         Context.Animator.SetBool(Context.IsWalkingHash, false);
-        Context.Animator.SetBool(Context.IsZoomingHash, false);
+        Context.Animator.SetBool(Context.IsAimingHash, false);
         Context.CurrentHorizontalSpeed = 0;
     }
 
@@ -27,8 +27,8 @@ public class PlayerIdleState : PlayerBaseState
         
         Context.ApplyStopDrag();
         
-        bool weaponEquipped = WeaponManager.instance.weaponInHand;
-        if (weaponEquipped && Context.ZoomPressed) SwitchState(Dictionary.Zoom());
+        bool weaponEquipped = WeaponManager.Instance.weaponInHand;
+        if (weaponEquipped && Context.AimPressed) SwitchState(Dictionary.Aim());
         else if (weaponEquipped && Context.AttackPressed) SwitchState(Dictionary.Swing());
         else if (Context.MovePressed) SwitchState(Dictionary.Walk());
         else if (Context.GunWeaponEquipped && Context.ReloadRequested)

@@ -14,7 +14,8 @@ public class PlayerShootState : PlayerBaseState
     {
         _fireEnded = false;
         Context.Animator.SetTrigger(Context.StartedShootingHash);
-        Context.CurrentHorizontalSpeed = 0;
+        Context.MoveVelocityX = 0;
+        Context.MoveVelocityZ = 0;
     }
 
     public override void ExitState()
@@ -30,10 +31,9 @@ public class PlayerShootState : PlayerBaseState
         if (Context.Dead) SwitchState(Dictionary.Dead());
         
         ApplyMeshRotation();
-        Context.ApplyStopDrag();
         
         if (_fireEnded)
-            SwitchState(Dictionary.Zoom());
+            SwitchState(Dictionary.Aim());
     }
 
     private void FireEnded()

@@ -20,6 +20,7 @@ public class PlayerStateMachine : MonoBehaviour
     [Header("Movement Properties")]
     [SerializeField] private float maxMoveSpeed = 1f;
     [SerializeField] private float maxAimMoveSpeed = 1f;
+    [SerializeField] private float maxReloadMoveSpeed = 1f;
     [SerializeField] private float moveAccel = 0.5f;
     [SerializeField] private float walkRotationSpeed = 8.0f;
     [SerializeField] private float stopDrag = 0.6f;
@@ -28,7 +29,7 @@ public class PlayerStateMachine : MonoBehaviour
     // Instance variables
     private Vector2 _moveInput;
     private bool _movePressed;
-    private bool _zoomPressed;
+    private bool _aimPressed;
     private bool _attackPressed;
     private bool _reloadPressed;
     private Vector3 _moveVelocity;
@@ -46,13 +47,13 @@ public class PlayerStateMachine : MonoBehaviour
     
     // input actions
     private InputAction m_MoveAction;
-    private InputAction m_ZoomAction;
+    private InputAction m_AimAction;
     private InputAction m_AttackAction;
     private InputAction m_ReloadAction;
     
     // variables to store optimized setter/getter parameter IDs
     private int _isWalkingHash;
-    private int _isZoomingHash;
+    private int _isAimingHash;
     private int _startSwingHash;
     private int _endSwingHash;
     private int _startedShootingHash;
@@ -74,11 +75,12 @@ public class PlayerStateMachine : MonoBehaviour
     public float MoveAccel => moveAccel;
     public float MaxMoveSpeed => maxMoveSpeed;
     public float MaxAimMoveSpeed => maxAimMoveSpeed;
+    public float MaxReloadMoveSpeed => maxReloadMoveSpeed;
     public float WalkRotationSpeed => walkRotationSpeed;
     public float StopDrag => stopDrag;
     public float Gravity => gravity;
     public bool MovePressed { get { return _movePressed; } set { _movePressed = value; } }
-    public bool ZoomPressed { get { return _zoomPressed; } set { _zoomPressed = value; } }
+    public bool AimPressed { get { return _aimPressed; } set { _aimPressed = value; } }
     public bool AttackPressed { get { return _attackPressed; } set { _attackPressed = value; } }
     public bool ReloadPressed { get { return _reloadPressed; } set { _reloadPressed = value; } }
     public Vector2 MoveInput { get { return _moveInput; } }
@@ -95,7 +97,7 @@ public class PlayerStateMachine : MonoBehaviour
     public bool AimAttackRequested { get { return _aimAttackRequested; } set { _aimAttackRequested = value; } }
     public bool ReloadRequested { get { return _reloadRequested; } set { _reloadRequested = value; } }
     public int IsWalkingHash => _isWalkingHash;
-    public int IsZoomingHash => _isZoomingHash;
+    public int IsAimingHash => _isAimingHash;
     public int StartSwingHash => _startSwingHash;
     public int EndSwingHash => _endSwingHash;
     public int StartedShootingHash => _startedShootingHash;
@@ -119,15 +121,15 @@ public class PlayerStateMachine : MonoBehaviour
         
         // assign input action callbacks
         m_MoveAction = _playerActions.FindAction("Move");
-        m_ZoomAction = _playerActions.FindAction("Zoom");
+        m_AimAction = _playerActions.FindAction("Aim");
         m_AttackAction = _playerActions.FindAction("Attack");
         m_ReloadAction = _playerActions.FindAction("Reload");
         m_MoveAction.started += OnMove;
         m_MoveAction.performed += OnMove;
         m_MoveAction.canceled += OnMove;
-        m_ZoomAction.started += OnZoom;
-        m_ZoomAction.performed += OnZoom;
-        m_ZoomAction.canceled += OnZoom;
+        m_AimAction.started += OnAim;
+        m_AimAction.performed += OnAim;
+        m_AimAction.canceled += OnAim;
         m_AttackAction.started += OnAttack;
         m_AttackAction.performed += OnAttack;
         m_AttackAction.canceled += OnAttack;
@@ -144,7 +146,7 @@ public class PlayerStateMachine : MonoBehaviour
         
         // set the parameter hash references
         _isWalkingHash = Animator.StringToHash("isWalking");
-        _isZoomingHash = Animator.StringToHash("isZooming");
+        _isAimingHash = Animator.StringToHash("isAiming");
         _startSwingHash = Animator.StringToHash("StartSwing");
         _endSwingHash = Animator.StringToHash("EndSwing");
         _startedShootingHash = Animator.StringToHash("StartedShooting");
@@ -186,9 +188,9 @@ public class PlayerStateMachine : MonoBehaviour
         MovePressed = _moveInput != Vector2.zero;
     }
 
-    public void OnZoom(InputAction.CallbackContext context)
+    public void OnAim(InputAction.CallbackContext context)
     {
-        ZoomPressed = context.ReadValueAsButton();
+        AimPressed = context.ReadValueAsButton();
     }
 
     public void OnAttack(InputAction.CallbackContext context)
