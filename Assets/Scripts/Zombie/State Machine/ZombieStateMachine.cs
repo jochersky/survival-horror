@@ -45,6 +45,7 @@ public class ZombieStateMachine : MonoBehaviour
     private bool _justDamaged;
     private bool _damagedAndPlayerInLineOfSight;
     private bool _dead;
+    private LayerMask _mask;
 
     // Getters and Setters
     public ZombieBaseState CurrentState { get { return _currentState; } set { _currentState = value; } }
@@ -85,6 +86,8 @@ public class ZombieStateMachine : MonoBehaviour
         _agent = GetComponent<NavMeshAgent>();
 
         StartingPosition = transform.position;
+        
+        _mask = LayerMask.GetMask("PlayerHurtbox", "Environment");
 
         // Subscribe events
         playerSightedSensor.OnPlayerEnter += PlayerSpotted;
@@ -147,14 +150,12 @@ public class ZombieStateMachine : MonoBehaviour
     }
     
     private bool IsPlayerInLineOfSight()
-    { 
-        // Debug.DrawRay(headTransform.position, (player.transform.position + Vector3.up * 0.5f - headTransform.position) * ZombieLineOfSightDistance, Color.pink, 100f);
-        Physics.Raycast(headTransform.position, 
-            player.transform.position + Vector3.up * 0.5f - headTransform.position, 
-            out RaycastHit hit, ZombieLineOfSightDistance);
-
-        if (hit.collider)
-            return hit.collider.gameObject == player;
+    {
+        Vector3 dir = (player.transform.position + Vector3.up * 0.5f - headTransform.position).normalized;
+        if (Physics.Raycast(headTransform.position, dir, out RaycastHit hit, ZombieLineOfSightDistance, _mask))
+        {
+            return hit.collider.TryGetComponent<Hurtbox>(out Hurtbox hurtbox);
+        }
             
         return false;
     }
