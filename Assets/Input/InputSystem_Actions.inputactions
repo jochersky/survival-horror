@@ -1024,7 +1024,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Zoom",
+                    "name": "Aim",
                     "type": "Button",
                     "id": "ebe8a0e9-1692-423d-9fc1-ff90b309794e",
                     "expectedControlType": "",
@@ -1176,7 +1176,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Zoom",
+                    "action": "Aim",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -1187,7 +1187,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Zoom",
+                    "action": "Aim",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

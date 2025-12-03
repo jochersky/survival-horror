@@ -12,7 +12,7 @@ public class CameraLook : MonoBehaviour
     [SerializeField] private Health health;
 
     [SerializeField] private GameObject regularCam;
-    [SerializeField] private GameObject zoomCam;
+    [SerializeField] private GameObject aimCam;
 
     [SerializeField] private GameObject crosshair;
     
@@ -20,19 +20,19 @@ public class CameraLook : MonoBehaviour
     private Camera _cam;
     
     // input actions
-    private InputAction m_ZoomAction;
+    private InputAction m_AimAction;
     private InputAction m_LookAction;
     
     private Vector2 _mouseInput;
-    private bool _isZooming;
+    private bool _isAiming;
     private bool _playerDead;
 
     // camera cine machine states
-    public CameraState currentState;
-    public enum CameraState
+    public CameraStates currentState;
+    public enum CameraStates
     {
         Regular,
-        Zoom
+        Aim
     }
     
     private void Awake()
@@ -42,10 +42,10 @@ public class CameraLook : MonoBehaviour
         _playerActions = actions.FindActionMap("Player");
         
         // assign input action callbacks
-        m_ZoomAction = actions.FindAction("Zoom");
-        m_ZoomAction.started += OnZoom;
-        m_ZoomAction.performed += OnZoom;
-        m_ZoomAction.canceled += OnZoom;
+        m_AimAction = actions.FindAction("Aim");
+        m_AimAction.started += OnAim;
+        m_AimAction.performed += OnAim;
+        m_AimAction.canceled += OnAim;
         m_LookAction = actions.FindAction("Look");
         m_LookAction.started += OnLook;
         m_LookAction.performed += OnLook;
@@ -61,6 +61,9 @@ public class CameraLook : MonoBehaviour
             else _playerActions.Enable();
             regularCam.SetActive(!vis);
         };
+        
+        // connect weapon manager events
+        WeaponManager.Instance.OnWeaponInHandThrown += () => { SwitchCameraState(CameraStates.Regular); };
         
         crosshair.SetActive(false);
     }
@@ -92,21 +95,23 @@ public class CameraLook : MonoBehaviour
         _mouseInput = context.ReadValue<Vector2>();
     }
 
-    public void OnZoom(InputAction.CallbackContext context)
+    public void OnAim(InputAction.CallbackContext context)
     {
-        _isZooming = context.ReadValueAsButton();
-        SwitchCameraState(_isZooming ? CameraState.Zoom : CameraState.Regular);
+        _isAiming = context.ReadValueAsButton();
+        bool weaponEquipped = WeaponManager.Instance.weaponInHand;
+        
+        SwitchCameraState(weaponEquipped && _isAiming ? CameraStates.Aim : CameraStates.Regular);
     }
 
-    private void SwitchCameraState(CameraState newState)
+    private void SwitchCameraState(CameraStates newState)
     {
         regularCam.SetActive(false);
-        zoomCam.SetActive(false);
+        aimCam.SetActive(false);
 
-        if (newState == CameraState.Regular) regularCam.SetActive(true);
-        if (newState == CameraState.Zoom) zoomCam.SetActive(true);
+        if (newState == CameraStates.Regular) regularCam.SetActive(true);
+        if (newState == CameraStates.Aim) aimCam.SetActive(true);
         
-        crosshair.SetActive(newState == CameraState.Zoom);
+        crosshair.SetActive(newState == CameraStates.Aim);
         
         currentState = newState;
     }

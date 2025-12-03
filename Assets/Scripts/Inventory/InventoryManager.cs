@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,9 +8,9 @@ using UnityEngine.InputSystem;
  */
 public class InventoryManager : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField] private InputActionAsset actions;
     private InputActionMap _playerActions;
-    // Parent structure: canvas -> inventoryUI -> inventoryGrids
     public Canvas canvas;
     public GameObject inventoryUI;
     [SerializeField] private GameObject inventoryGrids;
@@ -18,6 +19,7 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private Transform itemSpawnTransform;
     [SerializeField] private Transform itemParentTransform;
     [SerializeField] private Health playerHealth;
+    [SerializeField] private TextMeshProUGUI itemTooltipText; 
 
     // container that is being looked at
     public Container container;
@@ -100,11 +102,20 @@ public class InventoryManager : MonoBehaviour
         if (!_inventoryVisible) RemoveContainer();
     }
 
-    public void SpawnItem(GameObject itemPrefab, int count)
+    public void SpawnItem(GameObject itemPrefab, int count, int ammoCount)
     {
         GameObject newItem = Instantiate(itemPrefab, itemSpawnTransform);
         newItem.transform.SetParent(itemParentTransform);
         Item item = newItem.GetComponentInChildren<Item>();
-        if (item) item.Count = count;
+        if (item)
+        {
+            item.Count = count;
+            item.AmmoCount = ammoCount;
+        }
+    }
+
+    public void UpdateTooltip(string tooltip)
+    {
+        itemTooltipText.text = tooltip;
     }
 }

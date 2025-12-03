@@ -5,29 +5,21 @@ public class Item : MonoBehaviour, IInteractable
 {
     [Header("References")]
     [SerializeField] private Transform mainTransform;
-    [SerializeField] private Transform rbFollowTransform;
     [SerializeField] private Transform handTransform;
     [SerializeField] private Transform backTransform;
+    [SerializeField] private Transform attackTransform;
     [SerializeField] private Rigidbody rb;
     [SerializeField] private GameObject draggableItemPrefab;
-    [SerializeField] private ItemData itemData;
     
     [Header("Instance Values")]
     [SerializeField] private int count = 1;
+    [SerializeField] private int ammoCount = 0;
     
     private Container _container;
     
     // Getters and Setters
     public int Count { get { return count; } set { count = value; } }
-
-    public void FixedUpdate()
-    {
-        if (rbFollowTransform)
-        {
-            transform.position = rbFollowTransform.position;
-            transform.rotation = rbFollowTransform.rotation;
-        }
-    }
+    public int  AmmoCount { get { return ammoCount; } set { ammoCount = value; } }
 
     public void ChangeContainer(Container newContainer)
     {
@@ -39,7 +31,7 @@ public class Item : MonoBehaviour, IInteractable
     public void Interact()
     {
         // Find a spot to put the item into the inventory
-        bool foundSpot = InventoryManager.instance.playerInventoryContainerManager.FindSpaceForItem(draggableItemPrefab, count);
+        bool foundSpot = InventoryManager.instance.playerInventoryContainerManager.FindSpaceForItem(draggableItemPrefab, count, AmmoCount);
         if (foundSpot)
         {
             Destroy(transform.parent.gameObject);
@@ -74,5 +66,12 @@ public class Item : MonoBehaviour, IInteractable
     {
         mainTransform.localPosition = backTransform.localPosition;
         mainTransform.localRotation = backTransform.localRotation;
+    }
+
+    public void MoveToAttack()
+    {
+        mainTransform.SetParent(attackTransform);
+        mainTransform.localRotation = attackTransform.localRotation;
+        mainTransform.localPosition = attackTransform.localPosition;
     }
 }

@@ -10,7 +10,7 @@ public class PlayerWalkState : PlayerBaseState
   public override void EnterState()
   {
     Context.Animator.SetBool(Context.IsWalkingHash, true);
-    Context.Animator.SetBool(Context.IsZoomingHash, false);
+    Context.Animator.SetBool(Context.IsAimingHash, false);
   }
 
   public override void ExitState()
@@ -28,9 +28,16 @@ public class PlayerWalkState : PlayerBaseState
     ApplyMoveVelocity();
     ApplyMeshRotation();
 
-    if (Context.ZoomPressed) SwitchState(Dictionary.Zoom());
-    else if (Context.AttackPressed) SwitchState(Dictionary.Swing());
+    bool weaponEquipped = WeaponManager.Instance.weaponInHand;
+    
+    if (weaponEquipped && Context.AimPressed) SwitchState(Dictionary.Aim());
+    else if (weaponEquipped && Context.AttackPressed) SwitchState(Dictionary.Swing());
     else if (!Context.MovePressed) SwitchState(Dictionary.Idle());
+    else if (Context.GunWeaponEquipped && Context.ReloadRequested)
+    {
+        Context.ReloadRequested = false;
+        SwitchState(Dictionary.Reload());
+    }
   }
 
   private void ApplyMoveVelocity()

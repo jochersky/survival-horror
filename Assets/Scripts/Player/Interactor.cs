@@ -17,10 +17,10 @@ public class Interactor : MonoBehaviour
     
     // input actions
     private InputAction m_InteractAction;
-    private InputAction m_ZoomAction;
+    private InputAction m_AimAction;
     
     private bool _isInteracting;
-    private bool _isZooming;
+    private bool _isAiming;
     
     void Awake()
     {
@@ -30,9 +30,9 @@ public class Interactor : MonoBehaviour
         m_InteractAction = actions.FindAction("Interact");
         m_InteractAction.started += OnInteract;
         m_InteractAction.canceled += OnInteract;
-        m_ZoomAction = actions.FindAction("Zoom");
-        m_ZoomAction.started += OnZoom;
-        m_ZoomAction.canceled += OnZoom;
+        m_AimAction = actions.FindAction("Aim");
+        m_AimAction.started += OnAim;
+        m_AimAction.canceled += OnAim;
     }
 
     void Start()
@@ -61,32 +61,32 @@ public class Interactor : MonoBehaviour
 
     private bool CanInteract()
     {
-        if (_isZooming) _crosshairImage.texture = crosshairTexture;
-        return !_isZooming;
+        if (_isAiming) _crosshairImage.texture = crosshairTexture;
+        return !_isAiming;
     }
 
     private void InteractWithObject()
     {
-        Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 5f, interactionLayer);
+        Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 5f, interactionLayer, QueryTriggerInteraction.UseGlobal);
         
         cursor.SetActive(hit.transform);
         if (!hit.transform) return;
         
         // change cursor to interactable icon
-        if (hit.transform.TryGetComponent<Door>(out Door door))
+        if (hit.collider.TryGetComponent<Door>(out Door door))
         {
             _crosshairImage.texture = door.locked ? doorLockedTexture: doorUnlockedTexture;
         } 
-        else if (hit.transform.TryGetComponent<Container>(out Container container))
+        else if (hit.collider.TryGetComponent<Container>(out Container container))
         {
             _crosshairImage.texture = openHandTexture;
         }
-        else if (hit.transform.TryGetComponent<Item>(out Item item))
+        else if (hit.collider.TryGetComponent<Item>(out Item item))
         {
             _crosshairImage.texture = openHandTexture;
         }
 
-        if (_isInteracting && hit.transform && hit.transform.TryGetComponent(out IInteractable interactable))
+        if (_isInteracting && hit.collider && hit.collider.TryGetComponent(out IInteractable interactable))
         {
             interactable.Interact();
             _isInteracting = false;
@@ -98,8 +98,8 @@ public class Interactor : MonoBehaviour
         _isInteracting = context.ReadValueAsButton();
     }
 
-    public void OnZoom(InputAction.CallbackContext context)
+    public void OnAim(InputAction.CallbackContext context)
     {
-        _isZooming = context.ReadValueAsButton();
+        _isAiming = context.ReadValueAsButton();
     }
 }

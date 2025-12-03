@@ -2,18 +2,20 @@ using UnityEngine;
 
 public class PlayerShootState : PlayerBaseState
 {
-    private bool _shootEnded = false;
+    private bool _fireEnded = false;
     
     public PlayerShootState(PlayerStateMachine currentContext, PlayerStateDictionary playerStateDictionary)
         : base(currentContext, playerStateDictionary)
     {
-        Context.PlayerAnimationEvents.OnShootFinished += ShootEnded;
+        Context.PlayerAnimationEvents.OnFireFinished += FireEnded;
     }
     
     public override void EnterState()
     {
-        _shootEnded = false;
+        _fireEnded = false;
         Context.Animator.SetTrigger(Context.StartedShootingHash);
+        Context.MoveVelocityX = 0;
+        Context.MoveVelocityZ = 0;
     }
 
     public override void ExitState()
@@ -28,13 +30,20 @@ public class PlayerShootState : PlayerBaseState
     {
         if (Context.Dead) SwitchState(Dictionary.Dead());
         
-        if (_shootEnded)
-            SwitchState(Dictionary.Zoom());
+        ApplyMeshRotation();
+        
+        if (_fireEnded)
+            SwitchState(Dictionary.Aim());
     }
 
-    private void ShootEnded()
+    private void FireEnded()
     {
-        _shootEnded = true;
+        _fireEnded = true;
         Context.Animator.SetTrigger(Context.EndedShootingHash);
+    }
+    
+    private void ApplyMeshRotation()
+    {
+        Context.PlayerMesh.transform.rotation = Context.RotatedOrientation.rotation;
     }
 }

@@ -9,10 +9,11 @@ enum PlayerStates
   // - Sub States -
   Idle,
   Walk,
-  Zoom,
+  Aim,
   Swing,
   Throw,
   Shoot,
+  Reload,
   Dead
 }
 
@@ -30,10 +31,11 @@ public class PlayerStateDictionary
 
     _states[PlayerStates.Idle] = new PlayerIdleState(_context, this);
     _states[PlayerStates.Walk] = new PlayerWalkState(_context, this);
-    _states[PlayerStates.Zoom] = new PlayerZoomState(_context, this);
+    _states[PlayerStates.Aim] = new PlayerAimState(_context, this);
     _states[PlayerStates.Swing] = new PlayerSwingState(_context, this);
     _states[PlayerStates.Throw] = new PlayerThrowState(_context, this);
     _states[PlayerStates.Shoot] = new PlayerShootState(_context, this);
+    _states[PlayerStates.Reload] = new PlayerReloadState(_context, this);
     _states[PlayerStates.Dead] = new PlayerDeadState(_context, this);
   }
 
@@ -59,9 +61,9 @@ public class PlayerStateDictionary
     return _states[PlayerStates.Walk];
   }
 
-  public PlayerBaseState Zoom()
+  public PlayerBaseState Aim()
   {
-    return _states[PlayerStates.Zoom];
+    return _states[PlayerStates.Aim];
   }
 
   public PlayerBaseState Swing()
@@ -77,6 +79,11 @@ public class PlayerStateDictionary
   public PlayerBaseState Shoot()
   {
     return _states[PlayerStates.Shoot];
+  }
+
+  public PlayerBaseState Reload()
+  {
+    return _states[PlayerStates.Reload];
   }
 
   public PlayerBaseState Dead()

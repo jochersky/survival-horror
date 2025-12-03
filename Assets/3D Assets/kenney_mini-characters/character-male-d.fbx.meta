@@ -31,11 +31,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: static
-      takeName: static
+      name: holding-right-shoot (1)
+      takeName: holding-right-shoot
       internalID: -5531000884711269149
       firstFrame: 0
-      lastFrame: 6
+      lastFrame: 12
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -520,7 +520,14 @@ ModelImporter:
       curves: []
       events:
       - time: 0.9994644
-        functionName: ShootEnded
+        functionName: FireEnded
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0
+        functionName: FireStarted
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
@@ -613,6 +620,13 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
+      - time: 0.55247176
+        functionName: ThrowMeleeWeapon
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       - time: 1
         functionName: SwingEnded
         data: 
@@ -620,22 +634,8 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.4991614
-        functionName: ActivateRightHandWeaponHitbox
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.66825086
-        functionName: DeactivateRightHandWeaponHitbox
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.594577
-        functionName: ThrowMeleeWeapon
+      - time: 0
+        functionName: SwingStarted
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
@@ -737,7 +737,7 @@ ModelImporter:
       takeName: interact-right
       internalID: 4297623066254443295
       firstFrame: 0
-      lastFrame: 40
+      lastFrame: 41
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -756,7 +756,14 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.42989662
+        functionName: ReloadEnded
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}

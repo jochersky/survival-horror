@@ -2,40 +2,47 @@ using UnityEngine;
 
 public class PlayerAnimationEvents : MonoBehaviour
 {
-    [SerializeField] private Damage rightHandWeaponDamage;
-    
+    public delegate void SwingBegin();
+    public event SwingBegin OnSwingBegin;
     public delegate void SwingFinished();
     public event SwingFinished OnSwingFinished;
-    
-    public delegate void ShootFinished();
-    public event SwingFinished OnShootFinished;
+
+    public delegate void FireBegin();
+    public event FireBegin OnFireBegin;
+    public delegate void FireFinished();
+    public event FireFinished OnFireFinished;
+    public delegate void ReloadFinished();
+    public event ReloadFinished OnReloadFinished;
+    public delegate void WeaponThrown();
+    public event WeaponThrown OnWeaponThrown;
+
+    public void SwingStarted()
+    {
+        OnSwingBegin?.Invoke();
+    }
     
     public void SwingEnded()
     {
         OnSwingFinished?.Invoke();
     }
 
-    public void ShootEnded()
+    public void FireStarted()
     {
-        OnShootFinished?.Invoke();
+        OnFireBegin?.Invoke();
+    } 
+
+    public void FireEnded()
+    {
+        OnFireFinished?.Invoke();
     }
 
-    public void ActivateRightHandWeaponHitbox()
+    public void ReloadEnded()
     {
-        if (!rightHandWeaponDamage) return;
-        
-        rightHandWeaponDamage.Activate();
-    }
-
-    public void DeactivateRightHandWeaponHitbox()
-    {
-        if (!rightHandWeaponDamage) return;
-        
-        rightHandWeaponDamage.Deactivate();
+        OnReloadFinished?.Invoke();
     }
 
     public void ThrowMeleeWeapon()
     {
-        // Debug.Log("Throwing weapon");
+        OnWeaponThrown?.Invoke();
     }
 }

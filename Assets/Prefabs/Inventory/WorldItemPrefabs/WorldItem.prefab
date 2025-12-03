@@ -77,8 +77,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 184d507806d306e41b18cb5e49beec20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Item
-  followTransform: {fileID: 0}
+  mainTransform: {fileID: 0}
+  rbFollowTransform: {fileID: 0}
+  handTransform: {fileID: 0}
+  backTransform: {fileID: 0}
+  attackTransform: {fileID: 0}
+  rb: {fileID: 0}
+  draggableItemPrefab: {fileID: 0}
   itemData: {fileID: 0}
+  count: 1
+  ammoCount: 0
 --- !u!65 &5944374349538177915
 BoxCollider:
   m_ObjectHideFlags: 0

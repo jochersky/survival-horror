@@ -1,5 +1,8 @@
+using System;
 using UnityEngine;
 using System.Collections;
+using Unity.VisualScripting;
+using UnityEngine.Android;
 
 public class ZombieSearchState : ZombieBaseState
 {
@@ -25,16 +28,17 @@ public class ZombieSearchState : ZombieBaseState
 
     public override void UpdateState()
     {
-        if (!Context.IsLookingAround &&
-            (Mathf.Approximately(Context.transform.position.x, Context.LastSeenPlayerPosition.x) &&
-             Mathf.Approximately(Context.transform.position.z, Context.LastSeenPlayerPosition.z)))
+        // Look around for player if we reach their last known position
+        if (!Context.IsLookingAround && Context.Agent.stoppingDistance >= Context.Agent.remainingDistance)
+        {
             if (!Context.IsLookingAround && !Context.LookedAround) 
             {
                 Context.Animator.SetBool(Context.IsSearchingHash, true);
                 Context.Animator.SetBool(Context.IsChasingHash, false);
                 Context.StartCoroutine(Context.LookingAround());
             }
-
+        }
+        
         if (Context.DamagedAndPlayerInLineOfSight)
         {
             Context.JustDamaged = false;
@@ -48,5 +52,10 @@ public class ZombieSearchState : ZombieBaseState
         
         if (Context.Dead)
             SwitchState(Dictionary.Dead());
+    }
+
+    private bool WithinDistance(float i, float j, float distance)
+    {
+        return Math.Abs(i - j) <= distance;
     }
 }
