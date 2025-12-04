@@ -118,4 +118,21 @@ public class InventoryManager : MonoBehaviour
     {
         itemTooltipText.text = tooltip;
     }
+
+    public DraggableItem PlayerInventoryHasItem(string itemName)
+    {
+        return playerInventoryContainerManager.FindDraggableItem(itemName);
+    }
+
+    public bool FindKeyInPlayerInventory(string keyName)
+    {
+        DraggableItem key = playerInventoryContainerManager.FindDraggableItem(keyName);
+        if (key)
+        {
+            key.RemoveItemFromGrid();
+            Destroy(key.gameObject);
+            return true;
+        }
+        return false;
+    }
 }

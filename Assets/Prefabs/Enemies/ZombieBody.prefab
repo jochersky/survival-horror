@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 9178552079015917533}
   - component: {fileID: 7262892586372338397}
   - component: {fileID: 6138652670198489392}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: ZombieBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -537,7 +537,7 @@ GameObject:
   - component: {fileID: 6820625317697050256}
   - component: {fileID: 3852693146973846677}
   - component: {fileID: 6225456517255685437}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: PlayerSightedSensor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -704,7 +704,7 @@ GameObject:
   - component: {fileID: 1908880939180538086}
   - component: {fileID: 7346309838981402286}
   - component: {fileID: 4418927907431590208}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: PlayerInAttackRangeSensor
   m_TagString: Untagged
   m_Icon: {fileID: 0}

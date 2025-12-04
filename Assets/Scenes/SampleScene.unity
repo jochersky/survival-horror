@@ -2381,7 +2381,7 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4096
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -2406,7 +2406,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   animator: {fileID: 1615071637}
-  locked: 0
+  keyName: TestKey
+  locked: 1
 --- !u!1 &340230006 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 9337f638959a8a54cb18347268c4dab5, type: 3}
@@ -15491,7 +15492,7 @@ GameObject:
   - component: {fileID: 1993958685}
   - component: {fileID: 1993958686}
   - component: {fileID: 1993958687}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Player Body
   m_TagString: Player
   m_Icon: {fileID: 0}

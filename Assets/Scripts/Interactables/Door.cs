@@ -2,8 +2,11 @@ using UnityEngine;
 
 public class Door : MonoBehaviour, IInteractable
 {
+    [Header("References")]
     [SerializeField] private Animator animator;
-    public bool locked = false;
+    [Header("Instance Values")]
+    [SerializeField] private string keyName;
+    public bool locked;
     
     enum DoorStates
     {
@@ -17,6 +20,7 @@ public class Door : MonoBehaviour, IInteractable
     private int _isUnlockedHash;
     private int _isInteractingHash;
 
+    // used to go from initial uninteracted state (Static) to interacted state (Closing & Opening)
     private bool _unlocked = false;
     
     void Awake()
@@ -27,16 +31,12 @@ public class Door : MonoBehaviour, IInteractable
 
     void Update()
     {
-        if (_currState == DoorStates.Opening)
+        if (_currState == DoorStates.Opening || _currState == DoorStates.Closing)
         {
             animator.SetTrigger(_isInteractingHash);
             _currState = DoorStates.Static;
         }
-        else if (_currState == DoorStates.Closing)
-        {
-            animator.SetTrigger(_isInteractingHash);
-            _currState = DoorStates.Static;
-        } else if (_currState == DoorStates.Static)
+        else if (_currState == DoorStates.Static)
         {
             // hold animation keyframe and do nothing
         }
@@ -45,8 +45,11 @@ public class Door : MonoBehaviour, IInteractable
     public void Interact()
     {
         // don't let the door open if its locked
-        // TODO: check player inventory for key to unlock door
-        if (locked) return;
+        if (locked)
+        {
+            if (InventoryManager.instance.FindKeyInPlayerInventory(keyName)) locked = false;
+            return;
+        }
         
         if (!_unlocked)
         {
