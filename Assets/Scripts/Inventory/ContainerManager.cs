@@ -279,8 +279,6 @@ public class ContainerManager : MonoBehaviour
                 if (!di) continue;
                 
                 String diName = di.itemData.itemName;
-                int c = di.Count;
-                
                 if (diName == itemName) draggableItems.Add(di);
             }
         }
@@ -288,6 +286,24 @@ public class ContainerManager : MonoBehaviour
         return draggableItems;
     }
 
+    public DraggableItem FindDraggableItem(string itemName)
+    {
+        // Find and return first DraggableItem with a name that matches itemName
+        for (int y = 0; y < _gridHeight; y++)
+        {
+            for (int x = 0; x < _gridWidth; x++)
+            {
+                DraggableItem di = _slots[x, y].item;
+                if (!di) continue;
+                
+                String diName = di.itemData.itemName;
+                if (diName == itemName) return di;
+            }
+        }
+        
+        return null;
+    }
+    
     public void UpdateItemWithName(string itemName)
     {
         OnStackableItemCountsUpdated?.Invoke(itemName);

@@ -228,7 +228,7 @@ public class DraggableItem : MonoBehaviour, IPointerClickHandler, IBeginDragHand
         _rectTransform.anchorMin = inventorySlotTransform.anchorMin;
     }
 
-    private void RemoveItemFromGrid()
+    public void RemoveItemFromGrid()
     {
         GridItem empty = new GridItem(
             inventorySlot.Grid,

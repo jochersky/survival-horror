@@ -75,7 +75,11 @@ public class Gun : Weapon
         if (_isReloading || _isFiring) return;
         
         // reload if trying to fire and there are bullets to reload with
-        if (_bulletsRemaining <= 0) TryReload();
+        if (_bulletsRemaining <= 0)
+        {
+            TryReload();
+            return;
+        }
         
         _isFiring = true;
         
