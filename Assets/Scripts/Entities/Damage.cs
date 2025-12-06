@@ -18,7 +18,11 @@ public class Damage : MonoBehaviour
 
     private void Start()
     {
-        if (deactivateOnDeath) health.OnDeath += Deactivate;
+        if (deactivateOnDeath)
+        {
+            health.OnDeath += Deactivate;
+            health.OnBackToFull += Activate;
+        }
     }
 
     private void Update()

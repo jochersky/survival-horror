@@ -19,6 +19,8 @@ public class ZombieStateMachine : MonoBehaviour
     [SerializeField] private float zombieSearchTime;
     [SerializeField] private float zombieLineOfSightDistance;
     [SerializeField] private float attackCooldownTime;
+    [SerializeField] private float reviveTimeMin;
+    [SerializeField] private float reviveTimeMax;
     
     // State Variables
     private ZombieBaseState _currentState;
@@ -32,6 +34,8 @@ public class ZombieStateMachine : MonoBehaviour
     private int _isSearchingHash;
     private int _isReturningHash;
     private int _isDeadHash;
+    private int _initiateReviveHash;
+    private int _endReviveHash;
     
     // State transition variables
     private bool _playerLineOfSight;
@@ -78,6 +82,13 @@ public class ZombieStateMachine : MonoBehaviour
     public int IsSearchingHash => _isSearchingHash;
     public int IsReturningHash => _isReturningHash;
     public int IsDeadHash => _isDeadHash;
+    public int InitiateReviveHash => _initiateReviveHash;
+    public int EndReviveHash => _endReviveHash;
+
+    public delegate void StartRevive();
+    public event StartRevive OnStartRevive;
+    public delegate void EndRevive();
+    public event EndRevive OnEndRevive;
     
     private void Awake()
     {
@@ -96,6 +107,11 @@ public class ZombieStateMachine : MonoBehaviour
         playerInAttackRangeSensor.OnPlayerExit += ExitedAttackRange;
         health.OnHealthChanged += SetJustDamaged;
         health.OnDeath += SetDead;
+        zombieAnimEvents.OnReviveFinished += () =>
+        {
+            if (_dead) return;
+            OnEndRevive?.Invoke();
+        };
         
         // Set the parameter hash references
         _isChasingHash = Animator.StringToHash("isChasing");
@@ -105,6 +121,8 @@ public class ZombieStateMachine : MonoBehaviour
         _isSearchingHash = Animator.StringToHash("isSearching");
         _isReturningHash = Animator.StringToHash("isReturning");
         _isDeadHash = Animator.StringToHash("isDead");
+        _initiateReviveHash = Animator.StringToHash("initiateRevive");
+        _endReviveHash = Animator.StringToHash("endRevive");
         
         // State machine + initial state setup
         _states = new ZombieStateDictionary(this);
@@ -166,6 +184,11 @@ public class ZombieStateMachine : MonoBehaviour
         _characterController.enabled = false;
     }
 
+    public void ReviveReset()
+    {
+        health.Revive();
+    }
+
     public IEnumerator LookingAround()
     {
         _isLookingAround = true;
@@ -193,5 +216,17 @@ public class ZombieStateMachine : MonoBehaviour
         }
 
         CanAttack = true;
+    }
+
+    public IEnumerator TimerToRevive()
+    {
+        float reviveTimer = Random.Range(reviveTimeMin, reviveTimeMax);
+        float timer = 0;
+        while (timer < reviveTimer)
+        {
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        OnStartRevive?.Invoke();
     }
 }

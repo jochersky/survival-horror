@@ -12,7 +12,8 @@ enum ZombieStates
     Attack,
     Search,
     Return,
-    Dead
+    Dead,
+    Revive
 }
 
 public class ZombieStateDictionary
@@ -34,6 +35,7 @@ public class ZombieStateDictionary
         _states[ZombieStates.Search] = new ZombieSearchState(_context, this);
         _states[ZombieStates.Return] = new ZombieReturnState(_context, this);
         _states[ZombieStates.Dead] = new ZombieDeathState(_context, this);
+        _states[ZombieStates.Revive] = new ZombieReviveState(_context, this);
     }
 
     public ZombieBaseState Grounded()
@@ -74,5 +76,10 @@ public class ZombieStateDictionary
     public ZombieBaseState Dead()
     {
         return _states[ZombieStates.Dead];
+    }
+
+    public ZombieBaseState Revive()
+    {
+        return _states[ZombieStates.Revive];
     }
 }

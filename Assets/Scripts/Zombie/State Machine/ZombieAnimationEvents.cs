@@ -6,6 +6,8 @@ public class ZombieAnimationEvents : MonoBehaviour
     
     public delegate void RightSwingAttackFinished();
     public event RightSwingAttackFinished OnRightSwingAttackFinished;
+    public delegate void ReviveFinished();
+    public event ReviveFinished OnReviveFinished;
     
     public void RightSwingAttackEnded()
     {
@@ -20,5 +22,10 @@ public class ZombieAnimationEvents : MonoBehaviour
     public void DeactivateRightHandHitbox()
     {
         rightHandDamage.Deactivate();
+    }
+
+    public void OnReviveEnd()
+    {
+        OnReviveFinished?.Invoke();
     }
 }

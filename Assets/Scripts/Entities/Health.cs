@@ -15,9 +15,11 @@ public class Health : MonoBehaviour
     public float MaxHealth => maxHealth;
     
     public delegate void HealthChanged(float oldHealth, float newHealth);
-    public delegate void Died();
     public event HealthChanged OnHealthChanged;
+    public delegate void Died();
     public event Died OnDeath;
+    public delegate void BackToFull();
+    public event BackToFull OnBackToFull;
 
     private void Awake()
     {
@@ -33,21 +35,11 @@ public class Health : MonoBehaviour
         }
     }
 
-    // private void OnCollisionEnter(Collision other)
-    // {
-    //     if (other.collider.TryGetComponent(out Damage damage))
-    //     {
-    //         TakeDamage(damage.DamageAmt);
-    //     }
-    // }
-    //
-    // private void OnTriggerEnter(Collider other)
-    // {
-    //     if (other.TryGetComponent(out Damage damage))
-    //     {
-    //         TakeDamage(damage.DamageAmt);
-    //     }
-    // }
+    public void Revive()
+    {
+        _currentHealth = maxHealth;
+        OnBackToFull?.Invoke();
+    }
 
     public void Heal(float amount)
     {
