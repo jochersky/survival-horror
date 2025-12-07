@@ -11,6 +11,7 @@ public class Interactor : MonoBehaviour
     private RawImage _crosshairImage;
     [SerializeField] private Texture crosshairTexture;
     [SerializeField] private Texture doorLockedTexture;
+    [SerializeField] private Texture doorInaccessibleTexture;
     [SerializeField] private Texture doorUnlockedTexture;
     [SerializeField] private Texture openHandTexture;
     private InputActionMap _playerActions;    
@@ -75,7 +76,8 @@ public class Interactor : MonoBehaviour
         // change cursor to interactable icon
         if (hit.collider.TryGetComponent<Door>(out Door door))
         {
-            _crosshairImage.texture = door.locked ? doorLockedTexture: doorUnlockedTexture;
+            if (door.inaccessible) _crosshairImage.texture = doorInaccessibleTexture;
+            else _crosshairImage.texture = door.locked ? doorLockedTexture: doorUnlockedTexture;
         } 
         else if (hit.collider.TryGetComponent<Container>(out Container container))
         {

@@ -2018,6 +2018,7 @@ MonoBehaviour:
   animator: {fileID: 3474882905091414537}
   keyName: 
   locked: 0
+  inaccessible: 0
 --- !u!4 &342744129 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4591b37a629e13c4d9847a2d588c314f, type: 3}
@@ -17690,6 +17691,10 @@ PrefabInstance:
       propertyPath: animator
       value: 
       objectReference: {fileID: 379883469}
+    - target: {fileID: 1568678880355434460, guid: dd3aa210ac3eb6c4a9703c40b8ed9526, type: 3}
+      propertyPath: inaccessible
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5879976015575100848, guid: dd3aa210ac3eb6c4a9703c40b8ed9526, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.167
