@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,6 +10,7 @@ public class Gun : Weapon
     [SerializeField] private Transform[] projectileSpawners;
     [SerializeField] private GameObject projectileDecal;
     [SerializeField] private TrailRenderer bulletTrail;
+    [SerializeField] private GameObject muzzleFlash;
     // must be assigned when the prefab has already been instanced
     private Camera _cam;
     private InputActionMap _playerActions;
@@ -20,6 +22,7 @@ public class Gun : Weapon
     [SerializeField] private float fireRate = 0.25f;
     [SerializeField] private float maxBulletDistance = 100f;
     [SerializeField] private float bulletSpeed = 100f;
+    [SerializeField] private float muzzleFlashTime = 0.15f;
     
     // input actions
     private InputAction m_ReloadAction;
@@ -58,6 +61,8 @@ public class Gun : Weapon
         
         // Assign layers that the gun can interact with
         _mask = LayerMask.GetMask("EnemyHurtbox", "Environment");
+        
+        muzzleFlash.SetActive(false);
     }
 
     public void OnReload(InputAction.CallbackContext context)
@@ -112,6 +117,7 @@ public class Gun : Weapon
         }
         
         _isFiring = false;
+        StartCoroutine(CreateMuzzleFlash());
         _bulletsRemaining--;
         OnFireComplete?.Invoke(this);
     }
@@ -148,5 +154,19 @@ public class Gun : Weapon
         }
         tr.transform.position = target;
         Destroy(tr.gameObject, tr.time);
+    }
+
+    private IEnumerator CreateMuzzleFlash()
+    {
+        Vector3 curRot = muzzleFlash.transform.rotation.eulerAngles;
+        muzzleFlash.transform.eulerAngles = new Vector3(curRot.x, curRot.y, Random.Range(0, 360));
+        muzzleFlash.SetActive(true);
+        float timer = 0;
+        while (timer < muzzleFlashTime)
+        {
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        muzzleFlash.SetActive(false);
     }
 }
