@@ -7,6 +7,8 @@ public class ZombieIdleState : ZombieBaseState
 
     public override void EnterState()
     {
+        Context.SignalAggroChange(false);
+        
         Context.Animator.SetBool(Context.IsChasingHash, false);
         Context.Animator.SetBool(Context.IsReturningHash, false);
     }

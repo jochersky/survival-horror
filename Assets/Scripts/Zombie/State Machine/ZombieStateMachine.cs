@@ -89,6 +89,8 @@ public class ZombieStateMachine : MonoBehaviour
     public event StartRevive OnStartRevive;
     public delegate void EndRevive();
     public event EndRevive OnEndRevive;
+    public delegate void AggroChanged(bool aggroed);
+    public event AggroChanged OnAggroChanged;
     
     private void Awake()
     {
@@ -228,5 +230,10 @@ public class ZombieStateMachine : MonoBehaviour
             yield return null;
         }
         OnStartRevive?.Invoke();
+    }
+
+    public void SignalAggroChange(bool aggroed)
+    {
+        OnAggroChanged?.Invoke(aggroed);
     }
 }

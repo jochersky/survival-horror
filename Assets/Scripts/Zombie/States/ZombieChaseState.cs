@@ -9,6 +9,7 @@ public class ZombieChaseState : ZombieBaseState
     public override void EnterState()
     {
         // Context.StopAllCoroutines();
+        Context.SignalAggroChange(true);
         Context.IsLookingAround = false;
         
         Context.Animator.SetBool(Context.IsChasingHash, true);
