@@ -1,5 +1,58 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2440767571825355975
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6488852981701472273}
+  - component: {fileID: 1567770290641700846}
+  m_Layer: 3
+  m_Name: Collider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6488852981701472273
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2440767571825355975}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.0019723014, y: 0.7917527, z: -0.6108333, w: 0.0025564667}
+  m_LocalPosition: {x: -0.019664325, y: 11.607217, z: 3.0450287}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7421397290705381446}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1567770290641700846
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2440767571825355975}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 5.020887, y: 1.1424993, z: 0.9607614}
+  m_Center: {x: 0.29062477, y: 0.4770617, z: -0.01961927}
 --- !u!1 &6701283788434367583
 GameObject:
   m_ObjectHideFlags: 0
@@ -9,7 +62,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7421397290705381446}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Fridges
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29,6 +82,7 @@ Transform:
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 6488852981701472273}
   - {fileID: 3692748298053926201}
   - {fileID: 7120490308537990381}
   - {fileID: 5327248996562544766}
@@ -151,6 +205,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: altar-stone (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -228,6 +286,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
       propertyPath: m_Name
       value: altar-stone (47)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -307,6 +369,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: altar-stone (9)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -384,6 +450,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
       propertyPath: m_Name
       value: altar-stone (33)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -463,6 +533,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: altar-stone (23)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -540,6 +614,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
       propertyPath: m_Name
       value: altar-stone (19)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -619,6 +697,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: altar-stone (12)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -696,6 +778,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
       propertyPath: m_Name
       value: altar-stone (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -775,6 +861,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: altar-stone (46)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -852,6 +942,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
       propertyPath: m_Name
       value: altar-stone (21)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -931,6 +1025,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: altar-stone (41)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1008,6 +1106,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
       propertyPath: m_Name
       value: altar-stone (35)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1087,6 +1189,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: altar-stone (28)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1164,6 +1270,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
       propertyPath: m_Name
       value: altar-stone (11)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1243,6 +1353,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: altar-stone (42)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1320,6 +1434,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
       propertyPath: m_Name
       value: altar-stone (22)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1399,6 +1517,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: altar-stone (50)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1476,6 +1598,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
       propertyPath: m_Name
       value: altar-stone (13)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1555,6 +1681,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: altar-stone (15)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1632,6 +1762,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
       propertyPath: m_Name
       value: altar-stone (34)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1711,6 +1845,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: altar-stone (38)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1788,6 +1926,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
       propertyPath: m_Name
       value: altar-stone
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1867,6 +2009,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: altar-stone (37)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1944,6 +2090,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
       propertyPath: m_Name
       value: altar-stone (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2023,6 +2173,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: altar-stone (44)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2100,6 +2254,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
       propertyPath: m_Name
       value: altar-stone (29)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2179,6 +2337,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: altar-stone (43)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2256,6 +2418,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
       propertyPath: m_Name
       value: altar-stone (30)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2335,6 +2501,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: altar-stone (36)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2412,6 +2582,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
       propertyPath: m_Name
       value: altar-stone (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2491,6 +2665,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: altar-stone (25)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2568,6 +2746,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
       propertyPath: m_Name
       value: altar-stone (40)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2647,6 +2829,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: altar-stone (26)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2724,6 +2910,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
       propertyPath: m_Name
       value: altar-stone (32)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2803,6 +2993,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: altar-stone (45)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2880,6 +3074,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
       propertyPath: m_Name
       value: altar-stone (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2959,6 +3157,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: altar-stone (27)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3036,6 +3238,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
       propertyPath: m_Name
       value: altar-stone (16)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3115,6 +3321,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: altar-stone (51)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3192,6 +3402,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
       propertyPath: m_Name
       value: altar-stone (31)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3271,6 +3485,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: altar-stone (18)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3348,6 +3566,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
       propertyPath: m_Name
       value: altar-stone (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3427,6 +3649,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: altar-stone (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3504,6 +3730,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
       propertyPath: m_Name
       value: altar-stone (20)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3583,6 +3813,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: altar-stone (39)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3660,6 +3894,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
       propertyPath: m_Name
       value: altar-stone (49)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3739,6 +3977,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: altar-stone (48)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3816,6 +4058,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
       propertyPath: m_Name
       value: altar-stone (17)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3895,6 +4141,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: altar-stone (14)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3972,6 +4222,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
       propertyPath: m_Name
       value: altar-stone (24)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4051,6 +4305,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: altar-stone (10)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4128,6 +4386,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
       propertyPath: m_Name
       value: altar-stone (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6919dfb6932e701448083f281e5fb4a5, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
