@@ -92,13 +92,25 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 8e20aaa65734a65408aa6ce913d99738, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 4948185215634528369, guid: 8e20aaa65734a65408aa6ce913d99738, type: 3}
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 4948185215634528369, guid: 8e20aaa65734a65408aa6ce913d99738, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 5938461771721923985, guid: 8e20aaa65734a65408aa6ce913d99738, type: 3}
       propertyPath: m_Layer
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5938461771721923985, guid: 8e20aaa65734a65408aa6ce913d99738, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -132,5 +144,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.0999999, y: 1, z: 2.7000003}
-  m_Center: {x: 0, y: 0.6594994, z: 0}
+  m_Size: {x: 1.0999999, y: 1.0594078, z: 2.7000003}
+  m_Center: {x: 0, y: 0.6297955, z: 0}
