@@ -4,9 +4,13 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class ContainerManager : MonoBehaviour
 {
+    [Header("References")]
+    [SerializeField] private FunctionContainer functionContainer;
+    
     private GridLayoutGroup _gridLayoutGroup;
     private Grid<GridItem> _grid;
     private int _cellSize;
@@ -20,9 +24,10 @@ public class ContainerManager : MonoBehaviour
     
     public delegate void StartFinished();
     public event StartFinished OnStartFinished;
-
     public delegate void StackableItemCountsUpdated(string itemName);
     public event StackableItemCountsUpdated OnStackableItemCountsUpdated;
+    public delegate void NewItemAdded(string itemName);
+    public event NewItemAdded OnNewItemAdded;
     
     private void Start() {
         _gridLayoutGroup = GetComponent<GridLayoutGroup>();
@@ -161,6 +166,7 @@ public class ContainerManager : MonoBehaviour
                         SetDraggableItemToGrid(di, x, y);
                         _slots[x, y].item = di;
                         OnStackableItemCountsUpdated?.Invoke(itemName);
+                        if (functionContainer) functionContainer.CheckItemAdded(dragItem.itemData.itemName);
                         return true;
                     }
                 }
@@ -198,6 +204,7 @@ public class ContainerManager : MonoBehaviour
                     SetDraggableItemToGrid(di, x, y);
                     _slots[x, y].item = di;
                     di.AmmoCount = ammoCount;
+                    if (functionContainer) functionContainer.CheckItemAdded(dragItem.itemData.itemName);
                     return true;
                 }
             }
