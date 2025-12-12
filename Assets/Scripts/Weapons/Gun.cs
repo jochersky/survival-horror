@@ -23,6 +23,8 @@ public class Gun : Weapon
     [SerializeField] private float maxBulletDistance = 100f;
     [SerializeField] private float bulletSpeed = 100f;
     [SerializeField] private float muzzleFlashTime = 0.15f;
+    [SerializeField] private float cameraShakeIntensity = 1f;
+    [SerializeField] private float cameraShakeTime = 0.15f;
     
     // input actions
     private InputAction m_ReloadAction;
@@ -117,8 +119,9 @@ public class Gun : Weapon
         }
         
         _isFiring = false;
-        StartCoroutine(CreateMuzzleFlash());
         _bulletsRemaining--;
+        CameraShake.Instance.ShakeAimCamera(cameraShakeIntensity, cameraShakeTime);
+        StartCoroutine(CreateMuzzleFlash());
         OnFireComplete?.Invoke(this);
     }
 
@@ -159,6 +162,7 @@ public class Gun : Weapon
     private IEnumerator CreateMuzzleFlash()
     {
         Vector3 curRot = muzzleFlash.transform.rotation.eulerAngles;
+        // rotate the muzzle flash mesh for variance in flash
         muzzleFlash.transform.eulerAngles = new Vector3(curRot.x, curRot.y, Random.Range(0, 360));
         muzzleFlash.SetActive(true);
         float timer = 0;
