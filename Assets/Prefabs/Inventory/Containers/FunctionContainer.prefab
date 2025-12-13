@@ -48,9 +48,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FunctionContainer
   containerUI: {fileID: 3263001192168191263}
-  maxItems: 0
+  maxItems: 4
   items: []
   requiredItemName: Fuse
+  containerManager: {fileID: 5125384130387744087}
 --- !u!65 &8181964174363580781
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -80,6 +81,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8807876717792344891}
     m_Modifications:
+    - target: {fileID: 6735492884919743, guid: c1277bbb63ae3214aa125ab8be11a5a8, type: 3}
+      propertyPath: m_FontData.m_Alignment
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 1259615239549192251, guid: c1277bbb63ae3214aa125ab8be11a5a8, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -231,6 +236,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2756458306345324930, guid: c1277bbb63ae3214aa125ab8be11a5a8, type: 3}
   m_PrefabInstance: {fileID: 795002374157444253}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5125384130387744087 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5488040510512738762, guid: c1277bbb63ae3214aa125ab8be11a5a8, type: 3}
+  m_PrefabInstance: {fileID: 795002374157444253}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3778c54e4b1464445b7629b2310135f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ContainerManager
 --- !u!1001 &7886249787621032720
 PrefabInstance:
   m_ObjectHideFlags: 0

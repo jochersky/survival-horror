@@ -166,7 +166,6 @@ public class ContainerManager : MonoBehaviour
                         SetDraggableItemToGrid(di, x, y);
                         _slots[x, y].item = di;
                         OnStackableItemCountsUpdated?.Invoke(itemName);
-                        if (functionContainer) functionContainer.CheckItemAdded(dragItem.itemData.itemName);
                         return true;
                     }
                 }
@@ -204,7 +203,6 @@ public class ContainerManager : MonoBehaviour
                     SetDraggableItemToGrid(di, x, y);
                     _slots[x, y].item = di;
                     di.AmmoCount = ammoCount;
-                    if (functionContainer) functionContainer.CheckItemAdded(dragItem.itemData.itemName);
                     return true;
                 }
             }
@@ -314,5 +312,10 @@ public class ContainerManager : MonoBehaviour
     public void UpdateItemWithName(string itemName)
     {
         OnStackableItemCountsUpdated?.Invoke(itemName);
+    }
+
+    public void NewItemAddedBetweenFromContainer(string itemName)
+    {
+        OnNewItemAdded?.Invoke(itemName);
     }
 }
