@@ -8,9 +8,6 @@ using UnityEngine.Events;
 
 public class ContainerManager : MonoBehaviour
 {
-    [Header("References")]
-    [SerializeField] private FunctionContainer functionContainer;
-    
     private GridLayoutGroup _gridLayoutGroup;
     private Grid<GridItem> _grid;
     private int _cellSize;

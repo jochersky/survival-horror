@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 19888004e0f90b149806701de3cd23ed, type: 3}
-  m_Name: TestKey
+  m_Name: PostMortemRoomKey
   m_EditorClassIdentifier: Assembly-CSharp::KeyItemData
   itemType: 3
-  itemName: TestKey
-  itemImage: {fileID: 112394689, guid: e463535105f20cf4eb3c34b70342c9e1, type: 3}
+  itemName: PostMortemRoomKey
+  itemImage: {fileID: -1723176547, guid: 962328de12d4e56498647eeca1d76e10, type: 3}
   itemPrefab: {fileID: 0}
   gridItemDimensions: {x: 1, y: 1}
   gridItemOrigin: {x: 0, y: 0}

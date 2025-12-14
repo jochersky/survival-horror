@@ -78,6 +78,7 @@ public class InventoryManager : MonoBehaviour
         container.ContainerUI.transform.SetParent(inventoryGrids.transform);
         ToggleInventory();
         container.ContainerUI.transform.localScale = Vector3.one;
+        container.ContainerUI.transform.eulerAngles = Vector3.zero;
     }
 
     private void RemoveContainer()
