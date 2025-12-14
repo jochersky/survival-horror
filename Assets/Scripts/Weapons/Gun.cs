@@ -8,7 +8,8 @@ public class Gun : Weapon
     [Header("References")]
     [SerializeField] private InputActionAsset actions;
     [SerializeField] private Transform[] projectileSpawners;
-    [SerializeField] private GameObject projectileDecal;
+    [SerializeField] private GameObject bulletHoleDecal;
+    [SerializeField] private GameObject bloodDecal;
     [SerializeField] private TrailRenderer bulletTrail;
     [SerializeField] private GameObject muzzleFlash;
     // must be assigned when the prefab has already been instanced
@@ -106,11 +107,21 @@ public class Gun : Weapon
             TrailRenderer trail = Instantiate(bulletTrail, projectileSpawners[0].position, Quaternion.identity);
             StartCoroutine(SpawnTrail(trail, hit.point));
             
-            // place slightly inside of object so that decal doesn't flicker
-            Vector3 pos = hit.point - hit.normal * 0.1f;
-            Instantiate(projectileDecal, pos, Quaternion.LookRotation(hit.normal), hit.transform);
-            
-            if (hit.transform.TryGetComponent(out Hurtbox hurtbox)) hurtbox.TakeDamage(damage);
+            // positon to place decal, slightly inside of object to get better projection
+            Vector3 pos = hit.point - hit.normal * 0.05f;
+            if (hit.transform.TryGetComponent(out Hurtbox hurtbox))
+            {
+                // blood decal
+                GameObject decal = Instantiate(bloodDecal, pos, Quaternion.LookRotation(hit.normal), hit.transform);
+                Vector3 curRot = decal.transform.rotation.eulerAngles;
+                decal.transform.eulerAngles = new Vector3(curRot.x, curRot.y, Random.Range(0, 360));
+                hurtbox.TakeDamage(damage);
+            }
+            else
+            {
+                // bullet hole decal
+                Instantiate(bulletHoleDecal, pos, Quaternion.LookRotation(hit.normal), hit.transform);
+            }
         }
         else
         {
