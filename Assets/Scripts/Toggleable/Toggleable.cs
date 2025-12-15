@@ -2,10 +2,14 @@ using UnityEngine;
 
 public class Toggleable : MonoBehaviour
 {
-    public bool toggled = false; 
+    public bool active = false;
+    
+    protected delegate void ActiveTrue();
+    protected ActiveTrue OnActiveTrue;
 
     public void Toggle()
     {
-        toggled = !toggled;
+        active = !active;
+        if (active) OnActiveTrue?.Invoke();
     }
 }

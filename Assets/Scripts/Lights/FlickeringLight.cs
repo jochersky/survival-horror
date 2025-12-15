@@ -17,7 +17,7 @@ public class FlickeringLight : Toggleable
     
     private void Update()
     {
-        if (toggled) FlickerLight();
+        if (!active) FlickerLight();
     }
 
     private void FlickerLight()

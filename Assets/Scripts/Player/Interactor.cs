@@ -14,6 +14,8 @@ public class Interactor : MonoBehaviour
     [SerializeField] private Texture doorInaccessibleTexture;
     [SerializeField] private Texture doorUnlockedTexture;
     [SerializeField] private Texture openHandTexture;
+    [SerializeField] private Texture pointFingerTexture;
+    [SerializeField] private Texture xTexture;
     private InputActionMap _playerActions;    
     
     // input actions
@@ -86,6 +88,11 @@ public class Interactor : MonoBehaviour
         else if (hit.collider.TryGetComponent<Item>(out Item item))
         {
             _crosshairImage.texture = openHandTexture;
+        }
+        else if (hit.collider.TryGetComponent<ToggleableButton>(out ToggleableButton toggleableButton))
+        {
+            if (toggleableButton.active) _crosshairImage.texture = pointFingerTexture;
+            else _crosshairImage.texture = xTexture;
         }
 
         if (_isInteracting && hit.collider && hit.collider.TryGetComponent(out IInteractable interactable))
