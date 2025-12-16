@@ -7,6 +7,7 @@ public class Door : MonoBehaviour, IInteractable
     [Header("Instance Values")]
     [SerializeField] private string keyName;
     public bool locked;
+    public bool inaccessible;
     
     enum DoorStates
     {
@@ -44,8 +45,8 @@ public class Door : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        // don't let the door open if its locked
-        if (locked)
+        // don't let the door open if its locked or inaccessible
+        if (locked || inaccessible)
         {
             if (InventoryManager.instance.FindKeyInPlayerInventory(keyName)) locked = false;
             return;

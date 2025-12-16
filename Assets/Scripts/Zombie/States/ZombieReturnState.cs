@@ -35,8 +35,7 @@ public class ZombieReturnState : ZombieBaseState
         if (Context.PlayerTransform) 
             SwitchState(Dictionary.Chase());
         // Go to idle once the starting position is reached
-        else if (Mathf.Approximately(Context.transform.position.x, Context.StartingPosition.x) && 
-            Mathf.Approximately(Context.transform.position.z, Context.StartingPosition.z)) 
+        else if (Context.Agent.stoppingDistance >= Context.Agent.remainingDistance) 
             SwitchState(Dictionary.Idle());
         
         if (Context.Dead)

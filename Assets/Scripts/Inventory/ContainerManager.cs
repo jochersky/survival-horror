@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class ContainerManager : MonoBehaviour
 {
@@ -20,9 +21,10 @@ public class ContainerManager : MonoBehaviour
     
     public delegate void StartFinished();
     public event StartFinished OnStartFinished;
-
     public delegate void StackableItemCountsUpdated(string itemName);
     public event StackableItemCountsUpdated OnStackableItemCountsUpdated;
+    public delegate void NewItemAdded(string itemName);
+    public event NewItemAdded OnNewItemAdded;
     
     private void Start() {
         _gridLayoutGroup = GetComponent<GridLayoutGroup>();
@@ -307,5 +309,10 @@ public class ContainerManager : MonoBehaviour
     public void UpdateItemWithName(string itemName)
     {
         OnStackableItemCountsUpdated?.Invoke(itemName);
+    }
+
+    public void NewItemAddedBetweenFromContainer(string itemName)
+    {
+        OnNewItemAdded?.Invoke(itemName);
     }
 }

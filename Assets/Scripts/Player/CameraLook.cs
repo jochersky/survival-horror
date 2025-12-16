@@ -34,6 +34,7 @@ public class CameraLook : MonoBehaviour
         Regular,
         Aim
     }
+    public CameraStates CurrentState => currentState;
     
     private void Awake()
     {

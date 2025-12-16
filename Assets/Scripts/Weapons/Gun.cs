@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,8 +8,10 @@ public class Gun : Weapon
     [Header("References")]
     [SerializeField] private InputActionAsset actions;
     [SerializeField] private Transform[] projectileSpawners;
-    [SerializeField] private GameObject projectileDecal;
+    [SerializeField] private GameObject bulletHoleDecal;
+    [SerializeField] private GameObject bloodDecal;
     [SerializeField] private TrailRenderer bulletTrail;
+    [SerializeField] private GameObject muzzleFlash;
     // must be assigned when the prefab has already been instanced
     private Camera _cam;
     private InputActionMap _playerActions;
@@ -20,6 +23,9 @@ public class Gun : Weapon
     [SerializeField] private float fireRate = 0.25f;
     [SerializeField] private float maxBulletDistance = 100f;
     [SerializeField] private float bulletSpeed = 100f;
+    [SerializeField] private float muzzleFlashTime = 0.15f;
+    [SerializeField] private float cameraShakeIntensity = 1f;
+    [SerializeField] private float cameraShakeTime = 0.15f;
     
     // input actions
     private InputAction m_ReloadAction;
@@ -58,6 +64,8 @@ public class Gun : Weapon
         
         // Assign layers that the gun can interact with
         _mask = LayerMask.GetMask("EnemyHurtbox", "Environment");
+        
+        muzzleFlash.SetActive(false);
     }
 
     public void OnReload(InputAction.CallbackContext context)
@@ -99,11 +107,21 @@ public class Gun : Weapon
             TrailRenderer trail = Instantiate(bulletTrail, projectileSpawners[0].position, Quaternion.identity);
             StartCoroutine(SpawnTrail(trail, hit.point));
             
-            // place slightly inside of object so that decal doesn't flicker
-            Vector3 pos = hit.point - hit.normal * 0.1f;
-            Instantiate(projectileDecal, pos, Quaternion.LookRotation(hit.normal), hit.transform);
-            
-            if (hit.transform.TryGetComponent(out Hurtbox hurtbox)) hurtbox.TakeDamage(damage);
+            // positon to place decal, slightly inside of object to get better projection
+            Vector3 pos = hit.point - hit.normal * 0.05f;
+            if (hit.transform.TryGetComponent(out Hurtbox hurtbox))
+            {
+                // blood decal
+                GameObject decal = Instantiate(bloodDecal, pos, Quaternion.LookRotation(hit.normal), hit.transform);
+                Vector3 curRot = decal.transform.rotation.eulerAngles;
+                decal.transform.eulerAngles = new Vector3(curRot.x, curRot.y, Random.Range(0, 360));
+                hurtbox.TakeDamage(damage);
+            }
+            else
+            {
+                // bullet hole decal
+                Instantiate(bulletHoleDecal, pos, Quaternion.LookRotation(hit.normal), hit.transform);
+            }
         }
         else
         {
@@ -113,6 +131,8 @@ public class Gun : Weapon
         
         _isFiring = false;
         _bulletsRemaining--;
+        CameraShake.Instance.ShakeAimCamera(cameraShakeIntensity, cameraShakeTime);
+        StartCoroutine(CreateMuzzleFlash());
         OnFireComplete?.Invoke(this);
     }
 
@@ -148,5 +168,20 @@ public class Gun : Weapon
         }
         tr.transform.position = target;
         Destroy(tr.gameObject, tr.time);
+    }
+
+    private IEnumerator CreateMuzzleFlash()
+    {
+        Vector3 curRot = muzzleFlash.transform.rotation.eulerAngles;
+        // rotate the muzzle flash mesh for variance in flash
+        muzzleFlash.transform.eulerAngles = new Vector3(curRot.x, curRot.y, Random.Range(0, 360));
+        muzzleFlash.SetActive(true);
+        float timer = 0;
+        while (timer < muzzleFlashTime)
+        {
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        muzzleFlash.SetActive(false);
     }
 }

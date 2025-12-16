@@ -19,4 +19,4 @@ MonoBehaviour:
   gridItemDimensions: {x: 1, y: 1}
   gridItemOrigin: {x: 0, y: 0}
   maxCount: 0
-  keyID: DinerKey1
+  keyID: 

@@ -58,13 +58,16 @@ public class InventorySlot : MonoBehaviour, IDropHandler
                     }
                 }
                 // TODO: add item swapping between items of the same size but different names
+                // droppedItem.containerManager = ContainerManager; make sure to reassign container manager
             }
             // nothing in this slot, assign item to this inventory slot
             else
             {
+                item = droppedItem;
                 droppedItem.parentAfterDrag = transform;
                 droppedItem.containerManager = ContainerManager;
                 droppedItem.inventorySlot = this;
+                ContainerManager.NewItemAddedBetweenFromContainer(item.itemData.itemName);
             }
         }
     }
