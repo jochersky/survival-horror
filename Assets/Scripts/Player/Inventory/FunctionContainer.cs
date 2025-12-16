@@ -1,17 +1,18 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class FunctionContainer : Container
 {
     [Header("References")]
     [SerializeField] private Toggleable[] toggleables;
-    
-    [SerializeField] private string requiredItemName;
     public ContainerManager containerManager;
     
-    private delegate void ToggleFunctionality();
-    private event ToggleFunctionality OnToggleFunctionality;
+    [SerializeField] private string requiredItemName;
+    
+    protected delegate void ToggleFunctionality();
+    protected event ToggleFunctionality OnToggleFunctionality;
 
-    private void Start()
+    public virtual void Start()
     {
         containerManager.OnNewItemAdded += CheckItemAdded;
         
