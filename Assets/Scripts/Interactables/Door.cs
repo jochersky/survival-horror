@@ -4,6 +4,10 @@ public class Door : MonoBehaviour, IInteractable
 {
     [Header("References")]
     [SerializeField] private Animator animator;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip openSFX;
+    [SerializeField] private AudioClip closeSFX;
+    [SerializeField] private AudioClip unlockSFX;
     [Header("Instance Values")]
     [SerializeField] private string keyName;
     public bool locked;
@@ -17,6 +21,7 @@ public class Door : MonoBehaviour, IInteractable
     }
     
     private DoorStates _currState = DoorStates.Static;
+    private DoorStates _prevState = DoorStates.Static;
     
     private int _isUnlockedHash;
     private int _isInteractingHash;
@@ -35,6 +40,9 @@ public class Door : MonoBehaviour, IInteractable
         if (_currState == DoorStates.Opening || _currState == DoorStates.Closing)
         {
             animator.SetTrigger(_isInteractingHash);
+            AudioClip clip = (_currState == DoorStates.Opening ? openSFX : closeSFX);
+            AudioManager.Instance.PlaySFX(clip, audioSource);
+            _prevState = (_currState == DoorStates.Opening) ? DoorStates.Opening : DoorStates.Closing;
             _currState = DoorStates.Static;
         }
         else if (_currState == DoorStates.Static)
@@ -48,7 +56,16 @@ public class Door : MonoBehaviour, IInteractable
         // don't let the door open if its locked or inaccessible
         if (locked || inaccessible)
         {
-            if (InventoryManager.instance.FindKeyInPlayerInventory(keyName)) locked = false;
+            if (InventoryManager.instance.FindKeyInPlayerInventory(keyName))
+            {
+                AudioManager.Instance.PlaySFX(unlockSFX, audioSource);
+                locked = false;
+            }
+            else
+            {
+                // TODO: play thud sound
+                // AudioManager.Instance.PlaySFX(unlockSFX, audioSource);
+            }
             return;
         }
         
@@ -56,10 +73,12 @@ public class Door : MonoBehaviour, IInteractable
         {
             _unlocked = true;
             animator.SetBool(_isUnlockedHash, true);
+            AudioManager.Instance.PlaySFX(openSFX, audioSource);
         }
         else
         {
-            _currState = (_currState == DoorStates.Opening ? DoorStates.Closing : DoorStates.Opening);
+            if (_prevState == DoorStates.Static) _currState = DoorStates.Closing;
+            else _currState = (_prevState == DoorStates.Opening) ? DoorStates.Closing : DoorStates.Opening;
         }
     }
 }

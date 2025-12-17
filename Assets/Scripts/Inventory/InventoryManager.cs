@@ -39,8 +39,12 @@ public class InventoryManager : MonoBehaviour
     private void Awake()
     {
         // ensure only one instance of the inventory manager exists globally
-        if (instance && instance != this) Destroy(this);
-        else instance = this;
+        if (instance && instance != this)
+        {
+            Destroy(this);
+            return;
+        }
+        instance = this;
         
         _playerActions = actions.FindActionMap("PlayerUI");
         
