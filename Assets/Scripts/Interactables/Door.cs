@@ -5,9 +5,7 @@ public class Door : MonoBehaviour, IInteractable
     [Header("References")]
     [SerializeField] private Animator animator;
     [SerializeField] private AudioSource audioSource;
-    [SerializeField] private AudioClip openSFX;
-    [SerializeField] private AudioClip closeSFX;
-    [SerializeField] private AudioClip unlockSFX;
+
     [Header("Instance Values")]
     [SerializeField] private string keyName;
     public bool locked;
@@ -40,8 +38,8 @@ public class Door : MonoBehaviour, IInteractable
         if (_currState == DoorStates.Opening || _currState == DoorStates.Closing)
         {
             animator.SetTrigger(_isInteractingHash);
-            AudioClip clip = (_currState == DoorStates.Opening ? openSFX : closeSFX);
-            AudioManager.Instance.PlaySFX(clip, audioSource);
+            SfxType type = (_currState == DoorStates.Opening ? SfxType.DoorOpen : SfxType.DoorClose);
+            AudioManager.Instance.PlaySFX(type, audioSource);
             _prevState = (_currState == DoorStates.Opening) ? DoorStates.Opening : DoorStates.Closing;
             _currState = DoorStates.Static;
         }
@@ -58,7 +56,7 @@ public class Door : MonoBehaviour, IInteractable
         {
             if (InventoryManager.instance.FindKeyInPlayerInventory(keyName))
             {
-                AudioManager.Instance.PlaySFX(unlockSFX, audioSource);
+                AudioManager.Instance.PlaySFX(SfxType.DoorUnlock, audioSource);
                 locked = false;
             }
             else
@@ -73,7 +71,7 @@ public class Door : MonoBehaviour, IInteractable
         {
             _unlocked = true;
             animator.SetBool(_isUnlockedHash, true);
-            AudioManager.Instance.PlaySFX(openSFX, audioSource);
+            AudioManager.Instance.PlaySFX(SfxType.DoorOpen, audioSource);
         }
         else
         {

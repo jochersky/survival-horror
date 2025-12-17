@@ -3,7 +3,6 @@ using UnityEngine;
 public class PlayerAnimationEvents : MonoBehaviour
 {
     [SerializeField] private AudioSource audioSource;
-    [SerializeField] private AudioClip stepSFX;
     
     public delegate void SwingBegin();
     public event SwingBegin OnSwingBegin;
@@ -51,6 +50,6 @@ public class PlayerAnimationEvents : MonoBehaviour
 
     public void PlayFootstepSound()
     {
-        AudioManager.Instance.PlaySFX(stepSFX, audioSource, 0.15f, Random.Range(0.95f, 1.05f));
+        AudioManager.Instance.PlaySFX(SfxType.PlayerFootsteps, audioSource, 0.15f);
     }
 }

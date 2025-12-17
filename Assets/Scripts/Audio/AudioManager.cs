@@ -1,9 +1,12 @@
+using System;
 using UnityEngine;
+using UnityEngine.Audio;
+using Random = System.Random;
 
 public class AudioManager : MonoBehaviour
 {
+    [SerializeField] private SfxSO sfxSO;
     public static AudioManager Instance { get; private set; }
-    
     private AudioSource audioSource;
     
     private void Awake()
@@ -18,16 +21,30 @@ public class AudioManager : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
 
-    public void PlaySFX(AudioClip clip, AudioSource source = null, float volume = 1, float pitch = 1)
+    public void PlaySFX(SfxType type, AudioSource source = null, float volume = 1)
     {
+        SfxList sfxList = sfxSO.sfx[(int)type];
+        AudioClip[] sfx = sfxList.sfx;
+        if (sfx.Length == 0) return;
+        
+        AudioClip clip = sfx[UnityEngine.Random.Range(0, sfx.Length)];
+        
         if (!source)
         {
             audioSource.PlayOneShot(clip, volume);
         }
         else
         {
-            audioSource.pitch = pitch;
             source.PlayOneShot(clip, volume);
         }
     }
+}
+
+[Serializable]
+public struct SfxList
+{
+    [HideInInspector] public string name;
+    [Range(0, 1)] public float volume;
+    public AudioMixerGroup mixerGroup;
+    public AudioClip[] sfx;
 }

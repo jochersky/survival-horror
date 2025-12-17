@@ -12,6 +12,8 @@ public class Gun : Weapon
     [SerializeField] private GameObject bloodDecal;
     [SerializeField] private TrailRenderer bulletTrail;
     [SerializeField] private GameObject muzzleFlash;
+    [SerializeField] private AudioSource audioSource;
+    
     // must be assigned when the prefab has already been instanced
     private Camera _cam;
     private InputActionMap _playerActions;
@@ -27,11 +29,6 @@ public class Gun : Weapon
     [SerializeField] private float cameraShakeIntensity = 1f;
     [SerializeField] private float cameraShakeTime = 0.15f;
 
-    [Header("SFX")]
-    [SerializeField] private AudioSource audioSource;
-    [SerializeField] private AudioClip fireSFX;
-    [SerializeField] private AudioClip reloadSFX;
-    
     // input actions
     private InputAction m_ReloadAction;
 
@@ -136,7 +133,7 @@ public class Gun : Weapon
         
         _isFiring = false;
         _bulletsRemaining--;
-        AudioManager.Instance.PlaySFX(fireSFX, audioSource);
+        AudioManager.Instance.PlaySFX(SfxType.PistolFire, audioSource);
         CameraShake.Instance.ShakeAimCamera(cameraShakeIntensity, cameraShakeTime);
         StartCoroutine(CreateMuzzleFlash());
         OnFireComplete?.Invoke(this);
@@ -150,7 +147,7 @@ public class Gun : Weapon
         
         // request a reload from player state machine
         OnRequestReload?.Invoke();
-        AudioManager.Instance.PlaySFX(reloadSFX, audioSource);
+        AudioManager.Instance.PlaySFX(SfxType.PistolReload, audioSource);
     }
     
     public void ReloadGun()
