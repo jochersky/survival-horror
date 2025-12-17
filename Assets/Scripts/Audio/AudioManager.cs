@@ -18,7 +18,7 @@ public class AudioManager : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
 
-    public void PlaySFX(AudioClip clip, AudioSource source = null, float volume = 1)
+    public void PlaySFX(AudioClip clip, AudioSource source = null, float volume = 1, float pitch = 1)
     {
         if (!source)
         {
@@ -26,6 +26,7 @@ public class AudioManager : MonoBehaviour
         }
         else
         {
+            audioSource.pitch = pitch;
             source.PlayOneShot(clip, volume);
         }
     }

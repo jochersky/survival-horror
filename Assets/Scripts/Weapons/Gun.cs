@@ -26,6 +26,11 @@ public class Gun : Weapon
     [SerializeField] private float muzzleFlashTime = 0.15f;
     [SerializeField] private float cameraShakeIntensity = 1f;
     [SerializeField] private float cameraShakeTime = 0.15f;
+
+    [Header("SFX")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip fireSFX;
+    [SerializeField] private AudioClip reloadSFX;
     
     // input actions
     private InputAction m_ReloadAction;
@@ -131,6 +136,7 @@ public class Gun : Weapon
         
         _isFiring = false;
         _bulletsRemaining--;
+        AudioManager.Instance.PlaySFX(fireSFX, audioSource);
         CameraShake.Instance.ShakeAimCamera(cameraShakeIntensity, cameraShakeTime);
         StartCoroutine(CreateMuzzleFlash());
         OnFireComplete?.Invoke(this);
@@ -144,6 +150,7 @@ public class Gun : Weapon
         
         // request a reload from player state machine
         OnRequestReload?.Invoke();
+        AudioManager.Instance.PlaySFX(reloadSFX, audioSource);
     }
     
     public void ReloadGun()
@@ -152,6 +159,7 @@ public class Gun : Weapon
         if (amt == 0) return;
         _isReloading = false;
         _bulletsRemaining = amt;
+        
         OnReloadComplete?.Invoke(this);
     }
 
