@@ -14,4 +14,11 @@ public enum SfxType
     ZombieHit,
     ZombieDeathFall,
     ZombieRevive,
+    DragItemOnDrag,
+    DragItemInventorySlotDrop,
+    DragItemDropped,
+    DragItemEquipped,
+    DragItemUnequipped,
+    DragWeaponUnloaded,
+    ItemPickUp,
 }

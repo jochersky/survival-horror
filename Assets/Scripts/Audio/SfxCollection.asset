@@ -100,3 +100,40 @@ MonoBehaviour:
     sfx:
     - {fileID: 8300000, guid: ef698864e3d491243ad90d6516fc29fc, type: 3}
     - {fileID: 8300000, guid: c26fa402feea6f347bc7174e78f3b718, type: 3}
+  - name: DragItemOnDrag
+    volume: 1
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: 326b65603d65c8a44a01af9653addb72, type: 3}
+  - name: DragItemInventorySlotDrop
+    volume: 1
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: bd4324d55311bcf4492a31346a448011, type: 3}
+  - name: DragItemDropped
+    volume: 1
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: 23bfc9b5962c1374da21876daf76a530, type: 3}
+  - name: DragItemEquipped
+    volume: 1
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: 982981884a55877449800b2164bbad1e, type: 3}
+  - name: DragItemUnequipped
+    volume: 1
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: b6f7208a3c48f0c46ab0e630e1aaab7a, type: 3}
+  - name: DragWeaponUnloaded
+    volume: 1
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: 26bd6fe078af01446a216846ed1b41e1, type: 3}
+    - {fileID: 8300000, guid: 2341941571e17ff44ba1424f2d3d4b8a, type: 3}
+  - name: ItemPickUp
+    volume: 1
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: ac5b074be25f34546ac6eb9d91e19d8b, type: 3}
+    - {fileID: 8300000, guid: 241a59cd370f125429479f2490400bac, type: 3}

@@ -93,12 +93,14 @@ public class DraggableItem : MonoBehaviour, IPointerClickHandler, IBeginDragHand
     {
         if (eventData.button == PointerEventData.InputButton.Left) return;
 
+        // for unloading ammo from guns
         if (itemData.itemType == ItemType.Weapon)
         {
             if (containerManager.FindSpaceForItem(AmmoTypePrefab, AmmoCount, 0))
             {
                 AmmoCount = 0;
                 OnAmmoCountChanged?.Invoke(AmmoCount, this);
+                AudioManager.Instance.PlaySFX(SfxType.DragWeaponUnloaded);
             }
         }
     }
@@ -119,6 +121,8 @@ public class DraggableItem : MonoBehaviour, IPointerClickHandler, IBeginDragHand
         transform.SetParent(transform.root);
         transform.SetAsLastSibling();
         _image.raycastTarget = false;
+        
+        AudioManager.Instance.PlaySFX(SfxType.DragItemOnDrag);
     }
 
     public void OnDrag(PointerEventData eventData)

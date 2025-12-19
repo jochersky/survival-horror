@@ -11,6 +11,7 @@ public class DropItemArea : MonoBehaviour, IDropHandler
         if (dropped.TryGetComponent(out DraggableItem item))
         {
             item.DropItem();
+            AudioManager.Instance.PlaySFX(SfxType.DragItemDropped, null, 1, Random.Range(0.75f, 1.25f));
         }
     }
 }

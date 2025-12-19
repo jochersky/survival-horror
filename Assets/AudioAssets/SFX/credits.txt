@@ -6,3 +6,6 @@ gun sfx - https://opengameart.org/content/q009s-weapon-sounds
 footsteps - https://opengameart.org/content/footsteps-on-different-surfaces
 door sfx - https://opengameart.org/content/door-open-door-close-set
 metal interactions sfx - https://opengameart.org/content/metal-interactions
+pickups and inventory sounds - https://opengameart.org/content/87-clickety-clips
+inventory sounds - https://opengameart.org/content/3-item-sounds
+unloading sounds - https://opengameart.org/content/100-cc0-sfx-2

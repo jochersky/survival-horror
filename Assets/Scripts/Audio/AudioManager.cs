@@ -21,7 +21,7 @@ public class AudioManager : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
 
-    public void PlaySFX(SfxType type, AudioSource source = null, float volume = 1)
+    public void PlaySFX(SfxType type, AudioSource source = null, float volume = 1, float pitch = 1)
     {
         SfxList sfxList = sfxSO.sfx[(int)type];
         AudioClip[] sfx = sfxList.sfx;
@@ -33,10 +33,12 @@ public class AudioManager : MonoBehaviour
         
         if (!source)
         {
+            audioSource.pitch = pitch;
             audioSource.PlayOneShot(clip, volume);
         }
         else
         {
+            source.pitch = pitch;
             source.PlayOneShot(clip, volume);
         }
     }
