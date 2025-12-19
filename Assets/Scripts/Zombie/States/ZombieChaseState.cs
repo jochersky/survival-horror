@@ -3,12 +3,16 @@ using UnityEngine;
 
 public class ZombieChaseState : ZombieBaseState
 {
+    private float _time = Random.Range(0, 5);
+    private float _groanTimer = 5;
+    
     public ZombieChaseState(ZombieStateMachine currentContext, ZombieStateDictionary zombieStateDictionary)
         : base(currentContext, zombieStateDictionary) { }
 
     public override void EnterState()
     {
         // Context.StopAllCoroutines();
+        AudioManager.Instance.PlaySFX(SfxType.ZombieAggro, Context.Source);
         Context.SignalAggroChange(true);
         Context.IsLookingAround = false;
         
@@ -45,5 +49,12 @@ public class ZombieChaseState : ZombieBaseState
         
         if (Context.Dead)
             SwitchState(Dictionary.Dead());
+        
+        if (_time >= _groanTimer)
+        {
+            AudioManager.Instance.PlaySFX(SfxType.ZombieAggro, Context.Source);
+            _time = 0;
+        }
+        _time += Time.deltaTime;
     }
 }

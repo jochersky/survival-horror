@@ -33,6 +33,7 @@ public class ZombieAttackState : ZombieBaseState
     {
         Context.Animator.SetTrigger(Context.AttackStartHash);
         Context.StartCoroutine(Context.AttackCooldown());
+        AudioManager.Instance.PlaySFX(SfxType.ZombieAttack, Context.Source);
     }
     
     private void SwingEnded()

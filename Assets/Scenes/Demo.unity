@@ -48433,6 +48433,19 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3b336c7251e43f34c9723a82b320c758, type: 3}
+--- !u!1 &1468736554 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8368610041771365382, guid: c917c8038112244469e94b04b1831d14, type: 3}
+  m_PrefabInstance: {fileID: 1749562860}
+  m_PrefabAsset: {fileID: 0}
+--- !u!81 &1468736559
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1468736554}
+  m_Enabled: 1
 --- !u!4 &1475191413 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6463499534439431970, guid: 54cb9f60c59ca3d4cb8ba5bf52f232c0, type: 3}
@@ -57038,6 +57051,10 @@ PrefabInstance:
       propertyPath: m_RenderPostProcessing
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1100483481618396599, guid: c917c8038112244469e94b04b1831d14, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1841841280931028450, guid: c917c8038112244469e94b04b1831d14, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
@@ -57144,15 +57161,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4904465210360465968, guid: c917c8038112244469e94b04b1831d14, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.15222749
+      value: 0.15222755
       objectReference: {fileID: 0}
     - target: {fileID: 4904465210360465968, guid: c917c8038112244469e94b04b1831d14, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 1.6935e-15
+      value: 1.6520481e-15
       objectReference: {fileID: 0}
     - target: {fileID: 4904465210360465968, guid: c917c8038112244469e94b04b1831d14, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -6.381135e-16
+      value: -7.352195e-16
       objectReference: {fileID: 0}
     - target: {fileID: 4940915329614397682, guid: c917c8038112244469e94b04b1831d14, type: 3}
       propertyPath: m_LocalPosition.x
@@ -57202,6 +57219,10 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6373144339694484377, guid: c917c8038112244469e94b04b1831d14, type: 3}
+      propertyPath: source
+      value: 
+      objectReference: {fileID: 882434995}
     - target: {fileID: 6373144339694484377, guid: c917c8038112244469e94b04b1831d14, type: 3}
       propertyPath: stepSFX
       value: 
@@ -57340,6 +57361,9 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1325993274}
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8368610041771365382, guid: c917c8038112244469e94b04b1831d14, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1468736559}
     - targetCorrespondingSourceObject: {fileID: 3131539650183949619, guid: c917c8038112244469e94b04b1831d14, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2095937455}

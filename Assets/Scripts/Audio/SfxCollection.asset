@@ -14,24 +14,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SfxSO
   sfx:
   - name: PistolFire
-    volume: 1
+    volume: 0.3
     mixerGroup: {fileID: 640017167904713926, guid: 4caad7de7322ccc44b6a12e5c7596bcd, type: 2}
     sfx:
     - {fileID: 8300000, guid: 2e5c64df069827447b0cd7c7b71f5a2d, type: 3}
     - {fileID: 8300000, guid: 89a6b50c687ee7f418f45221faf81b23, type: 3}
     - {fileID: 8300000, guid: eb47a6541b5b2ae4ca1c765b10bd2b58, type: 3}
-  - name: PistolReload
+  - name: PistolHit
     volume: 1
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: c4ac9290faddbdc468a8d842f372644a, type: 3}
+  - name: PistolReload
+    volume: 0.3
     mixerGroup: {fileID: 0}
     sfx:
     - {fileID: 8300000, guid: 1b41f0aba0666904bad31ca1d9ebf6a8, type: 3}
   - name: PlayerFootsteps
-    volume: 0.807
+    volume: 0.744
     mixerGroup: {fileID: 640017167904713926, guid: 4caad7de7322ccc44b6a12e5c7596bcd, type: 2}
     sfx:
     - {fileID: 8300000, guid: d97cc95d28054474ea1b686f0e2e5115, type: 3}
     - {fileID: 8300000, guid: c02f2f4745e14b240a22363ac9cae8e7, type: 3}
     - {fileID: 8300000, guid: 6d4e50f71d82b3d4a9e84b362858a40a, type: 3}
+  - name: PlayerDeathFall
+    volume: 0.6
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: 8c3938d09c5cd2d4d8679e63dc4365fa, type: 3}
   - name: DoorUnlock
     volume: 1
     mixerGroup: {fileID: 0}
@@ -46,4 +56,47 @@ MonoBehaviour:
     volume: 1
     mixerGroup: {fileID: 0}
     sfx:
-    - {fileID: 8300000, guid: a62395ff6674e1f468d7b4075490e7c0, type: 3}
+    - {fileID: 8300000, guid: c615059edba08ce4ab6f023980309f0d, type: 3}
+  - name: ZombieGroan
+    volume: 0.5
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: c4151f1db4499f9408faace42648497b, type: 3}
+    - {fileID: 8300000, guid: 3d847c8947cb4314d93e1cef9a1d2341, type: 3}
+    - {fileID: 8300000, guid: 68a90f659bec5894ca5c13a1c365cb8a, type: 3}
+    - {fileID: 8300000, guid: 8bdb1f2efed08c04d8f0788c198d36e1, type: 3}
+    - {fileID: 8300000, guid: e0f9d674ed947034b851e33d895b3c75, type: 3}
+    - {fileID: 8300000, guid: 3861dce0ba3f6854e968fb4609ac8699, type: 3}
+  - name: ZombieAggro
+    volume: 0
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: c5bb756241e1b1749b561bcd06ededb0, type: 3}
+    - {fileID: 8300000, guid: 45fa6bb86d8170a4daac38f67a12baea, type: 3}
+    - {fileID: 8300000, guid: c57ed3aae6fe06c47b15c0a2d75de357, type: 3}
+  - name: ZombieAttack
+    volume: 1
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: 69cc5f6dd2c0ebb409f882986354b5d7, type: 3}
+    - {fileID: 8300000, guid: 3f92303ab4470854493c431459baa056, type: 3}
+    - {fileID: 8300000, guid: c910755cbebd57d4c8f3852c198dd937, type: 3}
+    - {fileID: 8300000, guid: 785c2b289682932409035abe8b3cb2c1, type: 3}
+  - name: ZombieHit
+    volume: 1
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: 549a23286806a204e948d4915883fd54, type: 3}
+    - {fileID: 8300000, guid: d84cdf5602f17be4d98fd7506ec22b8a, type: 3}
+    - {fileID: 8300000, guid: 1632280a324fa6045a48e1b53192b964, type: 3}
+  - name: ZombieDeathFall
+    volume: 0.6
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: 8c3938d09c5cd2d4d8679e63dc4365fa, type: 3}
+  - name: ZombieRevive
+    volume: 1
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: ef698864e3d491243ad90d6516fc29fc, type: 3}
+    - {fileID: 8300000, guid: c26fa402feea6f347bc7174e78f3b718, type: 3}

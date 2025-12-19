@@ -28,6 +28,8 @@ public class AudioManager : MonoBehaviour
         if (sfx.Length == 0) return;
         
         AudioClip clip = sfx[UnityEngine.Random.Range(0, sfx.Length)];
+        float v = sfxList.volume;
+        if (v < 1) volume = v;
         
         if (!source)
         {

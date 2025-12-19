@@ -118,23 +118,26 @@ public class Gun : Weapon
                 Vector3 curRot = decal.transform.rotation.eulerAngles;
                 decal.transform.eulerAngles = new Vector3(curRot.x, curRot.y, Random.Range(0, 360));
                 hurtbox.TakeDamage(damage);
+                AudioManager.Instance.PlaySFX(SfxType.PistolHit, audioSource);
             }
             else
             {
                 // bullet hole decal
                 Instantiate(bulletHoleDecal, pos, Quaternion.LookRotation(hit.normal), hit.transform);
+                AudioManager.Instance.PlaySFX(SfxType.PistolFire, audioSource);
             }
         }
         else
         {
             TrailRenderer trail = Instantiate(bulletTrail, projectileSpawners[0].position, Quaternion.identity);
             StartCoroutine(SpawnTrail(trail, firingDirection * maxBulletDistance));
+            AudioManager.Instance.PlaySFX(SfxType.PistolFire, audioSource);
         }
         
         _isFiring = false;
         _bulletsRemaining--;
-        AudioManager.Instance.PlaySFX(SfxType.PistolFire, audioSource);
         CameraShake.Instance.ShakeAimCamera(cameraShakeIntensity, cameraShakeTime);
+        AudioManager.Instance.PlaySFX(SfxType.PistolFire, audioSource);
         StartCoroutine(CreateMuzzleFlash());
         OnFireComplete?.Invoke(this);
     }

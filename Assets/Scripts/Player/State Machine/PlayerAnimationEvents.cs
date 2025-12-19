@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerAnimationEvents : MonoBehaviour
 {
-    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioSource source;
     
     public delegate void SwingBegin();
     public event SwingBegin OnSwingBegin;
@@ -50,6 +50,11 @@ public class PlayerAnimationEvents : MonoBehaviour
 
     public void PlayFootstepSound()
     {
-        AudioManager.Instance.PlaySFX(SfxType.PlayerFootsteps, audioSource, 0.15f);
+        AudioManager.Instance.PlaySFX(SfxType.PlayerFootsteps, source);
+    }
+
+    public void OnPlayerDeathFall()
+    {
+        AudioManager.Instance.PlaySFX(SfxType.PlayerDeathFall, source);
     }
 }

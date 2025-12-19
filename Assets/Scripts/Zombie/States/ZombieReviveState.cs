@@ -10,6 +10,7 @@ public class ZombieReviveState : ZombieBaseState
 
     public override void EnterState()
     {
+        AudioManager.Instance.PlaySFX(SfxType.ZombieRevive, Context.Source);
         Context.Animator.SetBool(Context.IsDeadHash, false);
         Context.Animator.SetTrigger(Context.InitiateReviveHash);
         Context.Dead = false;
@@ -31,7 +32,6 @@ public class ZombieReviveState : ZombieBaseState
 
     private void SwitchToReturn()
     {
-        Debug.Log("end revive");
         Context.Animator.SetTrigger(Context.EndReviveHash);
         SwitchState(Dictionary.Return());
     } 
