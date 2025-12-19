@@ -5,6 +5,7 @@ public class FuseContainer : FunctionContainer
     [SerializeField] private GameObject fuseGraphics;
     [SerializeField] private GameObject malfunctionParticles;
     [SerializeField] private AudioSource source;
+    [SerializeField] private AudioSource poweredSource;
 
     private ParticleSystem _particles;
 
@@ -18,6 +19,7 @@ public class FuseContainer : FunctionContainer
         {
             fuseGraphics.SetActive(true);
             malfunctionParticles.SetActive(false);
+            AudioManager.Instance.PlaySFX(SfxType.PowerRestored, poweredSource);
         };
         
         _particles = malfunctionParticles.GetComponent<ParticleSystem>();

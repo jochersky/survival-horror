@@ -26,4 +26,6 @@ public enum SfxType
     FlashlightOn,
     FlashlightOff,
     MalfunctioningSpark,
+    GarageDoorOpening,
+    PowerRestored,
 }
