@@ -83,6 +83,7 @@ public class InventoryManager : MonoBehaviour
         ToggleInventory();
         container.ContainerUI.transform.localScale = Vector3.one;
         container.ContainerUI.transform.eulerAngles = Vector3.zero;
+        container.OnContainerAdded();
     }
 
     private void RemoveContainer()
@@ -90,6 +91,7 @@ public class InventoryManager : MonoBehaviour
         if (container)
         {
             container.ContainerUI.transform.SetParent(container.transform);
+            container.OnContainerRemoved();
         }
     }
     

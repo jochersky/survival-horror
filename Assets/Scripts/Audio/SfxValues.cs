@@ -21,4 +21,9 @@ public enum SfxType
     DragItemUnequipped,
     DragWeaponUnloaded,
     ItemPickUp,
+    MetalContainerOpening,
+    MetalContainerClosing,
+    FlashlightOn,
+    FlashlightOff,
+    MalfunctioningSpark,
 }
