@@ -31,7 +31,10 @@ public class Health : MonoBehaviour
         if (hurtboxes.Length > 0)
         {
             foreach (Hurtbox h in hurtboxes)
+            {
+                h.health = this;
                 h.OnDamageTaken += TakeDamage;
+            }
         }
     }
 
@@ -43,6 +46,7 @@ public class Health : MonoBehaviour
 
     public void Heal(float amount)
     {
+        AudioManager.Instance.PlaySFX(SfxType.Heal);
         if (_currentHealth >= maxHealth) return;
         OnHealthChanged?.Invoke(_currentHealth, _currentHealth + amount);
         _currentHealth += amount;

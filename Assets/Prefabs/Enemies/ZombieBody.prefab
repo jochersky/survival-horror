@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Hurtbox
   damageMult: 1
+  health: {fileID: 582305888811304448}
 --- !u!65 &6520223234522223323
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -454,6 +455,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   damageMult: 1
+  health: {fileID: 582305888811304448}
 --- !u!65 &4712745680308418165
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -599,6 +601,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Hurtbox
   damageMult: 1
+  health: {fileID: 582305888811304448}
 --- !u!65 &8321104158313043382
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -666,6 +669,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   damageMult: 3
+  health: {fileID: 582305888811304448}
 --- !u!65 &4624493598572395264
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -733,6 +737,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   damageMult: 1
+  health: {fileID: 582305888811304448}
 --- !u!65 &3030266524265784418
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1035,6 +1040,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Hurtbox
   damageMult: 1
+  health: {fileID: 582305888811304448}
 --- !u!65 &2697023593268855545
 BoxCollider:
   m_ObjectHideFlags: 0

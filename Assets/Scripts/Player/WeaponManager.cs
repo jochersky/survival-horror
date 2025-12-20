@@ -184,6 +184,8 @@ public class WeaponManager : MonoBehaviour
             OnMeleeWeaponEquipped?.Invoke(melee);
             ammoCounterText.gameObject.SetActive(false);
         }
+        
+        AudioManager.Instance.PlaySFX(SfxType.SwitchWeapons);
     }
 
     private void SetTransform(Transform t, Transform weaponTransform, Item item)

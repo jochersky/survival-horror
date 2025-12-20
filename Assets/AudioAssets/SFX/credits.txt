@@ -12,3 +12,5 @@ unloading sounds - https://opengameart.org/content/100-cc0-sfx-2
 electricity zaps - https://www.zapsplat.com/page/2/?s=spark&registration_redirect=1&item_id=48661
 old elevator sound - https://opengameart.org/content/old-elevator-door
 conveyer belt machinery sound - https://opengameart.org/content/jc-sounds-mechanical-pack-vol-1
+swishes - https://opengameart.org/content/swishes-sound-pack
+heal - https://opengameart.org/content/heal

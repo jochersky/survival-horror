@@ -3,6 +3,8 @@ using UnityEngine;
 public class Hurtbox : MonoBehaviour
 {
     [SerializeField] private float damageMult = 1f;
+
+    public Health health;
     
     public delegate void damageTaken(float damageAmt);
     public event damageTaken OnDamageTaken;

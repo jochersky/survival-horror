@@ -30,6 +30,7 @@ public class CameraShake : MonoBehaviour
     private void Start()
     {
         aimCamChannelPerlin = aimCamera.GetComponent<CinemachineBasicMultiChannelPerlin>();
+        regularCamChannelPerlin = regularCamera.GetComponent<CinemachineBasicMultiChannelPerlin>();
     }
 
     void Update()

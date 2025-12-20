@@ -37,6 +37,16 @@ MonoBehaviour:
     - {fileID: 8300000, guid: d97cc95d28054474ea1b686f0e2e5115, type: 3}
     - {fileID: 8300000, guid: c02f2f4745e14b240a22363ac9cae8e7, type: 3}
     - {fileID: 8300000, guid: 6d4e50f71d82b3d4a9e84b362858a40a, type: 3}
+  - name: PlayerHurt
+    volume: 1
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: b69ee9e283ecf3b499d7f4c6f157c3b5, type: 3}
+    - {fileID: 8300000, guid: e598abd10b7012c44aa006de1521175c, type: 3}
+    - {fileID: 8300000, guid: 06c6f303f64ba824b911c7f5cdf8b913, type: 3}
+    - {fileID: 8300000, guid: 6f89777aa1ab6514a9d6123929872e15, type: 3}
+    - {fileID: 8300000, guid: 42c98575d25ba2445a9a10461f9d8f71, type: 3}
+    - {fileID: 8300000, guid: 0918059e4335861499a33af3b4b244f2, type: 3}
   - name: PlayerDeathFall
     volume: 0.6
     mixerGroup: {fileID: 0}
@@ -173,3 +183,39 @@ MonoBehaviour:
     mixerGroup: {fileID: 0}
     sfx:
     - {fileID: 8300000, guid: 3df973c7f8a9eab42a4f64afd52cc2d3, type: 3}
+  - name: WeaponSwing
+    volume: 1
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: 8cedaffb4b43f534cb5074e093d70dee, type: 3}
+    - {fileID: 8300000, guid: f9cf325a34f73554e91253bb9bae833e, type: 3}
+    - {fileID: 8300000, guid: 6a4cd8141ea29f84cbc09ae9bd1f9bb9, type: 3}
+  - name: WeaponThrown
+    volume: 1
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: 4fe556ab9b3b40a478792d4b146fe3f7, type: 3}
+    - {fileID: 8300000, guid: e5ffd43fc2f51d6458844d0a41e635b2, type: 3}
+    - {fileID: 8300000, guid: 8a163c9a1334ff646910badf623879a7, type: 3}
+  - name: BluntHit
+    volume: 1
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: 5b4a1612cdd239a47a2a890c39a6d1f8, type: 3}
+    - {fileID: 8300000, guid: ff0dac670f185b3479a5cdc91b535187, type: 3}
+  - name: SharpHit
+    volume: 1
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: 4f9b3beeecc3acb45bea4f84a339e267, type: 3}
+    - {fileID: 8300000, guid: bc95ab38ef7c4ef44a48d144d6c67930, type: 3}
+  - name: SwitchWeapons
+    volume: 1
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: 0adc33f7bbd3d344c96305291a33d9fc, type: 3}
+  - name: Heal
+    volume: 1
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: 88c126bdd06d27740995271f2e9e7b99, type: 3}

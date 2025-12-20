@@ -4,6 +4,7 @@ public enum SfxType
     PistolHit,
     PistolReload,
     PlayerFootsteps,
+    PlayerHurt,
     PlayerDeathFall,
     DoorUnlock,
     DoorOpen,
@@ -28,4 +29,10 @@ public enum SfxType
     MalfunctioningSpark,
     GarageDoorOpening,
     PowerRestored,
+    WeaponSwing,
+    WeaponThrown,
+    BluntHit,
+    SharpHit,
+    SwitchWeapons,
+    Heal
 }
