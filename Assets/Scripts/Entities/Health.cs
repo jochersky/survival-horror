@@ -18,8 +18,6 @@ public class Health : MonoBehaviour
     public event HealthChanged OnHealthChanged;
     public delegate void Died();
     public event Died OnDeath;
-    public delegate void BackToFull();
-    public event BackToFull OnBackToFull;
 
     private void Awake()
     {
@@ -41,7 +39,6 @@ public class Health : MonoBehaviour
     public void Revive()
     {
         _currentHealth = maxHealth;
-        OnBackToFull?.Invoke();
     }
 
     public void Heal(float amount)

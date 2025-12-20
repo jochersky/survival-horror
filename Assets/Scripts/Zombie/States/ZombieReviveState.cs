@@ -32,6 +32,7 @@ public class ZombieReviveState : ZombieBaseState
 
     private void SwitchToReturn()
     {
+        if (Context.CurrentSubState != this) return;
         Context.Animator.SetTrigger(Context.EndReviveHash);
         SwitchState(Dictionary.Return());
     } 

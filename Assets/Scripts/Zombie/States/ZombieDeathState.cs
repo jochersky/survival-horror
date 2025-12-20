@@ -35,6 +35,7 @@ public class ZombieDeathState : ZombieBaseState {
 
     private void SwitchToRevive()
     {
+        if (Context.CurrentSubState != this) return;
         Context.ReviveReset();
         SwitchState(Dictionary.Revive());
     }

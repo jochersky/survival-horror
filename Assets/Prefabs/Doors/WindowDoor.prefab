@@ -48,9 +48,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Door
   animator: {fileID: 2781903469464288022}
   audioSource: {fileID: 2248865613004828878}
-  openSFX: {fileID: 8300000, guid: a62395ff6674e1f468d7b4075490e7c0, type: 3}
-  closeSFX: {fileID: 8300000, guid: ce770f0d274be2346a013422926e6e71, type: 3}
-  unlockSFX: {fileID: 8300000, guid: 0108b5b3ca7be5c45a6f6a0b93314b7c, type: 3}
   keyName: PostMortemRoomKey
   locked: 0
   inaccessible: 0
@@ -239,6 +236,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 374fdaf02edb7db44b1f04709fa6e803, type: 3}
       propertyPath: m_Name
       value: WindowDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 4423045620967985251, guid: 374fdaf02edb7db44b1f04709fa6e803, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

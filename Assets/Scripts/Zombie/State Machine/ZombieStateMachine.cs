@@ -25,6 +25,7 @@ public class ZombieStateMachine : MonoBehaviour
     
     // State Variables
     private ZombieBaseState _currentState;
+    private ZombieBaseState _currentSubState;
     private ZombieStateDictionary _states;
     
     // variables to store optimized setter/getter parameter IDs
@@ -54,6 +55,7 @@ public class ZombieStateMachine : MonoBehaviour
 
     // Getters and Setters
     public ZombieBaseState CurrentState { get { return _currentState; } set { _currentState = value; } }
+    public ZombieBaseState CurrentSubState { get { return _currentSubState; } set { _currentSubState = value; } }
     public ZombieStateDictionary States { get { return _states; } set { _states = value; } }
     public NavMeshAgent Agent { get { return _agent; } set { _agent = value; } }
     public Animator Animator { get { return animator; } set { animator = value; } }
@@ -115,6 +117,11 @@ public class ZombieStateMachine : MonoBehaviour
         {
             if (_dead) return;
             OnEndRevive?.Invoke();
+        };
+        zombieAnimEvents.OnZombieFall += () =>
+        {
+            if (!_dead) return;
+            AudioManager.Instance.PlaySFX(SfxType.ZombieDeathFall, source);
         };
         
         // Set the parameter hash references

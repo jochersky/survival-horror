@@ -385,8 +385,8 @@ MonoBehaviour:
   zombieSearchTime: 8
   zombieLineOfSightDistance: 50
   attackCooldownTime: 2
-  reviveTimeMin: 0
-  reviveTimeMax: 0
+  reviveTimeMin: 3
+  reviveTimeMax: 3
 --- !u!195 &6138652670198489392
 NavMeshAgent:
   m_ObjectHideFlags: 0

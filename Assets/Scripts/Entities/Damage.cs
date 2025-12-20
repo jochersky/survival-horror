@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class Damage : MonoBehaviour
 {
@@ -26,7 +27,6 @@ public class Damage : MonoBehaviour
         if (deactivateOnDeath)
         {
             health.OnDeath += Deactivate;
-            health.OnBackToFull += Activate;
         }
     }
 
