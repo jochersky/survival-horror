@@ -67,6 +67,7 @@ public class CameraLook : MonoBehaviour
         WeaponManager.Instance.OnWeaponInHandThrown += () => { SwitchCameraState(CameraStates.Regular); };
         
         crosshair.SetActive(false);
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void Update()

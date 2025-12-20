@@ -98,6 +98,7 @@ public class InventoryManager : MonoBehaviour
     private void OnInventory(InputAction.CallbackContext context)
     {
         if (!context.started) return;
+        Cursor.lockState = (Cursor.lockState == CursorLockMode.Locked ?  CursorLockMode.None : CursorLockMode.Locked);
         ToggleInventory();
     }
 
