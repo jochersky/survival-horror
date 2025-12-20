@@ -14,6 +14,7 @@ public class PlayerStateMachine : MonoBehaviour
     [SerializeField] private GameObject playerMesh;
     [SerializeField] private Transform rotatedOrientation;
     [SerializeField] private Health health;
+    [SerializeField] private AudioSource source;
     private CharacterController _characterController;
     private InputActionMap _playerActions;
 
@@ -139,6 +140,7 @@ public class PlayerStateMachine : MonoBehaviour
         
         // connect health events
         health.OnDeath += () => _dead = true;
+        health.OnHealthChanged += HealthUpdated;
         
         // connect player events
         weaponManager.OnMeleeWeaponEquipped += EquipMelee;
@@ -222,5 +224,13 @@ public class PlayerStateMachine : MonoBehaviour
     {
         _meleeWeaponEquipped = true;
         _gunWeaponEquipped = false;
+    }
+
+    private void HealthUpdated(float oldHealth, float newHealth)
+    {
+        if (newHealth < oldHealth)
+        {
+            AudioManager.Instance.PlaySFX(SfxType.PlayerHurt, source);
+        }
     }
 }

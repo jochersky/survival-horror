@@ -8,6 +8,7 @@ public class Melee : Weapon
     [SerializeField] private Item item;
     [SerializeField] private Transform throwPoint;
     [SerializeField] private Damage throwDamage;
+    [SerializeField] private AudioSource throwSource;
     private Camera _cam;
     private LayerMask _mask;
     
@@ -15,6 +16,7 @@ public class Melee : Weapon
     [SerializeField] private float maxThrowDistance = 20f;
     [SerializeField] private float maxThrowForce = 120f;
     [SerializeField] private float spinSpeed = 1f;
+    [SerializeField] private SfxType weaponThrowHitSfx;
     
     private bool _isThrowing;
 
@@ -22,6 +24,15 @@ public class Melee : Weapon
     {
         _cam = Camera.main;
         _mask = LayerMask.GetMask("EnemyHurtbox", "Environment");
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+        throwDamage.OnDamageDone += () =>
+        {
+            AudioManager.Instance.PlaySFX(weaponThrowHitSfx);
+        };
     }
 
     public override void AimAttack()
@@ -44,6 +55,8 @@ public class Melee : Weapon
         Vector3 spinVector = Vector3.back * spinSpeed;
         rb.AddForce(throwVector, ForceMode.Impulse);
         rb.AddRelativeTorque(spinVector, ForceMode.Impulse);
+        
+        AudioManager.Instance.PlaySFX(SfxType.WeaponThrown, throwSource);
         
         throwDamage.Activate();
     }

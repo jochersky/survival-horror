@@ -39,8 +39,12 @@ public class InventoryManager : MonoBehaviour
     private void Awake()
     {
         // ensure only one instance of the inventory manager exists globally
-        if (instance && instance != this) Destroy(this);
-        else instance = this;
+        if (instance && instance != this)
+        {
+            Destroy(this);
+            return;
+        }
+        instance = this;
         
         _playerActions = actions.FindActionMap("PlayerUI");
         
@@ -79,6 +83,7 @@ public class InventoryManager : MonoBehaviour
         ToggleInventory();
         container.ContainerUI.transform.localScale = Vector3.one;
         container.ContainerUI.transform.eulerAngles = Vector3.zero;
+        container.OnContainerAdded();
     }
 
     private void RemoveContainer()
@@ -86,6 +91,7 @@ public class InventoryManager : MonoBehaviour
         if (container)
         {
             container.ContainerUI.transform.SetParent(container.transform);
+            container.OnContainerRemoved();
         }
     }
     

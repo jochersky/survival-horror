@@ -11,6 +11,7 @@ public class ZombieStateMachine : MonoBehaviour
     [SerializeField] private PlayerSensor playerInAttackRangeSensor;
     [SerializeField] private Transform headTransform;
     [SerializeField] private Health health;
+    [SerializeField] private AudioSource source;
     [SerializeField] GameObject player;
     private CharacterController _characterController;
     private NavMeshAgent _agent;
@@ -59,7 +60,8 @@ public class ZombieStateMachine : MonoBehaviour
     public ZombieAnimationEvents ZombieAnimationEvents => zombieAnimEvents;
     public PlayerSensor PlayerSightedSensor => playerSightedSensor;
     public PlayerSensor PlayerInAttackRangeSensor => playerInAttackRangeSensor;
-    
+    public AudioSource Source => source;
+
     public float ZombieSearchTime => zombieSearchTime;
     public float ZombieLineOfSightDistance => zombieLineOfSightDistance;
     
@@ -161,6 +163,7 @@ public class ZombieStateMachine : MonoBehaviour
     private void SetJustDamaged(float oldHealth, float newHealth)
     {
         JustDamaged = true;
+        AudioManager.Instance.PlaySFX(SfxType.ZombieHit, Source);
         DamagedAndPlayerInLineOfSight = JustDamaged && IsPlayerInLineOfSight();
         if (DamagedAndPlayerInLineOfSight)
         {

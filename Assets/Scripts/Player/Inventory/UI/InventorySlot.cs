@@ -69,6 +69,8 @@ public class InventorySlot : MonoBehaviour, IDropHandler
                 droppedItem.inventorySlot = this;
                 ContainerManager.NewItemAddedBetweenFromContainer(item.itemData.itemName);
             }
+            
+            AudioManager.Instance.PlaySFX(SfxType.DragItemInventorySlotDrop);
         }
     }
 

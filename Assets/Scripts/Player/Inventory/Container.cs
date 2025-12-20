@@ -6,11 +6,11 @@ using UnityEngine;
 public class Container : MonoBehaviour, IInteractable
 {
     [SerializeField] private GameObject containerUI;
-    
+
     [SerializeField] private int maxItems = 4;
     [SerializeField] private List<Item> items;
     private GameObject _inventoryUIContainer;
-    
+
     private int _numItems = 0;
 
     public GameObject ContainerUI => containerUI;
@@ -30,6 +30,16 @@ public class Container : MonoBehaviour, IInteractable
     {
         items.Remove(removedItem);
         _numItems--;
+    }
+
+    public virtual void OnContainerAdded()
+    {
+        AudioManager.Instance.PlaySFX(SfxType.MetalContainerOpening);
+    }
+
+    public virtual void OnContainerRemoved()
+    {
+        AudioManager.Instance.PlaySFX(SfxType.MetalContainerClosing);
     }
 
     public void Interact()

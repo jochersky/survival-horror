@@ -42,10 +42,12 @@ public class WeaponSlot : MonoBehaviour, IDropHandler
         item.weaponSlot = this;
         item.inventorySlot = null;
         OnWeaponEquipped?.Invoke(item,this);
+        AudioManager.Instance.PlaySFX(SfxType.DragItemEquipped);
     }
 
     public void UnequipWeaponFromSlot()
     {
         OnWeaponUnequipped?.Invoke(this);
+        AudioManager.Instance.PlaySFX(SfxType.DragItemUnequipped);
     }
 }

@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class ZombieReturnState : ZombieBaseState
 {
+    private float _time = Random.Range(0, 15);
+    private float _groanTimer = 15;
+    
     public ZombieReturnState(ZombieStateMachine currentContext, ZombieStateDictionary zombieStateDictionary)
         : base(currentContext, zombieStateDictionary) { }
 
@@ -40,5 +43,12 @@ public class ZombieReturnState : ZombieBaseState
         
         if (Context.Dead)
             SwitchState(Dictionary.Dead());
+
+        if (_time >= _groanTimer)
+        {
+            AudioManager.Instance.PlaySFX(SfxType.ZombieGroan, Context.Source);
+            _time = 0;
+        }
+        _time += Time.deltaTime;
     }
 }

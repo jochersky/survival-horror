@@ -23,5 +23,7 @@ public class Flashlight : MonoBehaviour
     private void OnFlashlight(InputAction.CallbackContext context)
     {
         gameObject.SetActive(!gameObject.activeInHierarchy);
+        SfxType type = (gameObject.activeInHierarchy ? SfxType.FlashlightOff : SfxType.FlashlightOn);
+        AudioManager.Instance.PlaySFX(type);
     }
 }

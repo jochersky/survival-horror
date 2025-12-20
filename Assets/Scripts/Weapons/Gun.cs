@@ -12,6 +12,8 @@ public class Gun : Weapon
     [SerializeField] private GameObject bloodDecal;
     [SerializeField] private TrailRenderer bulletTrail;
     [SerializeField] private GameObject muzzleFlash;
+    [SerializeField] private AudioSource audioSource;
+    
     // must be assigned when the prefab has already been instanced
     private Camera _cam;
     private InputActionMap _playerActions;
@@ -26,7 +28,7 @@ public class Gun : Weapon
     [SerializeField] private float muzzleFlashTime = 0.15f;
     [SerializeField] private float cameraShakeIntensity = 1f;
     [SerializeField] private float cameraShakeTime = 0.15f;
-    
+
     // input actions
     private InputAction m_ReloadAction;
 
@@ -116,22 +118,26 @@ public class Gun : Weapon
                 Vector3 curRot = decal.transform.rotation.eulerAngles;
                 decal.transform.eulerAngles = new Vector3(curRot.x, curRot.y, Random.Range(0, 360));
                 hurtbox.TakeDamage(damage);
+                AudioManager.Instance.PlaySFX(SfxType.PistolHit, audioSource);
             }
             else
             {
                 // bullet hole decal
                 Instantiate(bulletHoleDecal, pos, Quaternion.LookRotation(hit.normal), hit.transform);
+                AudioManager.Instance.PlaySFX(SfxType.PistolFire, audioSource);
             }
         }
         else
         {
             TrailRenderer trail = Instantiate(bulletTrail, projectileSpawners[0].position, Quaternion.identity);
             StartCoroutine(SpawnTrail(trail, firingDirection * maxBulletDistance));
+            AudioManager.Instance.PlaySFX(SfxType.PistolFire, audioSource);
         }
         
         _isFiring = false;
         _bulletsRemaining--;
         CameraShake.Instance.ShakeAimCamera(cameraShakeIntensity, cameraShakeTime);
+        AudioManager.Instance.PlaySFX(SfxType.PistolFire, audioSource);
         StartCoroutine(CreateMuzzleFlash());
         OnFireComplete?.Invoke(this);
     }
@@ -144,6 +150,7 @@ public class Gun : Weapon
         
         // request a reload from player state machine
         OnRequestReload?.Invoke();
+        AudioManager.Instance.PlaySFX(SfxType.PistolReload, audioSource);
     }
     
     public void ReloadGun()
@@ -152,6 +159,7 @@ public class Gun : Weapon
         if (amt == 0) return;
         _isReloading = false;
         _bulletsRemaining = amt;
+        
         OnReloadComplete?.Invoke(this);
     }
 

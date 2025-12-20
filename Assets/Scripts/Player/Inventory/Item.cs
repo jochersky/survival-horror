@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Item : MonoBehaviour, IInteractable
 {
@@ -34,6 +35,7 @@ public class Item : MonoBehaviour, IInteractable
         bool foundSpot = InventoryManager.instance.playerInventoryContainerManager.FindSpaceForItem(draggableItemPrefab, count, AmmoCount);
         if (foundSpot)
         {
+            AudioManager.Instance.PlaySFX(SfxType.ItemPickUp, null, 1, Random.Range(0.75f, 1.25f));
             Destroy(transform.parent.gameObject);
         }
         else

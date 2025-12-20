@@ -1,0 +1,221 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3aea30e8a141a344a9a7fc388c4cc872, type: 3}
+  m_Name: SfxCollection
+  m_EditorClassIdentifier: Assembly-CSharp::SfxSO
+  sfx:
+  - name: PistolFire
+    volume: 0.3
+    mixerGroup: {fileID: 640017167904713926, guid: 4caad7de7322ccc44b6a12e5c7596bcd, type: 2}
+    sfx:
+    - {fileID: 8300000, guid: 2e5c64df069827447b0cd7c7b71f5a2d, type: 3}
+    - {fileID: 8300000, guid: 89a6b50c687ee7f418f45221faf81b23, type: 3}
+    - {fileID: 8300000, guid: eb47a6541b5b2ae4ca1c765b10bd2b58, type: 3}
+  - name: PistolHit
+    volume: 1
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: c4ac9290faddbdc468a8d842f372644a, type: 3}
+  - name: PistolReload
+    volume: 0.3
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: 1b41f0aba0666904bad31ca1d9ebf6a8, type: 3}
+  - name: PlayerFootsteps
+    volume: 0.744
+    mixerGroup: {fileID: 640017167904713926, guid: 4caad7de7322ccc44b6a12e5c7596bcd, type: 2}
+    sfx:
+    - {fileID: 8300000, guid: d97cc95d28054474ea1b686f0e2e5115, type: 3}
+    - {fileID: 8300000, guid: c02f2f4745e14b240a22363ac9cae8e7, type: 3}
+    - {fileID: 8300000, guid: 6d4e50f71d82b3d4a9e84b362858a40a, type: 3}
+  - name: PlayerHurt
+    volume: 1
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: b69ee9e283ecf3b499d7f4c6f157c3b5, type: 3}
+    - {fileID: 8300000, guid: e598abd10b7012c44aa006de1521175c, type: 3}
+    - {fileID: 8300000, guid: 06c6f303f64ba824b911c7f5cdf8b913, type: 3}
+    - {fileID: 8300000, guid: 6f89777aa1ab6514a9d6123929872e15, type: 3}
+    - {fileID: 8300000, guid: 42c98575d25ba2445a9a10461f9d8f71, type: 3}
+    - {fileID: 8300000, guid: 0918059e4335861499a33af3b4b244f2, type: 3}
+  - name: PlayerDeathFall
+    volume: 0.6
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: 8c3938d09c5cd2d4d8679e63dc4365fa, type: 3}
+  - name: DoorUnlock
+    volume: 1
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: 0108b5b3ca7be5c45a6f6a0b93314b7c, type: 3}
+  - name: DoorOpen
+    volume: 1
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: ce770f0d274be2346a013422926e6e71, type: 3}
+  - name: DoorClose
+    volume: 1
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: c615059edba08ce4ab6f023980309f0d, type: 3}
+  - name: ZombieGroan
+    volume: 0.5
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: c4151f1db4499f9408faace42648497b, type: 3}
+    - {fileID: 8300000, guid: 3d847c8947cb4314d93e1cef9a1d2341, type: 3}
+    - {fileID: 8300000, guid: 68a90f659bec5894ca5c13a1c365cb8a, type: 3}
+    - {fileID: 8300000, guid: 8bdb1f2efed08c04d8f0788c198d36e1, type: 3}
+    - {fileID: 8300000, guid: e0f9d674ed947034b851e33d895b3c75, type: 3}
+    - {fileID: 8300000, guid: 3861dce0ba3f6854e968fb4609ac8699, type: 3}
+  - name: ZombieAggro
+    volume: 0
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: c5bb756241e1b1749b561bcd06ededb0, type: 3}
+    - {fileID: 8300000, guid: 45fa6bb86d8170a4daac38f67a12baea, type: 3}
+    - {fileID: 8300000, guid: c57ed3aae6fe06c47b15c0a2d75de357, type: 3}
+  - name: ZombieAttack
+    volume: 1
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: 69cc5f6dd2c0ebb409f882986354b5d7, type: 3}
+    - {fileID: 8300000, guid: 3f92303ab4470854493c431459baa056, type: 3}
+    - {fileID: 8300000, guid: c910755cbebd57d4c8f3852c198dd937, type: 3}
+    - {fileID: 8300000, guid: 785c2b289682932409035abe8b3cb2c1, type: 3}
+  - name: ZombieHit
+    volume: 1
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: 549a23286806a204e948d4915883fd54, type: 3}
+    - {fileID: 8300000, guid: d84cdf5602f17be4d98fd7506ec22b8a, type: 3}
+    - {fileID: 8300000, guid: 1632280a324fa6045a48e1b53192b964, type: 3}
+  - name: ZombieDeathFall
+    volume: 0.6
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: 8c3938d09c5cd2d4d8679e63dc4365fa, type: 3}
+  - name: ZombieRevive
+    volume: 1
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: ef698864e3d491243ad90d6516fc29fc, type: 3}
+    - {fileID: 8300000, guid: c26fa402feea6f347bc7174e78f3b718, type: 3}
+  - name: DragItemOnDrag
+    volume: 1
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: 326b65603d65c8a44a01af9653addb72, type: 3}
+  - name: DragItemInventorySlotDrop
+    volume: 1
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: bd4324d55311bcf4492a31346a448011, type: 3}
+  - name: DragItemDropped
+    volume: 1
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: 23bfc9b5962c1374da21876daf76a530, type: 3}
+  - name: DragItemEquipped
+    volume: 1
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: b33c2c132a089d1468dcf3c88bf73133, type: 3}
+  - name: DragItemUnequipped
+    volume: 1
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: b6f7208a3c48f0c46ab0e630e1aaab7a, type: 3}
+  - name: DragWeaponUnloaded
+    volume: 1
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: 26bd6fe078af01446a216846ed1b41e1, type: 3}
+    - {fileID: 8300000, guid: 2341941571e17ff44ba1424f2d3d4b8a, type: 3}
+  - name: ItemPickUp
+    volume: 1
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: ac5b074be25f34546ac6eb9d91e19d8b, type: 3}
+    - {fileID: 8300000, guid: 241a59cd370f125429479f2490400bac, type: 3}
+  - name: MetalContainerOpening
+    volume: 1
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: ebfd00e23a22cf147a9a8e2cc1a6f9e6, type: 3}
+  - name: MetalContainerClosing
+    volume: 1
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: 44d429e1e55d9524fbc7fca22b4fe5e6, type: 3}
+  - name: FlashlightOn
+    volume: 1
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: 50e29d7688d6d1748a5580e940904294, type: 3}
+  - name: FlashlightOff
+    volume: 1
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: ef9b49309c053f644becf4e2b0c7cda8, type: 3}
+  - name: MalfunctioningSpark
+    volume: 1
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: ec5814dee49d8864e99c5b0560d2d739, type: 3}
+    - {fileID: 8300000, guid: da3de0b9e594a134ca0c629c00cce5b1, type: 3}
+  - name: GarageDoorOpening
+    volume: 1
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: 5c3ccec3bdb02fb4482a2c180306c0d5, type: 3}
+  - name: PowerRestored
+    volume: 1
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: 3df973c7f8a9eab42a4f64afd52cc2d3, type: 3}
+  - name: WeaponSwing
+    volume: 1
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: 8cedaffb4b43f534cb5074e093d70dee, type: 3}
+    - {fileID: 8300000, guid: f9cf325a34f73554e91253bb9bae833e, type: 3}
+    - {fileID: 8300000, guid: 6a4cd8141ea29f84cbc09ae9bd1f9bb9, type: 3}
+  - name: WeaponThrown
+    volume: 1
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: 4fe556ab9b3b40a478792d4b146fe3f7, type: 3}
+    - {fileID: 8300000, guid: e5ffd43fc2f51d6458844d0a41e635b2, type: 3}
+    - {fileID: 8300000, guid: 8a163c9a1334ff646910badf623879a7, type: 3}
+  - name: BluntHit
+    volume: 1
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: 5b4a1612cdd239a47a2a890c39a6d1f8, type: 3}
+    - {fileID: 8300000, guid: ff0dac670f185b3479a5cdc91b535187, type: 3}
+  - name: SharpHit
+    volume: 1
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: 4f9b3beeecc3acb45bea4f84a339e267, type: 3}
+    - {fileID: 8300000, guid: bc95ab38ef7c4ef44a48d144d6c67930, type: 3}
+  - name: SwitchWeapons
+    volume: 1
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: 0adc33f7bbd3d344c96305291a33d9fc, type: 3}
+  - name: Heal
+    volume: 1
+    mixerGroup: {fileID: 0}
+    sfx:
+    - {fileID: 8300000, guid: 88c126bdd06d27740995271f2e9e7b99, type: 3}
