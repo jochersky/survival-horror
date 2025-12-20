@@ -16,10 +16,6 @@ public class PlayerSwingState : PlayerBaseState
         _swingEnded = false;
         Context.Animator.SetTrigger(Context.StartSwingHash);
         
-        // turn player in direction of cam
-        Context.Player.transform.forward = Context.Orientation.transform.forward;
-        Context.Orientation.transform.forward = Context.Player.transform.forward;
-        
         // TODO: Add forward charge when animation steps forward
         Context.MoveVelocity = Vector3.zero; // leave this line here in enter
     }
