@@ -36,6 +36,7 @@ public class PlayerThrowState : PlayerBaseState
 
     private void ThrowEnded()
     {
+        if (Context.CurrentSubState != this) return;
         _throwEnded = true;
         Context.Animator.SetTrigger(Context.EndThrowHash);
     }

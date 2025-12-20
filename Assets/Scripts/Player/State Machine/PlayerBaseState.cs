@@ -42,6 +42,7 @@ public abstract class PlayerBaseState
     else if (_currentSuperState != null)
     {
       _currentSuperState.SetSubState(newState);
+      _context.CurrentSubState = newState;
     }
   }
 

@@ -44,6 +44,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     // State Variables
     private PlayerBaseState _currentState;
+    private PlayerBaseState _currentSubState;
     private PlayerStateDictionary _states;
     
     // input actions
@@ -72,6 +73,7 @@ public class PlayerStateMachine : MonoBehaviour
     public PlayerAnimationEvents PlayerAnimationEvents => playerAnimEvents;
     public CharacterController CharacterController { get { return _characterController; } } 
     public PlayerBaseState CurrentState { get { return _currentState; } set { _currentState = value; } }
+    public PlayerBaseState CurrentSubState { get { return _currentSubState; } set { _currentSubState = value; } }
     public PlayerStateDictionary States { get { return _states; } set { _states = value; } }
     public float MoveAccel => moveAccel;
     public float MaxMoveSpeed => maxMoveSpeed;

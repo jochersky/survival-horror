@@ -43,6 +43,7 @@ public class PlayerSwingState : PlayerBaseState
 
     private void SwingEnded()
     {
+        if (Context.CurrentSubState != this) return;
         _swingEnded = true;
         Context.Animator.SetTrigger(Context.EndSwingHash);
     }
