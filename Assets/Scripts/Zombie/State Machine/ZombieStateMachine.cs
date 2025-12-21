@@ -148,6 +148,7 @@ public class ZombieStateMachine : MonoBehaviour
 
     private void PlayerSpotted(Transform enteredPlayerTransform)
     {
+        if (!IsPlayerInLineOfSight()) return;
         PlayerTransform = enteredPlayerTransform;
     }
 
@@ -181,7 +182,7 @@ public class ZombieStateMachine : MonoBehaviour
     
     private bool IsPlayerInLineOfSight()
     {
-        Vector3 dir = (player.transform.position + Vector3.up * 0.5f - headTransform.position).normalized;
+        Vector3 dir = (player.transform.position + (Vector3.up * 0.5f) - headTransform.position).normalized;
         if (Physics.Raycast(headTransform.position, dir, out RaycastHit hit, ZombieLineOfSightDistance, _mask))
         {
             return hit.collider.TryGetComponent<Hurtbox>(out Hurtbox hurtbox);

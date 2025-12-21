@@ -148,8 +148,7 @@ public class DraggableItem : MonoBehaviour, IPointerClickHandler, IBeginDragHand
                 new Vector2(inventorySlot.X, inventorySlot.Y),
                 itemData.gridItemDimensions,
                 itemData.itemName);
-            bool b = containerManager.SetItem(inventorySlot.X, inventorySlot.Y, item);
-            if (!b)
+            if (!containerManager.SetItem(inventorySlot.X, inventorySlot.Y, item))
             {
                 parentAfterDrag = _prevParent;
                 inventorySlot = _prevSlot;
