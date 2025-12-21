@@ -11,7 +11,9 @@ public class ZombieChaseState : ZombieBaseState
 
     public override void EnterState()
     {
-        // Context.StopAllCoroutines();
+        // stop searching coroutine if aggroed when searching
+        Context.StopAllCoroutines();
+        
         AudioManager.Instance.PlaySFX(SfxType.ZombieAggro, Context.Source);
         Context.SignalAggroChange(true);
         Context.IsLookingAround = false;
@@ -19,7 +21,9 @@ public class ZombieChaseState : ZombieBaseState
         Context.Animator.SetBool(Context.IsChasingHash, true);
         Context.Animator.SetBool(Context.IsSearchingHash, false);
         Context.Animator.SetBool(Context.IsReturningHash, false);
-        Context.Animator.Update(0);
+        // Context.Animator.Update(0);
+        
+        Context.Animator.CrossFade(Context.WalkHash, 0, 0);
         
         if (Context.PlayerTransform) 
             Context.Agent.SetDestination(Context.PlayerTransform.position);

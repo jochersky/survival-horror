@@ -39,11 +39,15 @@ public class ZombieStateMachine : MonoBehaviour
     private int _initiateReviveHash;
     private int _endReviveHash;
     
+    // state hash
+    private int _walkHash;
+    
     // State transition variables
     private bool _playerLineOfSight;
     private Vector3 _startingPosition;
     private Transform _playerTransform;
     private Vector3 _lastSeenPlayerPosition;
+    private bool _playerInSpottableRange;
     private bool _playerInAttackRange;
     private bool _canAttack = true;
     private bool _isLookingAround;
@@ -88,6 +92,7 @@ public class ZombieStateMachine : MonoBehaviour
     public int IsDeadHash => _isDeadHash;
     public int InitiateReviveHash => _initiateReviveHash;
     public int EndReviveHash => _endReviveHash;
+    public int WalkHash => _walkHash;
 
     public delegate void StartRevive();
     public event StartRevive OnStartRevive;
@@ -135,6 +140,9 @@ public class ZombieStateMachine : MonoBehaviour
         _initiateReviveHash = Animator.StringToHash("initiateRevive");
         _endReviveHash = Animator.StringToHash("endRevive");
         
+        // Set the state hash references
+        _walkHash = Animator.StringToHash("Walk");
+        
         // State machine + initial state setup
         _states = new ZombieStateDictionary(this);
         _currentState = _states.Grounded();
@@ -144,16 +152,22 @@ public class ZombieStateMachine : MonoBehaviour
     private void Update()
     {
         _currentState.UpdateStates();
+
+        if (_playerInSpottableRange)
+        {
+            if (!IsPlayerInLineOfSight()) return;
+            PlayerTransform = player.transform;
+        }
     }
 
     private void PlayerSpotted(Transform enteredPlayerTransform)
     {
-        if (!IsPlayerInLineOfSight()) return;
-        PlayerTransform = enteredPlayerTransform;
+        _playerInSpottableRange = true;
     }
 
     private void PlayerLost(Vector3 position)
     {
+        _playerInSpottableRange = false;
         PlayerTransform = null;
         LastSeenPlayerPosition = position;
     }

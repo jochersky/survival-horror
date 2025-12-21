@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class FlickeringLight : Toggleable
 {   
-    [SerializeField] private Light light;
+    [SerializeField] private Light lightObject;
 
     [Header("Flicker Properties")]
     [SerializeField] private float timeUntilFlicker = 0.5f;
@@ -24,13 +24,13 @@ public class FlickeringLight : Toggleable
     {
         if (_timeSinceFlicker >= flickerDuration)
         {
-            light.enabled = true;
+            lightObject.enabled = true;
         }
         
         if (_timeSinceFlicker >= timeUntilFlicker)
         {
             _timeSinceFlicker = 0;
-            light.enabled = false;
+            lightObject.enabled = false;
         }
         
         _timeSinceFlicker += Time.deltaTime;
