@@ -16,7 +16,7 @@ public class Grid<TGridObject>
     private float _cellSize;
     private Vector3 _origin;
 
-    private bool debug = false;
+    private bool debug = true;
     
     public int Width => _width;
     public int Height => _height;
