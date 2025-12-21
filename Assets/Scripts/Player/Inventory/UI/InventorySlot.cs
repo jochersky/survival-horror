@@ -57,18 +57,24 @@ public class InventorySlot : MonoBehaviour, IDropHandler
                         droppedItem.Count -= amtAdded;
                     }
                 }
-                // TODO: add item swapping between items of the same size but different names
-                // droppedItem.containerManager = ContainerManager; make sure to reassign container manager
+                else
+                {
+                    // TODO: add item swapping between items of the same size but different names
+                    // droppedItem.containerManager = ContainerManager; make sure to reassign container manager
+                }
             }
             // nothing in this slot, assign item to this inventory slot
             else
             {
                 item = droppedItem;
-                droppedItem.parentAfterDrag = transform;
-                droppedItem.containerManager = ContainerManager;
-                droppedItem.inventorySlot = this;
-                ContainerManager.NewItemAddedBetweenFromContainer(item.itemData.itemName);
+                item.parentAfterDrag = transform;
+                item.containerManager = ContainerManager;
+                item.inventorySlot = this;
+                ContainerManager.NewItemAddedFromContainer(item.itemData.itemName);
             }
+            
+            // update items that have a count when added
+            ContainerManager.UpdateItemWithName(item.itemData.itemName);
             
             AudioManager.Instance.PlaySFX(SfxType.DragItemInventorySlotDrop);
         }

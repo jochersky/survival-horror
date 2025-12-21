@@ -22,13 +22,6 @@ public class Item : MonoBehaviour, IInteractable
     public int Count { get { return count; } set { count = value; } }
     public int  AmmoCount { get { return ammoCount; } set { ammoCount = value; } }
 
-    public void ChangeContainer(Container newContainer)
-    {
-        if (_container) _container.RemoveItem(this);
-        _container = newContainer;
-        _container.AddItem(this);
-    }
-
     public void Interact()
     {
         // Find a spot to put the item into the inventory

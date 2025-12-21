@@ -93,6 +93,7 @@ public class InventoryManager : MonoBehaviour
         {
             container.ContainerUI.transform.SetParent(container.transform);
             container.OnContainerRemoved();
+            container = null;
             Cursor.lockState = CursorLockMode.Locked;
         }
     }
