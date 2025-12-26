@@ -21,8 +21,6 @@ public class Gun : Weapon
     [Header("Gun Properties")] 
     [SerializeField] private float damage = 35f;
     [SerializeField] private int maxMagazineSize = 8;
-    [SerializeField] private float reloadTime = 2f;
-    [SerializeField] private float fireRate = 0.25f;
     [SerializeField] private float maxBulletDistance = 100f;
     [SerializeField] private float bulletSpeed = 100f;
     [SerializeField] private float muzzleFlashTime = 0.15f;

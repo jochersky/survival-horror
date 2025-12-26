@@ -43,6 +43,7 @@ public class WeaponManager : MonoBehaviour
     
     // input actions
     private InputAction _mSwitchWeapon;
+    private InputAction _mMouseWheel;
     private InputAction _mAimAction;
     private InputAction _mAttackAction;
     
@@ -67,6 +68,8 @@ public class WeaponManager : MonoBehaviour
         // assign input action callbacks
         _mSwitchWeapon = _playerActions.FindAction("SwitchWeapon");
         _mSwitchWeapon.started += SwitchWeapon;
+        _mMouseWheel = _playerActions.FindAction("MouseWheel");
+        _mMouseWheel.started += OnMouseWheel;
         _mAimAction = _playerActions.FindAction("Aim");
         _mAimAction.started += OnAim;
         _mAimAction.canceled += OnAim;
@@ -118,6 +121,16 @@ public class WeaponManager : MonoBehaviour
 
     private void SwitchWeapon(InputAction.CallbackContext context)
     {   
+        ChooseWeaponToSwitchTo();
+    }
+
+    private void OnMouseWheel(InputAction.CallbackContext context)
+    {
+        ChooseWeaponToSwitchTo();
+    }
+
+    private void ChooseWeaponToSwitchTo()
+    {
         if (weaponInHand == _primaryWeapon && _secondaryWeapon) 
             SwitchWeapon(_secondaryWeapon);
         else if (weaponInHand == _secondaryWeapon && _primaryWeapon) 

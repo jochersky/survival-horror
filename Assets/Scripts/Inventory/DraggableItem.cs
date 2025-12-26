@@ -88,7 +88,7 @@ public class DraggableItem : MonoBehaviour, IPointerClickHandler, IBeginDragHand
         if (_countLabel) _countLabel.text = count.ToString();
         if (ammoCountText) ammoCountText.text = ammoCount.ToString();
     }
-    
+
     public void OnPointerClick(PointerEventData eventData)
     {
         if (eventData.button == PointerEventData.InputButton.Left) return;
@@ -111,6 +111,7 @@ public class DraggableItem : MonoBehaviour, IPointerClickHandler, IBeginDragHand
         
         if (inventorySlot)
         {
+            inventorySlot.item = null;
             RemoveItemFromGrid();
         }
 
@@ -139,7 +140,7 @@ public class DraggableItem : MonoBehaviour, IPointerClickHandler, IBeginDragHand
         // InventorySlot.OnDrop runs first
         // - inventorySlot is set by the InventorySlot this is dropped on
         // - containerManager is set by the InventorySlot this is dropped on
-
+        
         if (inventorySlot)
         {
             GridItem item = new GridItem(
@@ -203,7 +204,7 @@ public class DraggableItem : MonoBehaviour, IPointerClickHandler, IBeginDragHand
         if (!itemPrefab) return;
         
         InventoryManager.instance.SpawnItem(itemPrefab, Count, AmmoCount);
-        Count = 0;
+        // if (Count > 0) Count = 0;
         containerManager.UpdateItemWithName(itemData.itemName);
 
         if (inventorySlot)
@@ -214,7 +215,7 @@ public class DraggableItem : MonoBehaviour, IPointerClickHandler, IBeginDragHand
         {
             weaponSlot.UnequipWeaponFromSlot();
         }
-
+        
         Destroy(this.gameObject);
     }
 

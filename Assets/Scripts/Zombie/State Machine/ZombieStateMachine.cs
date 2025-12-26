@@ -25,6 +25,7 @@ public class ZombieStateMachine : MonoBehaviour
     
     // State Variables
     private ZombieBaseState _currentState;
+    private ZombieBaseState _currentSubState;
     private ZombieStateDictionary _states;
     
     // variables to store optimized setter/getter parameter IDs
@@ -38,11 +39,15 @@ public class ZombieStateMachine : MonoBehaviour
     private int _initiateReviveHash;
     private int _endReviveHash;
     
+    // state hash
+    private int _walkHash;
+    
     // State transition variables
     private bool _playerLineOfSight;
     private Vector3 _startingPosition;
     private Transform _playerTransform;
     private Vector3 _lastSeenPlayerPosition;
+    private bool _playerInSpottableRange;
     private bool _playerInAttackRange;
     private bool _canAttack = true;
     private bool _isLookingAround;
@@ -54,6 +59,7 @@ public class ZombieStateMachine : MonoBehaviour
 
     // Getters and Setters
     public ZombieBaseState CurrentState { get { return _currentState; } set { _currentState = value; } }
+    public ZombieBaseState CurrentSubState { get { return _currentSubState; } set { _currentSubState = value; } }
     public ZombieStateDictionary States { get { return _states; } set { _states = value; } }
     public NavMeshAgent Agent { get { return _agent; } set { _agent = value; } }
     public Animator Animator { get { return animator; } set { animator = value; } }
@@ -86,6 +92,7 @@ public class ZombieStateMachine : MonoBehaviour
     public int IsDeadHash => _isDeadHash;
     public int InitiateReviveHash => _initiateReviveHash;
     public int EndReviveHash => _endReviveHash;
+    public int WalkHash => _walkHash;
 
     public delegate void StartRevive();
     public event StartRevive OnStartRevive;
@@ -116,6 +123,11 @@ public class ZombieStateMachine : MonoBehaviour
             if (_dead) return;
             OnEndRevive?.Invoke();
         };
+        zombieAnimEvents.OnZombieFall += () =>
+        {
+            if (!_dead) return;
+            AudioManager.Instance.PlaySFX(SfxType.ZombieDeathFall, source);
+        };
         
         // Set the parameter hash references
         _isChasingHash = Animator.StringToHash("isChasing");
@@ -128,6 +140,9 @@ public class ZombieStateMachine : MonoBehaviour
         _initiateReviveHash = Animator.StringToHash("initiateRevive");
         _endReviveHash = Animator.StringToHash("endRevive");
         
+        // Set the state hash references
+        _walkHash = Animator.StringToHash("Walk");
+        
         // State machine + initial state setup
         _states = new ZombieStateDictionary(this);
         _currentState = _states.Grounded();
@@ -137,15 +152,22 @@ public class ZombieStateMachine : MonoBehaviour
     private void Update()
     {
         _currentState.UpdateStates();
+
+        if (_playerInSpottableRange)
+        {
+            if (!IsPlayerInLineOfSight()) return;
+            PlayerTransform = player.transform;
+        }
     }
 
     private void PlayerSpotted(Transform enteredPlayerTransform)
     {
-        PlayerTransform = enteredPlayerTransform;
+        _playerInSpottableRange = true;
     }
 
     private void PlayerLost(Vector3 position)
     {
+        _playerInSpottableRange = false;
         PlayerTransform = null;
         LastSeenPlayerPosition = position;
     }
@@ -174,7 +196,7 @@ public class ZombieStateMachine : MonoBehaviour
     
     private bool IsPlayerInLineOfSight()
     {
-        Vector3 dir = (player.transform.position + Vector3.up * 0.5f - headTransform.position).normalized;
+        Vector3 dir = (player.transform.position + (Vector3.up * 0.5f) - headTransform.position).normalized;
         if (Physics.Raycast(headTransform.position, dir, out RaycastHit hit, ZombieLineOfSightDistance, _mask))
         {
             return hit.collider.TryGetComponent<Hurtbox>(out Hurtbox hurtbox);

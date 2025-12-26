@@ -311,7 +311,7 @@ public class ContainerManager : MonoBehaviour
         OnStackableItemCountsUpdated?.Invoke(itemName);
     }
 
-    public void NewItemAddedBetweenFromContainer(string itemName)
+    public void NewItemAddedFromContainer(string itemName)
     {
         OnNewItemAdded?.Invoke(itemName);
     }

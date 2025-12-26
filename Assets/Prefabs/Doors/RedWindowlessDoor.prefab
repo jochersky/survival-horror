@@ -48,9 +48,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Door
   animator: {fileID: 1988916597495739467}
   audioSource: {fileID: 4157247417001647802}
-  openSFX: {fileID: 8300000, guid: ce770f0d274be2346a013422926e6e71, type: 3}
-  closeSFX: {fileID: 8300000, guid: a62395ff6674e1f468d7b4075490e7c0, type: 3}
-  unlockSFX: {fileID: 8300000, guid: 0108b5b3ca7be5c45a6f6a0b93314b7c, type: 3}
   keyName: 
   locked: 0
   inaccessible: 0
@@ -240,6 +237,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RedWindowlessDoor
       objectReference: {fileID: 0}
+    - target: {fileID: 4423045620967985251, guid: eac0460fc3671924b928c6bb2187b47a, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: eac0460fc3671924b928c6bb2187b47a, type: 3}
       propertyPath: m_Controller
       value: 
@@ -254,7 +255,13 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2647898422681595148, guid: eac0460fc3671924b928c6bb2187b47a, type: 3}
       insertIndex: 0
       addedObject: {fileID: 7987984246363501274}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4423045620967985251, guid: eac0460fc3671924b928c6bb2187b47a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8875710473599837013}
+    - targetCorrespondingSourceObject: {fileID: 4423045620967985251, guid: eac0460fc3671924b928c6bb2187b47a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2441722275916494955}
   m_SourcePrefab: {fileID: 100100000, guid: eac0460fc3671924b928c6bb2187b47a, type: 3}
 --- !u!95 &1988916597495739467 stripped
 Animator:
@@ -266,3 +273,45 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2647898422681595148, guid: eac0460fc3671924b928c6bb2187b47a, type: 3}
   m_PrefabInstance: {fileID: 5399983845273242074}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8615746987850521017 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4423045620967985251, guid: eac0460fc3671924b928c6bb2187b47a, type: 3}
+  m_PrefabInstance: {fileID: 5399983845273242074}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &8875710473599837013
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8615746987850521017}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 4104
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.15, y: 2.1, z: 0.92499995}
+  m_Center: {x: 0, y: 1.05, z: 0.4375}
+--- !u!208 &2441722275916494955
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8615746987850521017}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.075, y: 1.0500001, z: 0.462}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 1.0500001, z: 0.437}
+  m_TimeToStationary: 0.5

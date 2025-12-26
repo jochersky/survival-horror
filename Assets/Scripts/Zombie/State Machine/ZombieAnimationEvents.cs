@@ -10,6 +10,9 @@ public class ZombieAnimationEvents : MonoBehaviour
     public delegate void ReviveFinished();
     public event ReviveFinished OnReviveFinished;
 
+    public delegate void ZombieFall();
+    public event ZombieFall OnZombieFall;
+
     public void RightSwingAttackStarted()
     {
         AudioManager.Instance.PlaySFX(SfxType.ZombieAttack, source);
@@ -32,7 +35,7 @@ public class ZombieAnimationEvents : MonoBehaviour
 
     public void OnZombieDeathFall()
     {
-        AudioManager.Instance.PlaySFX(SfxType.ZombieDeathFall);
+        OnZombieFall?.Invoke();
     }
 
     public void OnReviveEnd()
