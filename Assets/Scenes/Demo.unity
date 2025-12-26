@@ -4722,7 +4722,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   active: 0
-  lightObject: {fileID: 0}
   timeUntilFlicker: 0.5
   flickerDuration: 0.1
   flickerOffset: 0
@@ -25219,7 +25218,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   active: 0
-  lightObject: {fileID: 0}
   timeUntilFlicker: 1
   flickerDuration: 0.1
   flickerOffset: 0
@@ -43240,7 +43238,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FlickeringLight
   active: 0
-  lightObject: {fileID: 0}
   timeUntilFlicker: 0.7
   flickerDuration: 0.1
   flickerOffset: 0
@@ -44399,7 +44396,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FlickeringLight
   active: 0
-  lightObject: {fileID: 0}
   timeUntilFlicker: 0.8
   flickerDuration: 0.05
   flickerOffset: 0.3
@@ -44565,7 +44561,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   active: 0
-  lightObject: {fileID: 0}
   timeUntilFlicker: 0.8
   flickerDuration: 0.1
   flickerOffset: 0
@@ -47309,7 +47304,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FlickeringLight
   active: 0
-  lightObject: {fileID: 0}
   timeUntilFlicker: 0.2
   flickerDuration: 0.05
   flickerOffset: 0
@@ -47473,7 +47467,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   active: 0
-  lightObject: {fileID: 0}
   timeUntilFlicker: 2
   flickerDuration: 0.2
   flickerOffset: 0
@@ -52656,7 +52649,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   active: 0
-  lightObject: {fileID: 0}
   timeUntilFlicker: 0.8
   flickerDuration: 0.1
   flickerOffset: 0.15
@@ -56753,19 +56745,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1951970921088643941, guid: c917c8038112244469e94b04b1831d14, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.09943456
+      value: 0.09936515
       objectReference: {fileID: 0}
     - target: {fileID: 1951970921088643941, guid: c917c8038112244469e94b04b1831d14, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.00089416234
+      value: 0.0008929188
       objectReference: {fileID: 0}
     - target: {fileID: 1951970921088643941, guid: c917c8038112244469e94b04b1831d14, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.9950035
+      value: 0.9950105
       objectReference: {fileID: 0}
     - target: {fileID: 1951970921088643941, guid: c917c8038112244469e94b04b1831d14, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.008947538
+      value: -0.0089414
       objectReference: {fileID: 0}
     - target: {fileID: 3010948640618404462, guid: c917c8038112244469e94b04b1831d14, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -56817,31 +56809,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4904465210360465968, guid: c917c8038112244469e94b04b1831d14, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -14.611753
+      value: -14.838446
       objectReference: {fileID: 0}
     - target: {fileID: 4904465210360465968, guid: c917c8038112244469e94b04b1831d14, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.44752014
+      value: 0.4681241
       objectReference: {fileID: 0}
     - target: {fileID: 4904465210360465968, guid: c917c8038112244469e94b04b1831d14, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 15.045822
+      value: 16.171223
       objectReference: {fileID: 0}
     - target: {fileID: 4904465210360465968, guid: c917c8038112244469e94b04b1831d14, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.099434584
+      value: 0.09936514
       objectReference: {fileID: 0}
     - target: {fileID: 4904465210360465968, guid: c917c8038112244469e94b04b1831d14, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.0008941626
+      value: 0.00089291856
       objectReference: {fileID: 0}
     - target: {fileID: 4904465210360465968, guid: c917c8038112244469e94b04b1831d14, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.9950035
+      value: 0.9950105
       objectReference: {fileID: 0}
     - target: {fileID: 4904465210360465968, guid: c917c8038112244469e94b04b1831d14, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.00894754
+      value: -0.0089414
       objectReference: {fileID: 0}
     - target: {fileID: 4940915329614397682, guid: c917c8038112244469e94b04b1831d14, type: 3}
       propertyPath: m_LocalPosition.x
@@ -56985,7 +56977,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8818462144570628736, guid: c917c8038112244469e94b04b1831d14, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 12.713001
+      value: 12.7
       objectReference: {fileID: 0}
     - target: {fileID: 8818462144570628736, guid: c917c8038112244469e94b04b1831d14, type: 3}
       propertyPath: m_LocalPosition.y
@@ -56993,7 +56985,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8818462144570628736, guid: c917c8038112244469e94b04b1831d14, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 16.753063
+      value: 15.68
       objectReference: {fileID: 0}
     - target: {fileID: 8818462144570628736, guid: c917c8038112244469e94b04b1831d14, type: 3}
       propertyPath: m_LocalRotation.w
@@ -57220,7 +57212,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FlickeringLight
   active: 0
-  lightObject: {fileID: 0}
   timeUntilFlicker: 0.8
   flickerDuration: 0.05
   flickerOffset: 0
@@ -59311,7 +59302,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FlickeringLight
   active: 0
-  lightObject: {fileID: 0}
   timeUntilFlicker: 0.2
   flickerDuration: 0.05
   flickerOffset: 0.1

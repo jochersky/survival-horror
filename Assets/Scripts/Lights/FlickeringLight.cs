@@ -1,17 +1,20 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Light))]
 public class FlickeringLight : Toggleable
 {   
-    [SerializeField] private Light lightObject;
+    private Light _lightObject;
 
     [Header("Flicker Properties")]
     [SerializeField] private float timeUntilFlicker = 0.5f;
     [SerializeField] private float flickerDuration = 0.1f;
     [SerializeField] private float flickerOffset = 0.1f;
     private float _timeSinceFlicker;
-
+    
     private void Start()
     {
+        _lightObject = GetComponent<Light>();
+        
         _timeSinceFlicker = flickerOffset;
     }
     
@@ -24,13 +27,13 @@ public class FlickeringLight : Toggleable
     {
         if (_timeSinceFlicker >= flickerDuration)
         {
-            lightObject.enabled = true;
+            _lightObject.enabled = true;
         }
         
         if (_timeSinceFlicker >= timeUntilFlicker)
         {
             _timeSinceFlicker = 0;
-            lightObject.enabled = false;
+            _lightObject.enabled = false;
         }
         
         _timeSinceFlicker += Time.deltaTime;

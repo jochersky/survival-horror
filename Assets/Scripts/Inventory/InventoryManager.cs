@@ -100,7 +100,6 @@ public class InventoryManager : MonoBehaviour
     
     private void OnInventory(InputAction.CallbackContext context)
     {
-        if (!context.started) return;
         Cursor.lockState = (Cursor.lockState == CursorLockMode.Locked ?  CursorLockMode.None : CursorLockMode.Locked);
         ToggleInventory();
     }
@@ -112,7 +111,7 @@ public class InventoryManager : MonoBehaviour
         OnInventoryVisibilityChanged?.Invoke(_inventoryVisible);
         if (!_inventoryVisible) RemoveContainer();
     }
-
+    
     public void SpawnItem(GameObject itemPrefab, int count, int ammoCount)
     {
         GameObject newItem = Instantiate(itemPrefab, itemSpawnTransform);
