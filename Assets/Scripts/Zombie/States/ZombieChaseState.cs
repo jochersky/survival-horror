@@ -11,9 +11,6 @@ public class ZombieChaseState : ZombieBaseState
 
     public override void EnterState()
     {
-        // stop searching coroutine if aggroed when searching
-        Context.StopAllCoroutines();
-        
         AudioManager.Instance.PlaySFX(SfxType.ZombieAggro, Context.Source);
         Context.SignalAggroChange(true);
         Context.IsLookingAround = false;
