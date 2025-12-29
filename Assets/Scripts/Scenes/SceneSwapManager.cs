@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -17,6 +18,16 @@ public class SceneSwapManager : MonoBehaviour
         Instance = this;
     }
 
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
     public static void SwapScene(SceneField scene)
     {
         Instance.StartCoroutine(Instance.FadeOutThenChangeScene(scene));
@@ -24,11 +35,18 @@ public class SceneSwapManager : MonoBehaviour
 
     private IEnumerator FadeOutThenChangeScene(SceneField scene)
     {
-        // start fading to vlack
+        SceneFadeManager.Instance.StartFadingOut();
         
-        // keep fading out
-
+        while (SceneFadeManager.Instance.IsFadingOut) 
+        {
+            yield return null;
+        }
+        
         SceneManager.LoadScene(scene);
-        return null;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        SceneFadeManager.Instance.StartFadingIn();
     }
 }
