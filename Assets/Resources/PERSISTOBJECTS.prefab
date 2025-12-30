@@ -117,7 +117,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   fadeOutImage: {fileID: 224405883219043322}
   fadeOutSpeed: 3
-  fadeInSpeed: 3
+  fadeInSpeed: 0.5
   fadeOutStartColor: {r: 0.1509434, g: 0.1509434, b: 0.1509434, a: 1}
 --- !u!1 &3498121559043586031
 GameObject:
