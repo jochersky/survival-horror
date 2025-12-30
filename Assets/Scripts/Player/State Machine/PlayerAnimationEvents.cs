@@ -8,7 +8,6 @@ public class PlayerAnimationEvents : MonoBehaviour
     public event SwingBegin OnSwingBegin;
     public delegate void SwingFinished();
     public event SwingFinished OnSwingFinished;
-
     public delegate void FireBegin();
     public event FireBegin OnFireBegin;
     public delegate void FireFinished();
