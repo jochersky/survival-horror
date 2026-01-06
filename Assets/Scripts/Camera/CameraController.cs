@@ -2,6 +2,7 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Splines;
 
 public class CameraController : MonoBehaviour
 {
@@ -19,7 +20,11 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float xSensitivity = 1f;
     [SerializeField] private float ySensitivity = 1f;
     [Range(0.01f, 2.0f), SerializeField] private float cameraRadius = 0.25f;
-    [Range(0.01f, 0.5f), SerializeField] private float adjustAmount = 0.25f;
+    [Range(0.01f, 2.0f), SerializeField] private float collisionOffset = 0.25f;
+    
+    [SerializeField] private AnimationCurve curve;
+    [SerializeField] private SplineContainer botSpline;
+    [SerializeField] private SplineContainer midSpline;
     
     private Camera _cam;
     
@@ -61,8 +66,9 @@ public class CameraController : MonoBehaviour
         if (_playerDead) return;
 
         GetMouseInput();
-        RotateCameraAroundPoint();
+        //RotateCameraAroundPoint();
         RotatePlayerMoveOrientation();
+        RotateCameraAroundSpline();
 
         cameraLocalPosition.text = "Local Pos: (" + Math.Round(transform.localPosition.x, 2) + ", " + Math.Round(transform.localPosition.y, 2) + ", " + Math.Round(transform.localPosition.z, 2) + ")";
     }
@@ -95,14 +101,9 @@ public class CameraController : MonoBehaviour
                 out RaycastHit hit, maxOrbitDistance, _mask))
         {
             float distance = Vector3.Distance(cameraTarget.position, hit.point);
-            distance -= 0.2f; // subtract how much the camera is offset from hit point
-
-            //if (Math.Abs(distance) < 0.2f)
-            //{
-            //    distance -= 0.2f;
-            //}
-
+            distance -= collisionOffset; // subtract how much the camera is offset from hit point
             offset.z = distance;
+            // recalculate the target position with the new offset
             targetPosition = cameraTarget.position - targetRotation * offset;
         }
         
@@ -115,5 +116,33 @@ public class CameraController : MonoBehaviour
         Vector3 camPos = new Vector3(transform.position.x, cameraTarget.transform.position.y, transform.position.z);
         Vector3 viewDir = cameraTarget.transform.position - camPos;
         playerMoveOrientation.transform.forward = viewDir.normalized;
+    }
+
+    private void RotateCameraAroundSpline()
+    {
+        // update rotation with mouse input
+        xRotation -= _mouseInput.y * xSensitivity;
+        yRotation += _mouseInput.x * ySensitivity;
+        float xRotationClamped = Mathf.Clamp(xRotation, minXRotation, maxXRotation);
+        
+        // Determine position along spline based on y-axis rotation
+        float pointRatio = (yRotation % 360) / 360;
+        if (pointRatio < 0) pointRatio += 1;
+        
+        Quaternion targetRotation = Quaternion.LookRotation(cameraTarget.position - transform.position);
+
+        Vector3 botSplinePosition = botSpline.EvaluatePosition(pointRatio);
+        Vector3 midSplinePosition = midSpline.EvaluatePosition(pointRatio);
+        
+        // Determine height along curve based on x-axis rotation
+        float splineRatio = (xRotation + Math.Abs(minXRotation)) / (Math.Abs(maxXRotation) + Math.Abs(minXRotation));
+        Vector3 positionBetweenSplines = Vector3.Lerp(botSplinePosition, midSplinePosition, splineRatio);
+        float yFactor = curve.Evaluate(splineRatio);
+        positionBetweenSplines.y = botSplinePosition.y + Math.Abs(midSplinePosition.y - botSplinePosition.y) * yFactor;
+        
+        Vector3 targetPosition = positionBetweenSplines;
+        
+        transform.position = targetPosition;
+        transform.rotation = targetRotation;
     }
 }
