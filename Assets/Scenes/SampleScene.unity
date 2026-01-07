@@ -665,7 +665,7 @@ MonoBehaviour:
   ySensitivity: 5
   cameraRadius: 0.25
   collisionOffset: 0.25
-  curve:
+  botCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -689,8 +689,33 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  topCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   botSpline: {fileID: 1567257625}
   midSpline: {fileID: 410673691}
+  topSpline: {fileID: 1496816216}
 --- !u!114 &306828123
 MonoBehaviour:
   m_ObjectHideFlags: 0
