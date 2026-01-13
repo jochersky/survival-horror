@@ -78,8 +78,6 @@ public class CameraController : MonoBehaviour
         //RotateCameraAroundPoint();
         RotatePlayerMoveOrientation();
         RotateCameraAroundSpline();
-
-        cameraLocalPosition.text = "topSplineRatio:  " + topSplineRatio + "\nbotSplineRatio: " + botSplineRatio;
     }
 
     public void OnAim(InputAction.CallbackContext context)
@@ -132,12 +130,16 @@ public class CameraController : MonoBehaviour
         // update rotation with mouse input
         xRotation -= _mouseInput.y * xSensitivity;
         yRotation += _mouseInput.x * ySensitivity;
+        
+        // can include negative bound(s)
         float xRotationClamped = Mathf.Clamp(xRotation, minXRotation, maxXRotation);
+        xRotation = xRotationClamped;
         
         // Determine position along splines based on y-axis rotation
         float pointRatio = (yRotation % 360) / 360;
         if (pointRatio < 0) pointRatio += 1;
         
+        // Calculate rotation only using vector looking at camera target
         Quaternion targetRotation = Quaternion.LookRotation(cameraTarget.position - transform.position);
 
         Vector3 botSplinePosition = botSpline.EvaluatePosition(pointRatio);
@@ -155,36 +157,29 @@ public class CameraController : MonoBehaviour
         float botMaxRotation = _xRotationRange * botRotationRatio;
         float topMaxRotation = _xRotationRange * topRotationRatio;
         
-        cameraLocalPosition.text = "\nRotationRatio: " + rotationRatio;
-        
         Vector3 targetPosition;
-        
-        // TODO: this is the spline ratio of the whole camera system, need between individual splines
-        float splineRatio = (xRotation + Math.Abs(minXRotation)) / _xRotationRange;
         
         // Use the top-half curve
         if (xRotationClamped >= botMaxRotation)
         {
-            // Determine height along curve based on x-axis rotation
-            //topSplineRatio = (topRotationRatio * (xRotationClamped + Math.Abs(minXRotation))) / (topRotationRatio * _xRotationRange);
-            float p = (xRotationClamped - botMaxRotation) / (maxXRotation - botMaxRotation);
-            float yFactor = topCurve.Evaluate(p);
-            Vector3 positionBetweenSplines = midSplinePosition + (topSplinePosition - midSplinePosition) * p;
+            // x value on curve and position scalar. add min rotation to account for negative value. range: [0, 1]
+            float t = (xRotationClamped - botMaxRotation) / (maxXRotation - botMaxRotation);
+            // y value on curve
+            float yFactor = topCurve.Evaluate(t);
+            // use difference vector to determine x/z component of new position
+            Vector3 positionBetweenSplines = midSplinePosition + (topSplinePosition - midSplinePosition) * t;
             positionBetweenSplines.y = midSplinePosition.y + Math.Abs(topSplinePosition.y - midSplinePosition.y) * yFactor;
             targetPosition = positionBetweenSplines;
         }
         // Use the bottom-half curve
         else
         {
-            // Determine height along curve based on x-axis rotation
-            // botSplineRatio = (botRotationRatio * (xRotationClamped + Math.Abs(minXRotation))) / (botRotationRatio * _xRotationRange);
-            // Vector3 positionBetweenSplines = Vector3.Lerp(botSplinePosition, midSplinePosition, botSplineRatio);
-            // float yFactor = botCurve.Evaluate(botSplineRatio);
-            // positionBetweenSplines.y = botSplinePosition.y + Math.Abs(midSplinePosition.y - botSplinePosition.y) * yFactor;
-            // targetPosition = positionBetweenSplines;
-            float p = xRotationClamped / botMaxRotation;
-            float yFactor = topCurve.Evaluate(p);
-            Vector3 positionBetweenSplines = botSplinePosition + (midSplinePosition - botSplinePosition) * p;
+            // x value on curve and position scalar. add min rotation to account for negative value. range: [0, 1]
+            float t = (xRotationClamped + Math.Abs(minXRotation)) / (botMaxRotation + Math.Abs(minXRotation));
+            // y value on curve
+            float yFactor = botCurve.Evaluate(t);
+            // use difference vector to determine x/z component of new position
+            Vector3 positionBetweenSplines = botSplinePosition + (midSplinePosition - botSplinePosition) * t;
             positionBetweenSplines.y = botSplinePosition.y + Math.Abs(midSplinePosition.y - botSplinePosition.y) * yFactor;
             targetPosition = positionBetweenSplines;
         }
