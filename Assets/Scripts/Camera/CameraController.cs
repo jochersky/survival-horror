@@ -6,7 +6,7 @@ using UnityEngine.Splines;
 
 public class CameraController : MonoBehaviour
 {
-    [Header("Referneces")]
+    [Header("References")]
     [SerializeField] private InputActionAsset actions;
     [SerializeField] private Transform cameraTarget;
     [SerializeField] private GameObject playerMoveOrientation;
@@ -108,7 +108,8 @@ public class CameraController : MonoBehaviour
                 out RaycastHit hit, maxOrbitDistance, _mask))
         {
             float distance = Vector3.Distance(cameraTarget.position, hit.point);
-            distance -= collisionOffset; // subtract how much the camera is offset from hit point
+            distance -= collisionOffset; 
+            // subtract how much the camera is offset from hit point
             offset.z = distance;
             // recalculate the target position with the new offset
             targetPosition = cameraTarget.position - targetRotation * offset;
