@@ -24,6 +24,7 @@ public class OrbitalFollow : MonoBehaviour
     [SerializeField] private SplineContainer botSpline;
     [SerializeField] private SplineContainer midSpline;
     [SerializeField] private SplineContainer topSpline;
+    [SerializeField, Range(0, 1)] private float interpolationSpeed; 
     
     private RemoteCamera _remoteCamera;
 
@@ -145,7 +146,7 @@ public class OrbitalFollow : MonoBehaviour
             targetPosition = positionBetweenSplines;
         }
         
-        _cameraTransform.position = targetPosition;
+        _cameraTransform.position = Vector3.Lerp(remoteCameraTransform.position, targetPosition, interpolationSpeed);
         _cameraTransform.rotation = targetRotation;
         
         return _cameraTransform;

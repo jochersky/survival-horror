@@ -649,7 +649,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 306828121}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bb1c7a824c1d4b647b644b4cff7e8195, type: 3}
   m_Name: 
@@ -5644,7 +5644,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1627786226}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -5687,6 +5687,7 @@ MonoBehaviour:
   camera: {fileID: 0}
   orbitalFollow: {fileID: 0}
   remoteCameraDeoccluder: {fileID: 0}
+  stepSpeed: 0
 --- !u!4 &1651635400
 Transform:
   m_ObjectHideFlags: 0
@@ -6758,6 +6759,7 @@ MonoBehaviour:
   camera: {fileID: 0}
   orbitalFollow: {fileID: 2069303545}
   remoteCameraDeoccluder: {fileID: 0}
+  stepSpeed: 10.22
 --- !u!4 &2069303544
 Transform:
   m_ObjectHideFlags: 0
@@ -6786,7 +6788,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OrbitalFollow
   cameraTarget: {fileID: 518788957}
-  orbitStyle: 0
+  orbitStyle: 1
   minXRotation: -45
   maxXRotation: 70
   xSensitivity: 5
@@ -6844,6 +6846,7 @@ MonoBehaviour:
   botSpline: {fileID: 1567257625}
   midSpline: {fileID: 410673691}
   topSpline: {fileID: 1496816216}
+  interpolationSpeed: 0.929
 --- !u!114 &2069303546
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6851,7 +6854,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2069303542}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f8402467eb4ff724289d75c9af6fd131, type: 3}
   m_Name: 
