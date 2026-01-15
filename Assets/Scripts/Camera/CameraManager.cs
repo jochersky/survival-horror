@@ -31,6 +31,7 @@ public class CameraManager : MonoBehaviour
             _activeRemoteCamera = remoteCameras[0];
             transform.position = _activeRemoteCamera.transform.position;
             transform.rotation = _activeRemoteCamera.transform.rotation;
+            _activeRemoteCamera.camera = _camera;
         }
     }
 

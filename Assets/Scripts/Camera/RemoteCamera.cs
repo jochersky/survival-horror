@@ -3,24 +3,45 @@ using UnityEngine;
 
 public class RemoteCamera : MonoBehaviour
 {
+    // camera being transformed
+    [HideInInspector] public Camera camera;
+    
     [Header("Components")]
     [SerializeField] private OrbitalFollow orbitalFollow;
     [SerializeField] private RemoteCameraDeoccluder remoteCameraDeoccluder;
+
+    // Struct that keeps track of position and rotation between components
+    private CameraTransform _cameraTransform;
+
+    public Camera Camera
+    {
+        get => camera;
+        set
+        {
+            camera = value;
+            _cameraTransform.position = camera.transform.position;
+            _cameraTransform.rotation = camera.transform.rotation;
+        }
+    }
     
     public CameraTransform UpdateCamera()
     {
         // Get initial position and rotation of camera using the OrbitalFollow component
-        CameraTransform ct = orbitalFollow.GetOrbitalCameraTransform();
+        if (orbitalFollow) 
+            _cameraTransform = orbitalFollow.GetOrbitalCameraTransform(_cameraTransform);
         // Get adjusted position when colliding with something in the environment using the RemoteCameraDeoccluder component
-        ct = remoteCameraDeoccluder.GetDeoccludedTransform(ct, orbitalFollow.MaxOrbitDistance);
+        if (remoteCameraDeoccluder) 
+            _cameraTransform = remoteCameraDeoccluder.GetDeoccludedTransform(_cameraTransform, orbitalFollow.MaxOrbitDistance);
         
         // add calls to components based on their order of operations priority
         // ...
         
-        return ct;
+        return _cameraTransform;
     }
 }
 
+// Struct used to combine position vector and quaternion rotation
+// for use in RemoteCamera and RemoteCamera components
 public struct CameraTransform
 {
     public Vector3 position;
