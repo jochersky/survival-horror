@@ -5744,6 +5744,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RemoteCamera
   orbitalFollow: {fileID: 0}
+  remoteCameraDeoccluder: {fileID: 0}
 --- !u!4 &1651635400
 Transform:
   m_ObjectHideFlags: 0
@@ -6792,6 +6793,7 @@ GameObject:
   - component: {fileID: 2069303544}
   - component: {fileID: 2069303543}
   - component: {fileID: 2069303545}
+  - component: {fileID: 2069303546}
   m_Layer: 0
   m_Name: Cam1
   m_TagString: Untagged
@@ -6812,6 +6814,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RemoteCamera
   orbitalFollow: {fileID: 2069303545}
+  remoteCameraDeoccluder: {fileID: 2069303546}
 --- !u!4 &2069303544
 Transform:
   m_ObjectHideFlags: 0
@@ -6862,6 +6865,19 @@ MonoBehaviour:
   botSpline: {fileID: 0}
   midSpline: {fileID: 0}
   topSpline: {fileID: 0}
+--- !u!114 &2069303546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2069303542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8402467eb4ff724289d75c9af6fd131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  cameraTarget: {fileID: 518788957}
   cameraRadius: 0.25
   collisionOffset: 0.25
 --- !u!1001 &2089002539

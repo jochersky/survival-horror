@@ -23,9 +23,6 @@ public class OrbitalFollow : MonoBehaviour
     [SerializeField] private SplineContainer botSpline;
     [SerializeField] private SplineContainer midSpline;
     [SerializeField] private SplineContainer topSpline;
-    [Header("Collision De-Occlusion")]
-    [Range(0.01f, 2.0f), SerializeField] private float cameraRadius = 0.25f;
-    [Range(0.01f, 2.0f), SerializeField] private float collisionOffset = 0.25f;
     
     private RemoteCamera _remoteCamera;
 
@@ -34,6 +31,8 @@ public class OrbitalFollow : MonoBehaviour
     private float yRotation;
     
     private CameraTransform _cameraTransform;
+    
+    public float MaxOrbitDistance => maxOrbitDistance;
     
     private enum OrbitStyle
     {
