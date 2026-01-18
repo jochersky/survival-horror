@@ -1,10 +1,14 @@
 using System;
+using System.Numerics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Splines;
+using Quaternion = UnityEngine.Quaternion;
+using Vector2 = UnityEngine.Vector2;
+using Vector3 = UnityEngine.Vector3;
 
 [RequireComponent(typeof(RemoteCamera))]
-public class OrbitalFollow : MonoBehaviour
+public class RemoteCameraOrbitalFollow : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private Transform cameraTarget;
@@ -146,8 +150,8 @@ public class OrbitalFollow : MonoBehaviour
             targetPosition = positionBetweenSplines;
         }
         
-        _cameraTransform.position = Vector3.Lerp(remoteCameraTransform.position, targetPosition, interpolationSpeed);
-        _cameraTransform.rotation = targetRotation;
+        _cameraTransform.position = Vector3.Lerp(remoteCameraTransform.position, targetPosition, 0.2f);
+        _cameraTransform.rotation = Quaternion.Lerp(remoteCameraTransform.rotation, targetRotation, 0.6f);
         
         return _cameraTransform;
     }

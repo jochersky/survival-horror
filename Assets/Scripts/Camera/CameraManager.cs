@@ -22,6 +22,8 @@ public class CameraManager : MonoBehaviour
     private Quaternion _rotationBlendingFrom;
     private Quaternion _rotationBlendingTo;
     
+    public RemoteCamera ActiveRemoteCamera => _activeRemoteCamera;
+    
     private void Start()
     {
         _camera = GetComponent<Camera>();
@@ -31,6 +33,7 @@ public class CameraManager : MonoBehaviour
             _activeRemoteCamera = remoteCameras[0];
             transform.position = _activeRemoteCamera.transform.position;
             transform.rotation = _activeRemoteCamera.transform.rotation;
+            _camera.fieldOfView = _activeRemoteCamera.FOV;
             _activeRemoteCamera.camera = _camera;
         }
     }
@@ -53,7 +56,9 @@ public class CameraManager : MonoBehaviour
         _activeRemoteCamera = newCamera;
         
         BlendBetweenCameras();
-        
+
+        _camera.fieldOfView = newCamera.FOV;
+
         // _previousRemoteCamera.gameObject.SetActive(false);
         // _activeRemoteCamera.gameObject.SetActive(true);
     }

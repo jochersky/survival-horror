@@ -13,7 +13,10 @@ public class CameraController : MonoBehaviour
     [SerializeField] private InputActionAsset actions;
     [SerializeField] private Transform cameraTarget;
     [SerializeField] private GameObject playerMoveOrientation;
-    [SerializeField] private TextMeshProUGUI cameraLocalPosition;
+    [SerializeField] private Health health;
+    [SerializeField] private RemoteCamera explorationCamera;
+    [SerializeField] private RemoteCamera aimCamera;
+    private CameraManager _cameraManager;
     
     private InputActionMap _playerActions;
     // input actions
@@ -25,19 +28,30 @@ public class CameraController : MonoBehaviour
 
     private void Start()
     {
+        _cameraManager = GetComponent<CameraManager>();
         _playerActions = actions.FindActionMap("Player");
+        _mask = LayerMask.GetMask("Environment");
         
         // assign input action callbacks
         m_AimAction = actions.FindAction("Aim");
         m_AimAction.started += OnAim;
         m_AimAction.canceled += OnAim;
         
-        Cursor.lockState = CursorLockMode.Locked;
+        // connect health events
+        health.OnDeath += () => _playerDead = true;
         
-        _mask = LayerMask.GetMask("Environment");
+        // connect inventory events
+        InventoryManager.instance.OnInventoryVisibilityChanged += (bool vis) =>
+        {
+            if (vis) _playerActions.Disable();
+            else _playerActions.Enable();
+            _cameraManager.ActiveRemoteCamera.gameObject.SetActive(!vis);
+        };
+        
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
-    private void LateUpdate()
+    private void Update()
     {
         // don't update when player is dead
         if (_playerDead) return;
@@ -48,6 +62,9 @@ public class CameraController : MonoBehaviour
     public void OnAim(InputAction.CallbackContext context)
     {
         _isAiming = context.ReadValueAsButton();
+        
+        if (context.started) _cameraManager.SwitchRemoteCamera(aimCamera);
+        else if (context.canceled) _cameraManager.SwitchRemoteCamera(explorationCamera);
     }
 
     private void RotatePlayerMoveOrientation()

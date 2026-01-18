@@ -3,12 +3,14 @@ using UnityEngine;
 
 public class RemoteCamera : MonoBehaviour
 {
+    [Header("Settings")]
+    [SerializeField, Range(20, 120)] private int fov;
+    
     // camera being transformed
     [HideInInspector] public Camera camera;
     
-    [Header("Components")]
-    [SerializeField] private OrbitalFollow orbitalFollow;
-    [SerializeField] private RemoteCameraDeoccluder remoteCameraDeoccluder;
+    private RemoteCameraOrbitalFollow _orbitalFollow;
+    private RemoteCameraDeoccluder _deoccluder;
 
     // Struct that keeps track of position and rotation between components
     private CameraTransform _cameraTransform;
@@ -23,15 +25,26 @@ public class RemoteCamera : MonoBehaviour
             _cameraTransform.rotation = camera.transform.rotation;
         }
     }
+
+    public int FOV => fov;
+
+    private void Start()
+    {
+        _orbitalFollow = GetComponent<RemoteCameraOrbitalFollow>();
+        _deoccluder = GetComponent<RemoteCameraDeoccluder>();
+
+        _cameraTransform.position = transform.position;
+        _cameraTransform.rotation = transform.rotation;
+    }
     
     public CameraTransform UpdateCamera()
     {
-        // Get initial position and rotation of camera using the OrbitalFollow component
-        if (orbitalFollow) 
-            _cameraTransform = orbitalFollow.GetOrbitalCameraTransform(_cameraTransform);
-        // Get adjusted position when colliding with something in the environment using the RemoteCameraDeoccluder component
-        if (remoteCameraDeoccluder) 
-            _cameraTransform = remoteCameraDeoccluder.GetDeoccludedTransform(_cameraTransform, orbitalFollow.MaxOrbitDistance);
+        // Get initial position and rotation of camera using the orbital follow component
+        if (_orbitalFollow) 
+            _cameraTransform = _orbitalFollow.GetOrbitalCameraTransform(_cameraTransform);
+        // Get adjusted position when colliding with something in the environment using the deoccluder component
+        if (_deoccluder) 
+            _cameraTransform = _deoccluder.GetDeoccludedTransform(_cameraTransform, _orbitalFollow.MaxOrbitDistance);
         
         // add calls to components based on their order of operations priority
         // ...
