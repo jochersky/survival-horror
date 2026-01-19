@@ -10,6 +10,7 @@ public class RemoteCamera : MonoBehaviour
     [HideInInspector] public Camera camera;
     
     private RemoteCameraOrbitalFollow _orbitalFollow;
+    private RemoteCameraShake _shake;
     private RemoteCameraDeoccluder _deoccluder;
 
     // Struct that keeps track of position and rotation between components
@@ -31,6 +32,7 @@ public class RemoteCamera : MonoBehaviour
     private void Start()
     {
         _orbitalFollow = GetComponent<RemoteCameraOrbitalFollow>();
+        _shake = GetComponent<RemoteCameraShake>();
         _deoccluder = GetComponent<RemoteCameraDeoccluder>();
 
         _cameraTransform.position = transform.position;
@@ -42,6 +44,9 @@ public class RemoteCamera : MonoBehaviour
         // Get initial position and rotation of camera using the orbital follow component
         if (_orbitalFollow) 
             _cameraTransform = _orbitalFollow.GetOrbitalCameraTransform(_cameraTransform);
+        // Shake camera by offsetting its position
+        if (_shake)
+            _cameraTransform = _shake.GetShakenCameraTransform(_cameraTransform);
         // Get adjusted position when colliding with something in the environment using the deoccluder component
         if (_deoccluder) 
             _cameraTransform = _deoccluder.GetDeoccludedTransform(_cameraTransform, _orbitalFollow.MaxOrbitDistance);
