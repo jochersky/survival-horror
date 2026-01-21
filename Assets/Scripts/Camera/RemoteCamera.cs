@@ -37,6 +37,8 @@ public class RemoteCamera : MonoBehaviour
 
         _cameraTransform.position = transform.position;
         _cameraTransform.rotation = transform.rotation;
+        _cameraTransform.colliding = false;
+        _cameraTransform.mouseMoved = false;
     }
     
     public CameraTransform UpdateCamera()
@@ -62,18 +64,29 @@ public class RemoteCamera : MonoBehaviour
 // for use in RemoteCamera and RemoteCamera components
 public struct CameraTransform
 {
+    // Position of camera passed between RemoteCamera components
     public Vector3 position;
+    // Rotation of camera passed between RemoteCamera components
     public Quaternion rotation;
+    // Indicator of the camera colliding and deoccluding itself
+    public bool colliding;
+    // Indicator of whether the player influenced the position by moving the mouse
+    public bool mouseMoved;
    
     // constructor
-    public CameraTransform(Vector3 position = default, Quaternion rotation = default)
+    public CameraTransform(Vector3 position = default, Quaternion rotation = default,  bool colliding = false, bool mouseMoved = false)
     {
         this.position = position;
         this.rotation = rotation;
+        this.colliding = false;
+        this.mouseMoved = false;
     }
 
     public override string ToString()
     {
-        return "Position: " + position.ToString() + ", Rotation: " + rotation.ToString();;
+        return "Position: " + position.ToString() + 
+               ", Rotation: " + rotation.ToString() + 
+               ", Colliding: " + colliding.ToString() + 
+               ", Mouse Moved: " + mouseMoved.ToString();
     }
 }

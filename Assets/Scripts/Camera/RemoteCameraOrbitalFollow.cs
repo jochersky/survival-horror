@@ -70,10 +70,10 @@ public class RemoteCameraOrbitalFollow : MonoBehaviour
 
     public CameraTransform GetOrbitalCameraTransform(CameraTransform remoteCameraTransform)
     {
-        return orbitStyle == OrbitStyle.Point ? PointOrbit() : ThreeRingOrbit(remoteCameraTransform);
+        return orbitStyle == OrbitStyle.Point ? PointOrbit(remoteCameraTransform) : ThreeRingOrbit(remoteCameraTransform);
     }
     
-    private CameraTransform PointOrbit()
+    private CameraTransform PointOrbit(CameraTransform remoteCameraTransform)
     {
         // update rotation with mouse input
         xRotation -= _mouseInput.y * xSensitivity;
@@ -81,17 +81,17 @@ public class RemoteCameraOrbitalFollow : MonoBehaviour
         float xRotationClamped = Mathf.Clamp(xRotation, minXRotation, maxXRotation);
         xRotation = xRotationClamped;
         
-        _cameraTransform.rotation = Quaternion.Euler(xRotationClamped, yRotation, 0f);
+        remoteCameraTransform.rotation = Quaternion.Euler(xRotationClamped, yRotation, 0f);
         Vector3 offset = new Vector3(0f, 0f, maxOrbitDistance);
-        _cameraTransform.position = cameraTarget.position - _cameraTransform.rotation * offset;
+        remoteCameraTransform.position = cameraTarget.position - remoteCameraTransform.rotation * offset;
 
-        return _cameraTransform;
+        return remoteCameraTransform;
     }
 
     private CameraTransform ThreeRingOrbit(CameraTransform remoteCameraTransform)
     {
         // Must have splines assigned before computing new transform
-        if (!_ringsAndCurvesAssigned) return _cameraTransform;
+        if (!_ringsAndCurvesAssigned) return remoteCameraTransform;
         
         // update rotation with mouse input
         xRotation -= _mouseInput.y * xSensitivity;
@@ -150,9 +150,9 @@ public class RemoteCameraOrbitalFollow : MonoBehaviour
             targetPosition = positionBetweenSplines;
         }
         
-        _cameraTransform.position = Vector3.Lerp(remoteCameraTransform.position, targetPosition, 0.2f);
-        _cameraTransform.rotation = Quaternion.Lerp(remoteCameraTransform.rotation, targetRotation, 0.6f);
+        remoteCameraTransform.position = Vector3.Lerp(remoteCameraTransform.position, targetPosition, 0.2f);
+        remoteCameraTransform.rotation = Quaternion.Lerp(remoteCameraTransform.rotation, targetRotation, 0.6f);
         
-        return _cameraTransform;
+        return remoteCameraTransform;
     }
 }

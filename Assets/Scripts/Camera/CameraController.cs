@@ -69,6 +69,10 @@ public class CameraController : MonoBehaviour
 
     private void RotatePlayerMoveOrientation()
     {
+        // we don't want to update the orientation when the mouse hasn't moved so that movement
+        // is predictable when the camera changes its transform suddenly (e.g. collision with wall)
+        if (new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")) == Vector2.zero) return;
+        
         Vector3 camPos = new Vector3(transform.position.x, cameraTarget.transform.position.y, transform.position.z);
         Vector3 viewDir = cameraTarget.transform.position - camPos;
         playerMoveOrientation.transform.forward = viewDir.normalized;

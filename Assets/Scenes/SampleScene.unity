@@ -6983,9 +6983,9 @@ MonoBehaviour:
   cameraTarget: {fileID: 518788957}
   playerHead: {fileID: 206389265}
   playerBody: {fileID: 227838236}
-  cameraRadius: 0.25
   collisionOffset: 0.25
-  hidePlayerDistance: 0.5
+  hidePlayerDistance: 0.2
+  debug: 1
 --- !u!114 &2069303547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7025,7 +7025,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RemoteCameraShake
   shakeAmount: 0.1
   shakeDuration: 0.1
-  _shakeTime: 0.1
 --- !u!1001 &2089002539
 PrefabInstance:
   m_ObjectHideFlags: 0
