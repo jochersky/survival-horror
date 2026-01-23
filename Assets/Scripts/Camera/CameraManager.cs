@@ -34,7 +34,7 @@ public class CameraManager : MonoBehaviour
             transform.position = _activeRemoteCamera.transform.position;
             transform.rotation = _activeRemoteCamera.transform.rotation;
             _camera.fieldOfView = _activeRemoteCamera.FOV;
-            _activeRemoteCamera.camera = _camera;
+            _activeRemoteCamera.Camera = _camera;
         }
     }
 

@@ -630,6 +630,37 @@ Transform:
   - {fileID: 99840246}
   m_Father: {fileID: 1100491643}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &295606063
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 295606064}
+  m_Layer: 0
+  m_Name: AimCameraTarget
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &295606064
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 295606063}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.35, y: 0.486, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2136463318}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &306828121
 GameObject:
   m_ObjectHideFlags: 0
@@ -665,11 +696,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  cameraTarget: {fileID: 518788957}
+  exploreCameraTarget: {fileID: 518788957}
+  aimCameraTarget: {fileID: 295606064}
   playerMoveOrientation: {fileID: 2136463317}
   health: {fileID: 1726875593}
   explorationCamera: {fileID: 2069303543}
   aimCamera: {fileID: 1651635399}
+  crosshair: {fileID: 1735407243}
 --- !u!114 &306828123
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5677,8 +5710,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1651635400}
   - component: {fileID: 1651635399}
+  - component: {fileID: 1651635402}
+  - component: {fileID: 1651635401}
   m_Layer: 0
-  m_Name: Cam2
+  m_Name: AimCam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5696,8 +5731,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a3d278032a649e44b360acd8b8477a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RemoteCamera
-  fov: 20
-  camera: {fileID: 0}
+  fov: 30
 --- !u!4 &1651635400
 Transform:
   m_ObjectHideFlags: 0
@@ -5713,6 +5747,56 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1651635401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1651635398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bc71c0bffa1e0b4d8d1826279f66cc3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RemoteCameraShake
+  shakeAmount: 0.1
+  shakeDuration: 0.1
+--- !u!114 &1651635402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1651635398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5916f9d6c0bca2e47869d5b5ae7ea428, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RemoteCameraOrbitalFollow
+  cameraTarget: {fileID: 295606064}
+  orbitStyle: 0
+  minXRotation: -5
+  maxXRotation: 10
+  xSensitivity: 2
+  ySensitivity: 2
+  minOrbitDistance: 0.1
+  maxOrbitDistance: 0.8
+  botCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  topCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  botSpline: {fileID: 0}
+  midSpline: {fileID: 0}
+  topSpline: {fileID: 0}
+  interpolationSpeed: 0
 --- !u!1 &1665424319
 GameObject:
   m_ObjectHideFlags: 0
@@ -6859,9 +6943,8 @@ GameObject:
   - component: {fileID: 2069303545}
   - component: {fileID: 2069303546}
   - component: {fileID: 2069303547}
-  - component: {fileID: 2069303548}
   m_Layer: 0
-  m_Name: Cam1
+  m_Name: ExplorationCam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6880,7 +6963,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RemoteCamera
   fov: 60
-  camera: {fileID: 0}
 --- !u!4 &2069303544
 Transform:
   m_ObjectHideFlags: 0
@@ -7011,20 +7093,6 @@ MonoBehaviour:
   maxLookAheadDistance: 0.3
   distanceSpeed: 0.5
   lookAheadChangeSpeed: 1.5
---- !u!114 &2069303548
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2069303542}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6bc71c0bffa1e0b4d8d1826279f66cc3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RemoteCameraShake
-  shakeAmount: 0.1
-  shakeDuration: 0.1
 --- !u!1001 &2089002539
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7687,6 +7755,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2309895294096095483, guid: bc7f3e425e466894daa79f93eb1e58a8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1854069114}
+    - targetCorrespondingSourceObject: {fileID: 2309895294096095483, guid: bc7f3e425e466894daa79f93eb1e58a8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 295606064}
     - targetCorrespondingSourceObject: {fileID: 1126979443660569355, guid: bc7f3e425e466894daa79f93eb1e58a8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 552901910}

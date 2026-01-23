@@ -6,9 +6,6 @@ public class RemoteCamera : MonoBehaviour
     [Header("Settings")]
     [SerializeField, Range(20, 120)] private int fov;
     
-    // camera being transformed
-    [HideInInspector] public Camera camera;
-    
     private RemoteCameraOrbitalFollow _orbitalFollow;
     private RemoteCameraShake _shake;
     private RemoteCameraDeoccluder _deoccluder;
@@ -16,14 +13,16 @@ public class RemoteCamera : MonoBehaviour
     // Struct that keeps track of position and rotation between components
     private CameraTransform _cameraTransform;
 
+    // camera being transformed
+    private Camera _camera;
     public Camera Camera
     {
-        get => camera;
+        get => _camera;
         set
         {
-            camera = value;
-            _cameraTransform.position = camera.transform.position;
-            _cameraTransform.rotation = camera.transform.rotation;
+            _camera = value;
+            _cameraTransform.position = _camera.transform.position;
+            _cameraTransform.rotation = _camera.transform.rotation;
         }
     }
 
@@ -44,7 +43,7 @@ public class RemoteCamera : MonoBehaviour
     public CameraTransform UpdateCamera()
     {
         // Get initial position and rotation of camera using the orbital follow component
-        if (_orbitalFollow) 
+        if (_orbitalFollow)
             _cameraTransform = _orbitalFollow.GetOrbitalCameraTransform(_cameraTransform);
         // Shake camera by offsetting its position
         if (_shake)

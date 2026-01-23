@@ -11,11 +11,13 @@ public class CameraController : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private InputActionAsset actions;
-    [SerializeField] private Transform cameraTarget;
+    [SerializeField] private Transform exploreCameraTarget;
+    [SerializeField] private Transform aimCameraTarget;
     [SerializeField] private GameObject playerMoveOrientation;
     [SerializeField] private Health health;
     [SerializeField] private RemoteCamera explorationCamera;
     [SerializeField] private RemoteCamera aimCamera;
+    [SerializeField] private GameObject crosshair;
     private CameraManager _cameraManager;
     
     private InputActionMap _playerActions;
@@ -25,6 +27,8 @@ public class CameraController : MonoBehaviour
     private bool _isAiming;
     private bool _playerDead;
     private LayerMask _mask;
+    
+    private bool usingAimCamera = false;
 
     private void Start()
     {
@@ -48,6 +52,7 @@ public class CameraController : MonoBehaviour
             _cameraManager.ActiveRemoteCamera.gameObject.SetActive(!vis);
         };
         
+        crosshair.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
     }
 
@@ -62,19 +67,25 @@ public class CameraController : MonoBehaviour
     public void OnAim(InputAction.CallbackContext context)
     {
         _isAiming = context.ReadValueAsButton();
-        
-        if (context.started) _cameraManager.SwitchRemoteCamera(aimCamera);
-        else if (context.canceled) _cameraManager.SwitchRemoteCamera(explorationCamera);
+        bool weaponEquipped = WeaponManager.Instance.weaponInHand;
+        if (!weaponEquipped) return;
+
+        bool switchToAimCamera = context.started;
+        _cameraManager.SwitchRemoteCamera(switchToAimCamera ? aimCamera : explorationCamera);
+        usingAimCamera = switchToAimCamera;
+        crosshair.SetActive(switchToAimCamera);
     }
 
     private void RotatePlayerMoveOrientation()
     {
         // we don't want to update the orientation when the mouse hasn't moved so that movement
         // is predictable when the camera changes its transform suddenly (e.g. collision with wall)
-        if (new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")) == Vector2.zero) return;
+        bool mouseMoved = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")) != Vector2.zero;
+        if (!usingAimCamera && !mouseMoved) return;
         
-        Vector3 camPos = new Vector3(transform.position.x, cameraTarget.transform.position.y, transform.position.z);
-        Vector3 viewDir = cameraTarget.transform.position - camPos;
+        Vector3 cameraTargetPosition = usingAimCamera ? aimCameraTarget.position : exploreCameraTarget.position;
+        Vector3 camPos = new Vector3(transform.position.x, cameraTargetPosition.y, transform.position.z);
+        Vector3 viewDir = cameraTargetPosition - camPos;
         playerMoveOrientation.transform.forward = viewDir.normalized;
     }
 }
