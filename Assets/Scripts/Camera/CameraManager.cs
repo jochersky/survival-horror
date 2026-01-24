@@ -24,6 +24,9 @@ public class CameraManager : MonoBehaviour
     
     public RemoteCamera ActiveRemoteCamera => _activeRemoteCamera;
     
+    private bool _stopUpdating = false;
+    public bool StopUpdating { get => _stopUpdating; set => _stopUpdating = value; }
+    
     private void Start()
     {
         _camera = GetComponent<Camera>();
@@ -40,6 +43,8 @@ public class CameraManager : MonoBehaviour
 
     private void LateUpdate()
     {
+        if (_stopUpdating) return;
+        
         CameraTransform ct = _activeRemoteCamera.UpdateCamera();
 
         transform.position = ct.position;

@@ -58,6 +58,7 @@ public class CameraController : MonoBehaviour
             if (vis) _playerActions.Disable();
             else _playerActions.Enable();
             _cameraManager.ActiveRemoteCamera.gameObject.SetActive(!vis);
+            _cameraManager.StopUpdating = vis;
         };
         
         // connect weapon manager events
