@@ -28,7 +28,13 @@ public class CameraController : MonoBehaviour
     private bool _playerDead;
     private LayerMask _mask;
     
-    private bool usingAimCamera = false;
+    private CameraStates currentState;
+    public CameraStates CurrentState => currentState;
+    public enum CameraStates
+    {
+        Exploration,
+        Aim
+    }
 
     private void Start()
     {
@@ -69,10 +75,10 @@ public class CameraController : MonoBehaviour
         _isAiming = context.ReadValueAsButton();
         bool weaponEquipped = WeaponManager.Instance.weaponInHand;
         if (!weaponEquipped) return;
-
-        bool switchToAimCamera = context.started;
+        
+        currentState = context.started ? CameraStates.Aim : CameraStates.Exploration;
+        bool switchToAimCamera = currentState == CameraStates.Aim;
         _cameraManager.SwitchRemoteCamera(switchToAimCamera ? aimCamera : explorationCamera);
-        usingAimCamera = switchToAimCamera;
         crosshair.SetActive(switchToAimCamera);
     }
 
@@ -81,6 +87,7 @@ public class CameraController : MonoBehaviour
         // we don't want to update the orientation when the mouse hasn't moved so that movement
         // is predictable when the camera changes its transform suddenly (e.g. collision with wall)
         bool mouseMoved = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")) != Vector2.zero;
+        bool usingAimCamera = currentState == CameraStates.Aim;
         if (!usingAimCamera && !mouseMoved) return;
         
         Vector3 cameraTargetPosition = usingAimCamera ? aimCameraTarget.position : exploreCameraTarget.position;

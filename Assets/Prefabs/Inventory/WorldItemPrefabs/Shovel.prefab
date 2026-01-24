@@ -50,7 +50,7 @@ MonoBehaviour:
   hitbox: {fileID: 1731607083030335161}
   followTransform: {fileID: 3914646053546767309}
   health: {fileID: 0}
-  cameraShakeIntensity: 1
+  cameraShakeIntensity: 0.03
   cameraShakeTime: 0.15
   deactivateOnCollision: 0
   deactivateOnTrigger: 0
@@ -155,8 +155,8 @@ MonoBehaviour:
   hitbox: {fileID: 4449480650743996645}
   followTransform: {fileID: 3914646053546767309}
   health: {fileID: 0}
-  cameraShakeIntensity: 1
-  cameraShakeTime: 1
+  cameraShakeIntensity: 0.015
+  cameraShakeTime: 0.1
   deactivateOnCollision: 1
   deactivateOnTrigger: 0
   deactivateOnDeath: 0

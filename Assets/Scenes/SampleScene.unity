@@ -676,6 +676,7 @@ GameObject:
   - component: {fileID: 306828123}
   - component: {fileID: 306828122}
   - component: {fileID: 306828128}
+  - component: {fileID: 306828129}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -867,6 +868,20 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   blendTime: 0
+--- !u!114 &306828129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 306828121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5be06889a6d3a4b4394feae95cc2ef0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraShake
+  explorationCameraShake: {fileID: 2069303548}
+  aimCameraShake: {fileID: 1651635401}
 --- !u!1 &323529499
 GameObject:
   m_ObjectHideFlags: 0
@@ -4601,6 +4616,11 @@ AudioSource:
   m_CorrespondingSourceObject: {fileID: 6695256483821405817, guid: bc7f3e425e466894daa79f93eb1e58a8, type: 3}
   m_PrefabInstance: {fileID: 2136463315}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &991609792 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5431074402906159163, guid: bc7f3e425e466894daa79f93eb1e58a8, type: 3}
+  m_PrefabInstance: {fileID: 2136463315}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1047722814 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8152794516158994684, guid: 9d97f006d8a456f4b947a9e541e8fa68, type: 3}
@@ -5759,8 +5779,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bc71c0bffa1e0b4d8d1826279f66cc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RemoteCameraShake
-  shakeAmount: 0.1
-  shakeDuration: 0.1
 --- !u!114 &1651635402
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6925,6 +6943,67 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1941296993}
   m_CullTransparentMesh: 1
+--- !u!1001 &1968035755
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1864190581825460170, guid: 2d9cd21847ec3d3428f18ebfa6657a0d, type: 3}
+      propertyPath: m_Name
+      value: ZombieBody
+      objectReference: {fileID: 0}
+    - target: {fileID: 7262892586372338397, guid: 2d9cd21847ec3d3428f18ebfa6657a0d, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 991609792}
+    - target: {fileID: 9185272133879276651, guid: 2d9cd21847ec3d3428f18ebfa6657a0d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -4.0645914
+      objectReference: {fileID: 0}
+    - target: {fileID: 9185272133879276651, guid: 2d9cd21847ec3d3428f18ebfa6657a0d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.059999466
+      objectReference: {fileID: 0}
+    - target: {fileID: 9185272133879276651, guid: 2d9cd21847ec3d3428f18ebfa6657a0d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2.5963702
+      objectReference: {fileID: 0}
+    - target: {fileID: 9185272133879276651, guid: 2d9cd21847ec3d3428f18ebfa6657a0d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9185272133879276651, guid: 2d9cd21847ec3d3428f18ebfa6657a0d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9185272133879276651, guid: 2d9cd21847ec3d3428f18ebfa6657a0d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9185272133879276651, guid: 2d9cd21847ec3d3428f18ebfa6657a0d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9185272133879276651, guid: 2d9cd21847ec3d3428f18ebfa6657a0d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9185272133879276651, guid: 2d9cd21847ec3d3428f18ebfa6657a0d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9185272133879276651, guid: 2d9cd21847ec3d3428f18ebfa6657a0d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2d9cd21847ec3d3428f18ebfa6657a0d, type: 3}
 --- !u!4 &2012720796 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7164345669563916105, guid: 99dfe6ceea2fd464aa22e276893f740d, type: 3}
@@ -6943,6 +7022,7 @@ GameObject:
   - component: {fileID: 2069303545}
   - component: {fileID: 2069303546}
   - component: {fileID: 2069303547}
+  - component: {fileID: 2069303548}
   m_Layer: 0
   m_Name: ExplorationCam
   m_TagString: Untagged
@@ -7093,6 +7173,18 @@ MonoBehaviour:
   maxLookAheadDistance: 0.3
   distanceSpeed: 0.5
   lookAheadChangeSpeed: 1.5
+--- !u!114 &2069303548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2069303542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bc71c0bffa1e0b4d8d1826279f66cc3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RemoteCameraShake
 --- !u!1001 &2089002539
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10487,3 +10579,4 @@ SceneRoots:
   - {fileID: 306828127}
   - {fileID: 2069303544}
   - {fileID: 1651635400}
+  - {fileID: 1968035755}

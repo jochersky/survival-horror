@@ -785,12 +785,10 @@ MonoBehaviour:
   audioSource: {fileID: 2690400320513924836}
   damage: 20
   maxMagazineSize: 8
-  reloadTime: 2
-  fireRate: 0.25
   maxBulletDistance: 100
   bulletSpeed: 100
   muzzleFlashTime: 0.1
-  cameraShakeIntensity: 1
+  cameraShakeIntensity: 0.025
   cameraShakeTime: 0.15
 --- !u!54 &9208184985427631668
 Rigidbody:

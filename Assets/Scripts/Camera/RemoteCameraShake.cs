@@ -4,26 +4,27 @@ using Random = UnityEngine.Random;
 
 public class RemoteCameraShake : MonoBehaviour
 {
-    [Header("Settings")]
-    [SerializeField, Range(0.001f, 1f)] private float shakeAmount = 0.1f;
-    [SerializeField] private float shakeDuration = 0.1f;
-
+    // How intense the shake is (radius of sphere to find point in)
+    private float _shakeIntensity;
+    // Remaining time of camera shake
     private float _shakeTime = 0;
     
     public CameraTransform GetShakenCameraTransform(CameraTransform cameraTransform)
     {
         if (_shakeTime > 0)
         {
-            // Random position within a sphere with a radius scaled by shakeAmount used as offset for shaking
-            cameraTransform.position += Random.insideUnitSphere * shakeAmount;;
+            // Shake is done by finding random position in sphere of radius _shakeIntensity
+            cameraTransform.position += Random.insideUnitSphere * _shakeIntensity;
             _shakeTime -= Time.deltaTime;
         }
         
         return cameraTransform;
     }
 
-    public void StartShake()
+    // Called to begin the camera shaking by setting intensity and duration
+    public void StartShake(float intensity, float duration)
     {
-        _shakeTime = shakeDuration;
+        _shakeIntensity = intensity;
+        _shakeTime = duration;
     }
 }
