@@ -697,6 +697,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  playerAnimationEvents: {fileID: 753387049}
   exploreCameraTarget: {fileID: 518788957}
   aimCameraTarget: {fileID: 295606064}
   playerMoveOrientation: {fileID: 2136463317}
@@ -4448,6 +4449,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2006567355523867786, guid: cbf65d96846ae234e81864d68f45a3cc, type: 3}
   m_PrefabInstance: {fileID: 734657913}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &753387049 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7425800374176143268, guid: bc7f3e425e466894daa79f93eb1e58a8, type: 3}
+  m_PrefabInstance: {fileID: 2136463315}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58b5eeb9c1b34834db5262d8fa2a6351, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
 --- !u!1 &788165734
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,6 +11,7 @@ public class CameraController : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private InputActionAsset actions;
+    [SerializeField] private PlayerAnimationEvents playerAnimationEvents;
     [SerializeField] private Transform exploreCameraTarget;
     [SerializeField] private Transform aimCameraTarget;
     [SerializeField] private GameObject playerMoveOrientation;
@@ -26,6 +27,7 @@ public class CameraController : MonoBehaviour
 
     private bool _isAiming;
     private bool _playerDead;
+    private bool _weaponThrown;
     private LayerMask _mask;
     
     private CameraStates currentState;
@@ -58,6 +60,18 @@ public class CameraController : MonoBehaviour
             _cameraManager.ActiveRemoteCamera.gameObject.SetActive(!vis);
         };
         
+        // connect weapon manager events
+        WeaponManager.Instance.OnWeaponInHandThrown += () => { _weaponThrown = true; };
+        
+        // Once we see swing finish, see if a weapon was thrown and then change back to exploration cam
+        playerAnimationEvents.OnSwingFinished += () => {
+            if (_weaponThrown)
+            {
+                _weaponThrown = false;
+                SwitchCameraState(CameraStates.Exploration);
+            } 
+        };
+        
         crosshair.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -76,10 +90,7 @@ public class CameraController : MonoBehaviour
         bool weaponEquipped = WeaponManager.Instance.weaponInHand;
         if (!weaponEquipped) return;
         
-        currentState = context.started ? CameraStates.Aim : CameraStates.Exploration;
-        bool switchToAimCamera = currentState == CameraStates.Aim;
-        _cameraManager.SwitchRemoteCamera(switchToAimCamera ? aimCamera : explorationCamera);
-        crosshair.SetActive(switchToAimCamera);
+        SwitchCameraState(context.started ? CameraStates.Aim : CameraStates.Exploration);
     }
 
     private void RotatePlayerMoveOrientation()
@@ -94,5 +105,13 @@ public class CameraController : MonoBehaviour
         Vector3 camPos = new Vector3(transform.position.x, cameraTargetPosition.y, transform.position.z);
         Vector3 viewDir = cameraTargetPosition - camPos;
         playerMoveOrientation.transform.forward = viewDir.normalized;
+    }
+    
+    private void SwitchCameraState(CameraStates newState)
+    {
+        currentState = newState;
+        bool switchToAimCamera = currentState == CameraStates.Aim;
+        _cameraManager.SwitchRemoteCamera(switchToAimCamera ? aimCamera : explorationCamera);
+        crosshair.SetActive(switchToAimCamera);
     }
 }
