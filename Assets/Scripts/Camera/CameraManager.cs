@@ -7,9 +7,13 @@ using UnityEngine;
 public class CameraManager : MonoBehaviour
 {
     [SerializeField] private RemoteCamera[] remoteCameras;
-    
+
+    [Header("Blend Settings")]
+    [SerializeField] private bool blendTransforms = false;
+    [SerializeField] private bool blendFOV = false;
     [SerializeField] private AnimationCurve blend;
-    [SerializeField] private float blendTime;
+    [SerializeField] private float blendSpeed = 1;
+    
 
     private Camera _camera;
     
@@ -17,10 +21,7 @@ public class CameraManager : MonoBehaviour
     private RemoteCamera _activeRemoteCamera;
 
     private bool _blend = false;
-    private Vector3 _positionBlendingFrom;
-    private Vector3 _positionBlendingTo;
-    private Quaternion _rotationBlendingFrom;
-    private Quaternion _rotationBlendingTo;
+    private float _blendPoint = 0;
     
     public RemoteCamera ActiveRemoteCamera => _activeRemoteCamera;
     
@@ -44,11 +45,18 @@ public class CameraManager : MonoBehaviour
     private void LateUpdate()
     {
         if (_stopUpdating) return;
-        
-        CameraTransform ct = _activeRemoteCamera.UpdateCamera();
 
-        transform.position = ct.position;
-        transform.rotation = ct.rotation;
+        if (!_blend)
+        {
+            CameraTransform ct = _activeRemoteCamera.UpdateCamera();
+
+            transform.position = ct.position;
+            transform.rotation = ct.rotation;
+        }
+        else
+        {
+            BlendBetweenCameras();
+        }
     }
 
     public void SwitchRemoteCamera(RemoteCamera newCamera)
@@ -64,14 +72,41 @@ public class CameraManager : MonoBehaviour
 
         _camera.fieldOfView = newCamera.FOV;
 
-        // _previousRemoteCamera.gameObject.SetActive(false);
-        // _activeRemoteCamera.gameObject.SetActive(true);
+        _blend = true;
+        _blendPoint = 0;
     }
 
     private void BlendBetweenCameras()
     {
-        // TODO: actually blend between positions instead of setting final transform immediately
-        transform.position = _activeRemoteCamera.transform.position;
-        transform.rotation = _activeRemoteCamera.transform.rotation;
+        _blendPoint = Mathf.Clamp(_blendPoint + Time.deltaTime * blendSpeed, 0, 1);
+        float t = blend.Evaluate(_blendPoint);
+        
+        if (!blendTransforms)
+        {
+            transform.position = _activeRemoteCamera.transform.position;
+            transform.rotation = _activeRemoteCamera.transform.rotation;
+        }
+        else
+        {
+            CameraTransform prevCT = _previousRemoteCamera.CameraTransform;
+            CameraTransform activeCT = _activeRemoteCamera.CameraTransform;
+            transform.position = Vector3.Lerp(prevCT.position, activeCT.position, t);
+            transform.rotation = Quaternion.Lerp(prevCT.rotation, activeCT.rotation, t);
+        }
+
+        if (!blendFOV)
+        {
+            _camera.fieldOfView = _activeRemoteCamera.FOV;
+        }
+        else
+        {
+            _camera.fieldOfView = Mathf.Lerp(_previousRemoteCamera.FOV, _activeRemoteCamera.FOV, t);
+        }
+
+        if (!blendTransforms || _blendPoint >= 1)
+        {
+            _blend = false;
+            _blendPoint = 0;
+        }
     }
 }

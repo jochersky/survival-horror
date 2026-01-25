@@ -12,6 +12,7 @@ public class RemoteCamera : MonoBehaviour
 
     // Struct that keeps track of position and rotation between components
     private CameraTransform _cameraTransform;
+    public CameraTransform CameraTransform => _cameraTransform;
 
     // camera being transformed
     private Camera _camera;
